@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L&J Déménagement</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #FF6F20;
+        }
+
+        p, label {
+            color: #ccc;
+            text-align: left;
+        }
+
+        .button, .button-small, .button-large {
+            background-color: #FF6F20;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 5px;
+        }
+
+        .button:hover, .button-small:hover, .button-large:hover {
+            background-color: #FF8A3D;
+        }
+
+        .button-large {
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+
+        .button-small {
+            background-color: #555;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .button-green {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+
+        .button-green:hover {
+            background-color: #34d058;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #444;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border: 1px solid #555;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            transition: border 0.3s;
+            background-color: #222;
+            color: #fff;
+        }
+
+        select:focus, input:focus {
+            border-color: #FF6F20;
+            outline: none;
+        }
+
+        .login-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: right;
+        }
+
+        .login-form, .form-list {
+            background: #444;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <button class="button-small" onclick="toggleLoginForm()">Connexion</button>
+        <div class="login-form" id="loginForm">
+            <input type="text" id="loginName" placeholder="Nom">
+            <input type="password" id="loginPassword" placeholder="Mot de passe">
+            <button class="button-small" onclick="login()">Se connecter</button>
+        </div>
+        <div class="form-list" id="formList">
+            <h3>Formulaires Remplis</h3>
+            <ul id="formEntries"></ul>
+        </div>
+    </div>
+
+    <!-- Page 1 : Bienvenue -->
+    <div id="page1">
+        <h1>Bienvenue chez L&J Déménagement</h1>
+        <p>Proposition de devis 100% gratuit en moins de 5 minutes!</p>
+        <p>Répondez à 21 questions et obtenez le coût de votre déménagement immédiatement.</p>
+        <button class="button-large" onclick="showPage('page2')">Devis Instantané</button>
+    </div>
+
+    <!-- Page 2 : Formulaire de Devis -->
+    <div id="page2" class="container hidden">
+        <h1>Formulaire de Devis</h1>
+        <form id="devisForm">
+            <!-- Les 21 questions du formulaire -->
+            <div class="form-group">
+                <label for="statut">1. Statut :</label>
+                <select id="statut" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="Particulier">Particulier</option>
+                    <option value="Entreprise">Entreprise</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="formule">2. Formule :</label>
+                <select id="formule" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="economique">Formule Économique</option>
+                    <option value="premium">Formule Premium</option>
+                    <option value="prestige">Formule Prestige</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="objet">3. Objet :</label>
+                <select id="objet" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="Appartement">Appartement</option>
+                    <option value="Maison">Maison</option>
+                    <option value="Locaux">Locaux</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pieces">4. Pièces :</label>
+                <select id="pieces" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="studio">Studio</option>
+                    <option value="une_piece">Une pièce</option>
+                    <option value="deux_pieces">Deux pièces</option>
+                    <option value="trois_pieces">Trois pièces</option>
+                    <option value="quatre_pieces">Quatre pièces</option>
+                    <option value="cinq_pieces">Cinq pièces</option>
+                    <option value="sept_pieces">Sept pièces</option>
+                    <option value="huit_pieces">Huit pièces</option>
+                    <option value="neuf_pieces">Neuf pièces</option>
+                    <option value="dix_pieces">Dix pièces</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nettoyage">5. Je désire un nettoyage fin de bail :</label>
+                <select id="nettoyage" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Pas de nettoyage</option>
+                    <option value="30_49">30 m² à 49 m²</option>
+                    <option value="50_69">50 m² à 69 m²</option>
+                    <option value="70_89">70 m² à 89 m²</option>
+                    <option value="90_109">90 m² à 109 m²</option>
+                    <option value="110_129">110 m² à 129 m²</option>
+                    <option value="130_149">130 m² à 149 m²</option>
+                    <option value="150_169">150 m² à 169 m²</option>
+                    <option value="170_189">170 m² à 189 m²</option>
+                    <option value="190_209">190 m² à 209 m²</option>
+                    <option value="210_229">210 m² à 229 m²</option>
+                    <option value="230_249">230 m² à 249 m²</option>
+                    <option value="250_269">250 m² à 269 m²</option>
+                    <option value="270_289">270 m² à 289 m²</option>
+                    <option value="290_309">290 m² à 309 m²</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="distance">6. Distance du déménagement :</label>
+                <select id="distance" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0_10">0 à 10 km</option>
+                    <option value="11_30">11 à 30 km</option>
+                    <option value="31_60">31 à 60 km</option>
+                    <option value="61_90">61 à 90 km</option>
+                    <option value="91_120">91 à 120 km</option>
+                    <option value="121_150">121 à 150 km</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="lit_adulte">7. Nombre de lits adultes :</label>
+                <select id="lit_adulte" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Aucun</option>
+                    <option value="1">Un</option>
+                    <option value="2">Deux</option>
+                    <option value="3">Trois</option>
+                    <option value="plus">Plus de trois</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="lit_enfant">8. Nombre de lits enfants :</label>
+                <select id="lit_enfant" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Aucun</option>
+                    <option value="1">Un</option>
+                    <option value="2">Deux</option>
+                    <option value="3">Trois</option>
+                    <option value="4">Quatre</option>
+                    <option value="plus">Plus de quatre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="canape">9. Canapé(s) :</label>
+                <select id="canape" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Aucun</option>
+                    <option value="simple">Un canapé simple</option>
+                    <option value="double_simple">Deux canapés simples</option>
+                    <option value="angle">Un canapé d’angle</option>
+                    <option value="double_angle">Deux canapés d’angle</option>
+                    <option value="u">Un canapé en U</option>
+                    <option value="double_u">Deux canapés en U</option>
+                    <option value="set">Set de deux canapés et un fauteuil</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="frigo">10. Frigo ou Congélateur :</label>
+                <select id="frigo" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Aucun</option>
+                    <option value="grand">Un grand Frigo/Congélateur</option>
+                    <option value="double_grand">Deux Grands Frigos/Congélateurs</option>
+                    <option value="petit">Un petit Frigo/Congélateur</option>
+                    <option value="double_petit">Deux petits Frigos/Congélateurs</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="meubles">11. Nombre de meubles à monter et remonter :</label>
+                <select id="meubles" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="0">Aucun</option>
+                    <option value="1">Un meuble</option>
+                    <option value="2">Deux meubles</option>
+                    <option value="3">Trois meubles</option>
+                    <option value="4">Quatre meubles</option>
+                    <option value="plus">Plus de quatre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="balcon">12. Balcon/Terrasse :</label>
+                <select id="balcon" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cave">13. Cave :</label>
+                <select id="cave" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="acces">14. Accès difficile :</label>
+                <select id="acces" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ascenseur">15. Ascenseur :</label>
+                <select id="ascenseur" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="rez">Au rez-de-chaussée</option>
+                    <option value="ascenseur">Ascenseur disponible</option>
+                    <option value="pas_nouveau">Pas d’ascenseur à la nouvelle adresse</option>
+                    <option value="pas_ancien">Pas d’ascenseur à l’ancienne adresse</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="monte_charge">16. Monte-charge :</label>
+                <select id="monte_charge" required>
+                    <option value="" disabled selected>Choisissez…</option>
+                    <option value="non">Pas besoin</option>
+                    <option value="oui">Nécessaire</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nom">17. Nom et Prénom :</label>
+                <input type="text" id="nom" placeholder="Charles Maulini" required>
+            </div>
+            <div class="form-group">
+                <label for="adresse_actuelle">18. Adresse et étage de l’appartement sortant :</label>
+                <input type="text" id="adresse_actuelle" placeholder="Rue de l’empereur 12, 1350 Orbe. 2ème étage" required>
+            </div>
+            <div class="form-group">
+                <label for="adresse_future">19. Adresse et étage de l’appartement entrant :</label>
+                <input type="text" id="adresse_future" placeholder="Avenue de la volonté 2, 1400 Yverdon-les-Bains Rez-de-chaussée" required>
+            </div>
+            <div class="form-group">
+                <label for="email">20. E-mail :</label>
+                <input type="email" id="email" placeholder="exemple@demenagement.com" required>
+            </div>
+            <div class="form-group">
+                <label for="telephone">21. Numéro de téléphone :</label>
+                <input type="tel" id="telephone" placeholder="076 345 67 89" required>
+            </div>
+            <button type="button" class="button-large" onclick="saveForm()">Calculer le coût de mon déménagement</button>
+            <button type="button" class="button-small" onclick="showPage('page1')">Retour à la page précédente</button>
+            <button type="button" class="button-small" onclick="showPage('page3')">Continuer</button>
+        </form>
+        <h2 id="resultat"></h2>
+        <h3>Compteur de Devis : <span id="devisCounter">0</span></h3>
+    </div>
+
+    <!-- Page 3 : Remerciements -->
+    <div id="page3" class="hidden">
+        <h1>Merci pour votre confiance !</h1>
+        <p>Nous sommes impatients de vous rencontrer et de vous offrir le meilleur service possible.</p>
+        <button class="button" onclick="window.location.href='https://ljdemenagement.wordpress.com/'">Site Web</button>
+        <button class="button" onclick="window.location.href='https://ljdemenagement.wordpress.com/contactez-nous/'">Page de Contact</button>
+        <br>
+        <button class="button-green" style="width: 100%; font-size: 18px;" onclick="markContacted()">Être Contacté par un agent de L&J Déménagement</button>
+        <br>
+        <button class="button-small" style="width: 100%;" onclick="showPage('page2')">Retour</button>
+    </div>
+
+    <!-- Page 4 : Devis Reçus -->
+    <div id="page4" class="container hidden">
+        <h1>Devis Reçus</h1>
+        <ul id="receivedQuotes"></ul>
+        <h2>À Contacter</h2>
+        <ul id="contactedInfo"></ul>
+        <button class="button-small" onclick="showPage('page2')">Retour à la page 2</button>
+        <button class="button-small" onclick="showPage('page1')">Retour à la page 1</button>
+    </div>
+
+    <script>
+        let devisCount = 0;
+        let contactMarked = false;
+
+        function showPage(page) {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.add('hidden');
+            document.getElementById('page4').classList.add('hidden');
+            document.getElementById(page).classList.remove('hidden');
+        }
+
+        function toggleLoginForm() {
+            const loginForm = document.getElementById('loginForm');
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function login() {
+            const name = document.getElementById('loginName').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (name === 'ljdemenagement@etik.com' && password === 'Lika1312Jouanen1400') {
+                alert('Connexion réussie !');
+                document.getElementById('formList').style.display = 'block';
+                displaySavedForms();
+                showPage('page4');
+            } else {
+                alert('Nom ou mot de passe incorrect.');
+            }
+        }
+
+        function saveForm() {
+            let formDetails = {
+                statut: document.getElementById('statut').value,
+                formule: document.getElementById('formule').value,
+                objet: document.getElementById('objet').value,
+                pieces: document.getElementById('pieces').value,
+                nettoyage: document.getElementById('nettoyage').value,
+                distance: document.getElementById('distance').value,
+                lit_adulte: document.getElementById('lit_adulte').value,
+                lit_enfant: document.getElementById('lit_enfant').value,
+                canape: document.getElementById('canape').value,
+                frigo: document.getElementById('frigo').value,
+                meubles: document.getElementById('meubles').value,
+                balcon: document.getElementById('balcon').value,
+                cave: document.getElementById('cave').value,
+                acces: document.getElementById('acces').value,
+                ascenseur: document.getElementById('ascenseur').value,
+                monte_charge: document.getElementById('monte_charge').value,
+                nom: document.getElementById('nom').value,
+                adresse_actuelle: document.getElementById('adresse_actuelle').value,
+                adresse_future: document.getElementById('adresse_future').value,
+                email: document.getElementById('email').value,
+                telephone: document.getElementById('telephone').value
+            };
+
+            // Récupérer les formulaires existants
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            forms.push(formDetails);
+            localStorage.setItem('forms', JSON.stringify(forms));
+
+            devisCount++;
+            document.getElementById('devisCounter').innerText = devisCount;
+
+            alert('Formulaire sauvegardé avec succès !');
+            calculateCost();
+        }
+
+        function displaySavedForms() {
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            const receivedQuotes = document.getElementById('receivedQuotes');
+            receivedQuotes.innerHTML = '';
+
+            forms.forEach((form, index) => {
+                let li = document.createElement('li');
+                li.innerHTML = `Formulaire ${index + 1} : Statut - ${form.statut}, Formule - ${form.formule}, Coût - ${form.cost || 'Non calculé'}
+                    <button class="button-small" onclick="viewQuote(${index})">Lecture</button>
+                    <button class="button-small" onclick="deleteQuote(${index})">Supprimer</button>`;
+                receivedQuotes.appendChild(li);
+            });
+        }
+
+        function viewQuote(index) {
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            alert(JSON.stringify(forms[index], null, 2));
+        }
+
+        function deleteQuote(index) {
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            forms.splice(index, 1);
+            localStorage.setItem('forms', JSON.stringify(forms));
+            devisCount--;
+            document.getElementById('devisCounter').innerText = devisCount;
+            displaySavedForms();
+            alert('Devis supprimé avec succès !');
+        }
+
+        function calculateCost() {
+            let cost = 0;
+            const formule = document.getElementById('formule').value;
+            const pieces = document.getElementById('pieces').value;
+            const nettoyage = document.getElementById('nettoyage').value;
+            const distance = document.getElementById('distance').value;
+            const lit_adulte = document.getElementById('lit_adulte').value;
+            const lit_enfant = document.getElementById('lit_enfant').value;
+            const meubles = document.getElementById('meubles').value;
+            const balcon = document.getElementById('balcon').value;
+            const cave = document.getElementById('cave').value;
+            const acces = document.getElementById('acces').value;
+            const ascenseur = document.getElementById('ascenseur').value;
+
+            if (formule === 'economique') cost += 300;
+            else if (formule === 'premium') cost += 500;
+            else if (formule === 'prestige') cost += 700;
+
+            if (pieces === 'studio') cost += 450;
+            else if (pieces === 'une_piece') cost += 600;
+            else if (pieces === 'deux_pieces') cost += 900;
+            else if (pieces === 'trois_pieces') cost += 1250;
+            else if (pieces === 'quatre_pieces') cost += 1550;
+            else if (pieces === 'cinq_pieces') cost += 1850;
+            else if (pieces === 'sept_pieces') cost += 2350;
+            else if (pieces === 'huit_pieces') cost += 2600;
+            else if (pieces === 'neuf_pieces') cost += 2850;
+            else if (pieces === 'dix_pieces') cost += 3100;
+
+            if (nettoyage === '30_49') cost += 350;
+            else if (nettoyage === '50_69') cost += 450;
+            else if (nettoyage === '70_89') cost += 600;
+            else if (nettoyage === '90_109') cost += 750;
+            else if (nettoyage === '110_129') cost += 900;
+            else if (nettoyage === '130_149') cost += 1000;
+            else if (nettoyage === '150_169') cost += 1200;
+            else if (nettoyage === '170_189') cost += 1400;
+            else if (nettoyage === '190_209') cost += 1600;
+            else if (nettoyage === '210_229') cost += 1800;
+            else if (nettoyage === '230_249') cost += 2000;
+            else if (nettoyage === '250_269') cost += 2200;
+            else if (nettoyage === '270_289') cost += 2400;
+            else if (nettoyage === '290_309') cost += 2600;
+
+            if (distance === '0_10') cost += 50;
+            else if (distance === '11_30') cost += 70;
+            else if (distance === '31_60') cost += 90;
+            else if (distance === '61_90') cost += 110;
+            else if (distance === '91_120') cost += 140;
+
+            if (lit_adulte === '1') cost += 150;
+            else if (lit_adulte === '2') cost += 200;
+            else if (lit_adulte === '3') cost += 300;
+
+            if (lit_enfant === '1') cost += 100;
+            else if (lit_enfant === '2') cost += 150;
+            else if (lit_enfant === '3') cost += 200;
+            else if (lit_enfant === '4') cost += 250;
+
+            if (meubles === '1') cost += 200;
+            else if (meubles === '2') cost += 350;
+            else if (meubles === '3') cost += 500;
+            else if (meubles === '4') cost += 600;
+
+            if (balcon === 'oui') cost += 100;
+            if (cave === 'oui') cost += 100;
+            if (acces === 'oui') cost += 200;
+
+            if (ascenseur === 'ascenseur') cost += 39;
+            else if (ascenseur === 'pas_nouveau') cost += 150;
+            else if (ascenseur === 'pas_ancien') cost += 150;
+
+            document.getElementById('resultat').innerText = `Coût estimé : ${cost} CHF`;
+
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            if (forms.length > 0) {
+                forms[forms.length - 1].cost = cost;
+                localStorage.setItem('forms', JSON.stringify(forms));
+            }
+        }
+
+        function markContacted() {
+            contactMarked = true;
+            const forms = JSON.parse(localStorage.getItem('forms')) || [];
+            if (forms.length > 0) {
+                const lastForm = forms[forms.length - 1];
+                const contactedInfo = document.getElementById('contactedInfo');
+                const li = document.createElement('li');
+                li.innerText = `✅️ Contacté : ${lastForm.nom}, Email : ${lastForm.email}, Téléphone : ${lastForm.telephone}`;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'button-small';
+                deleteButton.innerText = 'Supprimer';
+                deleteButton.onclick = function () {
+                    deleteContact(contactedInfo.children.length);
+                };
+
+                const readButton = document.createElement('button');
+                readButton.className = 'button-small';
+                readButton.innerText = 'Lecture';
+                readButton.onclick = function () {
+                    alert(JSON.stringify(lastForm, null, 2));
+                };
+
+                li.appendChild(readButton);
+                li.appendChild(deleteButton);
+                contactedInfo.appendChild(li);
+            }
+            alert("Vous serez contacté par un agent de L&J Déménagement !");
+        }
+
+        function deleteContact(index) {
+            const contactedInfo = document.getElementById('contactedInfo');
+            contactedInfo.removeChild(contactedInfo.children[index]);
+            alert('Demande de contact supprimée avec succès !');
+        }
+    </script>
+
+</body>
+
+</html>
+
