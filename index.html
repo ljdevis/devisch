@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -49,17 +48,6 @@
             font-size: 14px;
         }
 
-        .button-green {
-            background-color: #28a745;
-            color: white;
-            padding: 15px 30px;
-            font-size: 18px;
-        }
-
-        .button-green:hover {
-            background-color: #34d058;
-        }
-
         .hidden {
             display: none;
         }
@@ -80,7 +68,6 @@
             border: 1px solid #555;
             border-radius: 4px;
             margin-bottom: 15px;
-            transition: border 0.3s;
             background-color: #222;
             color: #fff;
         }
@@ -107,7 +94,6 @@
 </head>
 
 <body>
-
     <div class="login-container">
         <button class="button-small" onclick="toggleLoginForm()">Connexion</button>
         <div class="login-form" id="loginForm">
@@ -133,7 +119,6 @@
     <div id="page2" class="container hidden">
         <h1>Formulaire de Devis</h1>
         <form id="devisForm">
-            <!-- Les 21 questions du formulaire -->
             <div class="form-group">
                 <label for="statut">1. Statut :</label>
                 <select id="statut" required>
@@ -334,7 +319,7 @@
                 <label for="telephone">21. Numéro de téléphone :</label>
                 <input type="tel" id="telephone" placeholder="076 345 67 89" required>
             </div>
-            <button type="button" class="button-large" onclick="saveForm()">Calculer le coût de mon déménagement</button>
+            <button type="button" class="button-large" onclick="calculateCost()">Calculer le coût de mon déménagement</button>
             <button type="button" class="button-small" onclick="showPage('page1')">Retour à la page précédente</button>
             <button type="button" class="button-small" onclick="showPage('page3')">Continuer</button>
         </form>
@@ -366,7 +351,6 @@
 
     <script>
         let devisCount = 0;
-        let contactMarked = false;
 
         function showPage(page) {
             document.getElementById('page1').classList.add('hidden');
@@ -388,7 +372,7 @@
             if (name === 'ljdemenagement@etik.com' && password === 'Lika1312Jouanen1400') {
                 alert('Connexion réussie !');
                 document.getElementById('formList').style.display = 'block';
-                displaySavedForms();
+                displaySavedForms(); // Afficher les formulaires ici
                 showPage('page4');
             } else {
                 alert('Nom ou mot de passe incorrect.');
@@ -420,45 +404,45 @@
                 telephone: document.getElementById('telephone').value
             };
 
-            // Récupérer les formulaires existants
-            let forms = JSON.parse(localStorage.getItem('forms')) || [];
-            forms.push(formDetails);
-            localStorage.setItem('forms', JSON.stringify(forms));
-
-            devisCount++;
-            document.getElementById('devisCounter').innerText = devisCount;
-
-            alert('Formulaire sauvegardé avec succès !');
-            calculateCost();
-        }
-
-        function displaySavedForms() {
-            let forms = JSON.parse(localStorage.getItem('forms')) || [];
-            const receivedQuotes = document.getElementById('receivedQuotes');
-            receivedQuotes.innerHTML = '';
-
-            forms.forEach((form, index) => {
-                let li = document.createElement('li');
-                li.innerHTML = `Formulaire ${index + 1} : Statut - ${form.statut}, Formule - ${form.formule}, Coût - ${form.cost || 'Non calculé'}
-                    <button class="button-small" onclick="viewQuote(${index})">Lecture</button>
-                    <button class="button-small" onclick="deleteQuote(${index})">Supprimer</button>`;
-                receivedQuotes.appendChild(li);
+            // Envoi du formulaire à votre serveur
+            fetch('https://pauljouanen.github.io/Projet-fin-hall/send-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDetails)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Formulaire sauvegardé avec succès !');
+                    devisCount++;
+                    document.getElementById('devisCounter').innerText = devisCount;
+                } else {
+                    alert('Erreur lors de la sauvegarde du formulaire.');
+                }
+            })
+            .catch((error) => {
+                console.error('Erreur:', error);
             });
         }
 
-        function viewQuote(index) {
-            let forms = JSON.parse(localStorage.getItem('forms')) || [];
-            alert(JSON.stringify(forms[index], null, 2));
+        function displaySavedForms() {
+            fetch('https://pauljouanen.github.io/Projet-fin-hall/forms')
+                .then(response => response.json())
+                .then(forms => {
+                    const formEntries = document.getElementById('formEntries');
+                    formEntries.innerHTML = ''; // Réinitialiser la liste
+                    forms.forEach((form, index) => {
+                        let li = document.createElement('li');
+                        li.innerHTML = `Formulaire ${index + 1}: Nom - ${form.nom}, Email - ${form.email}`;
+                        formEntries.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Erreur:', error));
         }
 
-        function deleteQuote(index) {
-            let forms = JSON.parse(localStorage.getItem('forms')) || [];
-            forms.splice(index, 1);
-            localStorage.setItem('forms', JSON.stringify(forms));
-            devisCount--;
-            document.getElementById('devisCounter').innerText = devisCount;
-            displaySavedForms();
-            alert('Devis supprimé avec succès !');
+        function markContacted() {
+            alert("Vous serez contacté par un agent de L&J Déménagement !");
         }
 
         function calculateCost() {
@@ -533,53 +517,12 @@
             else if (ascenseur === 'pas_nouveau') cost += 150;
             else if (ascenseur === 'pas_ancien') cost += 150;
 
+            // Affichage du coût estimé
             document.getElementById('resultat').innerText = `Coût estimé : ${cost} CHF`;
-
-            let forms = JSON.parse(localStorage.getItem('forms')) || [];
-            if (forms.length > 0) {
-                forms[forms.length - 1].cost = cost;
-                localStorage.setItem('forms', JSON.stringify(forms));
-            }
         }
 
-        function markContacted() {
-            contactMarked = true;
-            const forms = JSON.parse(localStorage.getItem('forms')) || [];
-            if (forms.length > 0) {
-                const lastForm = forms[forms.length - 1];
-                const contactedInfo = document.getElementById('contactedInfo');
-                const li = document.createElement('li');
-                li.innerText = `✅️ Contacté : ${lastForm.nom}, Email : ${lastForm.email}, Téléphone : ${lastForm.telephone}`;
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'button-small';
-                deleteButton.innerText = 'Supprimer';
-                deleteButton.onclick = function () {
-                    deleteContact(contactedInfo.children.length);
-                };
-
-                const readButton = document.createElement('button');
-                readButton.className = 'button-small';
-                readButton.innerText = 'Lecture';
-                readButton.onclick = function () {
-                    alert(JSON.stringify(lastForm, null, 2));
-                };
-
-                li.appendChild(readButton);
-                li.appendChild(deleteButton);
-                contactedInfo.appendChild(li);
-            }
-            alert("Vous serez contacté par un agent de L&J Déménagement !");
-        }
-
-        function deleteContact(index) {
-            const contactedInfo = document.getElementById('contactedInfo');
-            contactedInfo.removeChild(contactedInfo.children[index]);
-            alert('Demande de contact supprimée avec succès !');
-        }
     </script>
 
 </body>
 
 </html>
-
