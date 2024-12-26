@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -112,6 +113,8 @@
         <h1>Bienvenue chez L&J Déménagement</h1>
         <p>Proposition de devis 100% gratuit en moins de 5 minutes!</p>
         <p>Répondez à 21 questions et obtenez le coût de votre déménagement immédiatement.</p>
+        <!-- Ajout de l'image ici -->
+        <img src="Screenshot_20241226_164925_Gallery.jpg" alt="Image de Déménagement" style="width: 100%; max-width: 600px; height: auto;">
         <button class="button-large" onclick="showPage('page2')">Devis Instantané</button>
     </div>
 
@@ -319,7 +322,7 @@
                 <label for="telephone">21. Numéro de téléphone :</label>
                 <input type="tel" id="telephone" placeholder="076 345 67 89" required>
             </div>
-            <button type="button" class="button-large" onclick="calculateCost()">Calculer le coût de mon déménagement</button>
+            <button type="button" class="button-large" onclick="saveForm()">Soumettre le devis</button>
             <button type="button" class="button-small" onclick="showPage('page1')">Retour à la page précédente</button>
             <button type="button" class="button-small" onclick="showPage('page3')">Continuer</button>
         </form>
@@ -333,8 +336,6 @@
         <p>Nous sommes impatients de vous rencontrer et de vous offrir le meilleur service possible.</p>
         <button class="button" onclick="window.location.href='https://ljdemenagement.wordpress.com/'">Site Web</button>
         <button class="button" onclick="window.location.href='https://ljdemenagement.wordpress.com/contactez-nous/'">Page de Contact</button>
-        <br>
-        <button class="button-green" style="width: 100%; font-size: 18px;" onclick="markContacted()">Être Contacté par un agent de L&J Déménagement</button>
         <br>
         <button class="button-small" style="width: 100%;" onclick="showPage('page2')">Retour</button>
     </div>
@@ -404,45 +405,45 @@
                 telephone: document.getElementById('telephone').value
             };
 
-            // Envoi du formulaire à votre serveur
-            fetch('https://pauljouanen.github.io/Projet-fin-hall/send-form', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDetails)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Formulaire sauvegardé avec succès !');
-                    devisCount++;
-                    document.getElementById('devisCounter').innerText = devisCount;
-                } else {
-                    alert('Erreur lors de la sauvegarde du formulaire.');
-                }
-            })
-            .catch((error) => {
-                console.error('Erreur:', error);
-            });
+            // Récupérer les formulaires existants
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            forms.push(formDetails);
+            localStorage.setItem('forms', JSON.stringify(forms));
+
+            devisCount++;
+            document.getElementById('devisCounter').innerText = devisCount;
+
+            alert('Formulaire sauvegardé avec succès !');
+            calculateCost();
         }
 
         function displaySavedForms() {
-            fetch('https://pauljouanen.github.io/Projet-fin-hall/forms')
-                .then(response => response.json())
-                .then(forms => {
-                    const formEntries = document.getElementById('formEntries');
-                    formEntries.innerHTML = ''; // Réinitialiser la liste
-                    forms.forEach((form, index) => {
-                        let li = document.createElement('li');
-                        li.innerHTML = `Formulaire ${index + 1}: Nom - ${form.nom}, Email - ${form.email}`;
-                        formEntries.appendChild(li);
-                    });
-                })
-                .catch(error => console.error('Erreur:', error));
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            const receivedQuotes = document.getElementById('receivedQuotes');
+            receivedQuotes.innerHTML = '';
+
+            forms.forEach((form, index) => {
+                let li = document.createElement('li');
+                li.innerHTML = `Formulaire ${index + 1} : Statut - ${form.statut}, Formule - ${form.formule}
+                    <button class="button-small" onclick="viewQuote(${index})">Lecture</button>
+                    <button class="button-small" onclick="deleteQuote(${index})">Supprimer</button>`;
+                receivedQuotes.appendChild(li);
+            });
         }
 
-        function markContacted() {
-            alert("Vous serez contacté par un agent de L&J Déménagement !");
+        function viewQuote(index) {
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            alert(JSON.stringify(forms[index], null, 2));
+        }
+
+        function deleteQuote(index) {
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            forms.splice(index, 1);
+            localStorage.setItem('forms', JSON.stringify(forms));
+            devisCount--;
+            document.getElementById('devisCounter').innerText = devisCount;
+            displaySavedForms();
+            alert('Devis supprimé avec succès !');
         }
 
         function calculateCost() {
@@ -519,10 +520,21 @@
 
             // Affichage du coût estimé
             document.getElementById('resultat').innerText = `Coût estimé : ${cost} CHF`;
+
+            // Enregistrer le coût dans le dernier formulaire
+            let forms = JSON.parse(localStorage.getItem('forms')) || [];
+            if (forms.length > 0) {
+                forms[forms.length - 1].cost = cost;
+                localStorage.setItem('forms', JSON.stringify(forms));
+            }
         }
 
+        function markContacted() {
+            alert("Vous serez contacté par un agent de L&J Déménagement !");
+        }
     </script>
 
 </body>
 
 </html>
+```
