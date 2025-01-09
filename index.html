@@ -1086,28 +1086,29 @@
                     const email = document.getElementById('email').value;
     
                     emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                        reply_to: email,
-                        from_name: "L&J Déménagement",
-                        subject: "Demande de contact",
-                        message: "Vous serez contacté par un agent de L&J Déménagement."
-                    }).then((response) => {
-                        console.log('SUCCESS!', response.status, response.text);
-                        showNotification("Votre demande a bien été transmise, l'équipe L&J Déménagement va prendre contact avec vous dans les prochaines heures", 'success');
-                    }, (err) => {
-                        console.error('FAILED...', err);
-                        showNotification("Échec de l'envoi de la demande.", 'error');
-                    });
-                }
+                    to_email: formDetails.Email,
+                    from_name: "L&J Déménagement",
+                    reply_to: formDetails.Email,
+                    subject: "Demande de devis de L&J Déménagement",
+                    message: message
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showConfirmationMessage();
+                }).catch((err) => {
+                    console.error('FAILED...', err);
+                    showNotification("Échec de l'envoi du formulaire.", 'error');
+                });
+            }
     
-                function showNotification(message, type) {
-                    const notification = document.getElementById('notification');
-                    notification.className = `notification ${type}`;
-                    notification.innerText = message;
-                    notification.style.display = 'block';
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 3000);
-                }
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.className = `notification ${type}`;
+                notification.innerText = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
     
                 // Gestion des sous-options pour l'objet sélectionné
                 function handleObjetChange() {
