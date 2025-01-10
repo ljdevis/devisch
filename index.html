@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,25 +96,21 @@
         .obligatory-message i {
             margin-right: 5px;
         }
-        /* Style pour le prix barré */
         .strikethrough {
             text-decoration: line-through;
             color: red; /* Changer en rouge */
         }
-        /* Style pour le prix réduit */
         .discounted-price {
             color: green;
             font-weight: bold;
             font-size: 1.25rem; /* Agrandir le texte du prix final */
         }
-        /* Message de promotion */
         .promotion-message {
             color: green;
             font-size: 1.0rem; /* Agrandir le texte de promotion */
             font-weight: bold; /* En gras */
             margin-top: 10px;
         }
-        /* Coloration orange pour les questions optionnelles */
         .optional-question {
             color: #FFA500; /* Orange */
         }
@@ -513,668 +508,882 @@
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.wordpress.com/contactez-nous/'">Page de Contact</button>
                 </div>
                 <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-blue-500 hover:underline">Laissez un feedback sur Google.</a></p>
-                                    <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
-                                </div>
-                            </div>
+                <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
+            </div>
+        </div>
 
-                            <div id="confirmation-message" class="notification hidden"></div>
-                            <div id="notification" class="notification hidden"></div>
+        <div id="confirmation-message" class="notification hidden"></div>
+        <div id="notification" class="notification hidden"></div>
 
-                            <script>
-                                let currentQuestion = 1;
-                                const totalQuestions = 23;
+        <script>
+            let currentQuestion = 1;
+            const totalQuestions = 23;
 
-                                function showPage(page) {
-                                    document.getElementById('page1').classList.add('hidden');
-                                    document.getElementById('page2').classList.add('hidden');
-                                    document.getElementById('page3').classList.add('hidden');
-                                    document.getElementById(page).classList.remove('hidden');
-                                }
+            function showPage(page) {
+                document.getElementById('page1').classList.add('hidden');
+                document.getElementById('page2').classList.add('hidden');
+                document.getElementById('page3').classList.add('hidden');
+                document.getElementById(page).classList.remove('hidden');
+            }
 
-                                function nextQuestion() {
-                                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                                    currentDiv.classList.add('hidden');
-                                    currentQuestion++;
-                                    if (currentQuestion <= totalQuestions) {
-                                        const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                                        nextDiv.classList.remove('hidden');
-                                    } else {
-                                        showPage('page3');
-                                    }
-                                    updateProgressBar();
-                                }
+            function nextQuestion() {
+                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                currentDiv.classList.add('hidden');
+                currentQuestion++;
+                if (currentQuestion <= totalQuestions) {
+                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    nextDiv.classList.remove('hidden');
+                } else {
+                    showPage('page3');
+                }
+                updateProgressBar();
+            }
 
-                                function previousQuestion() {
-                                    if (currentQuestion > 1) {
-                                        const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                                        currentDiv.classList.add('hidden');
-                                        currentQuestion--;
-                                        const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                                        previousDiv.classList.remove('hidden');
-                                    } else {
-                                        showPage('page1');
-                                    }
-                                    updateProgressBar();
-                                }
+            function previousQuestion() {
+                if (currentQuestion > 1) {
+                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    currentDiv.classList.add('hidden');
+                    currentQuestion--;
+                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    previousDiv.classList.remove('hidden');
+                } else {
+                    showPage('page1');
+                }
+                updateProgressBar();
+            }
 
-                                function updateProgressBar() {
-                                    const progress = (currentQuestion / totalQuestions) * 100;
-                                    document.getElementById('progress').style.width = `${progress}%`;
-                                }
+            function updateProgressBar() {
+                const progress = (currentQuestion / totalQuestions) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            }
 
-                                function handleFormuleChange() {
-                                    const formule = document.getElementById('formule').value;
-                                    document.getElementById('question10-options').classList.add('hidden');
-                                    document.getElementById('question14-options').classList.add('hidden');
+            function handleFormuleChange() {
+                const formule = document.getElementById('formule').value;
 
-                                    if (formule === 'economique') {
-                                        document.getElementById('question10-options').classList.remove('hidden');
-                                        document.getElementById('question14-options').classList.remove('hidden');
-                                        lockQuestion(10);
-                                        lockQuestion(14);
-                                    } else if (formule === 'premium') {
-                                        document.getElementById('question10-options').classList.remove('hidden');
-                                        lockQuestion(10);
-                                        unlockQuestion(14);
-                                    } else if (formule === 'prestige') {
-                                        unlockQuestion(10);
-                                        unlockQuestion(14);
-                                    }
-                                }
+                // Reset visibility of optional messages
+                document.getElementById('question10-options').classList.add('hidden');
+                document.getElementById('question14-options').classList.add('hidden');
 
-                                function lockQuestion(questionNumber) {
-                                    const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                                    questionElement.disabled = true;
-                                }
+                if (formule === 'economique') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    document.getElementById('question14-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    lockQuestion(14);
+                } else if (formule === 'premium') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    unlockQuestion(14);
+                } else if (formule === 'prestige') {
+                    unlockQuestion(10);
+                    unlockQuestion(14);
+                }
+            }
 
-                                function unlockQuestion(questionNumber, hideOptions = false) {
-                                    const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                                    questionElement.disabled = false;
-                                    const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-                                    if (optionsDiv && hideOptions) {
-                                        optionsDiv.classList.add('hidden');
-                                    }
-                                }
+            function lockQuestion(questionNumber) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = true;
+            }
 
-                                function validateName() {
-                                    const nameInput = document.getElementById('nom_prenom');
-                                    const obligatoryMessage = document.getElementById('name-obligatory');
+            function unlockQuestion(questionNumber, hideOptions = false) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = false;
+                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
+                if (optionsDiv && hideOptions) {
+                    optionsDiv.classList.add('hidden');
+                }
+            }
 
-                                    if (/[a-z]/i.test(nameInput.value)) {
-                                        obligatoryMessage.classList.add('valid');
-                                    } else {
-                                        obligatoryMessage.classList.remove('valid');
-                                    }
-                                }
+            function validateName() {
+                const nameInput = document.getElementById('nom_prenom');
+                const obligatoryMessage = document.getElementById('name-obligatory');
 
-                                function validateEmail() {
-                                    const emailInput = document.getElementById('email');
-                                    const nextButton = document.getElementById('email-next-button');
-                                    const obligatoryMessage = document.getElementById('email-obligatory');
+                if (/[a-z]/i.test(nameInput.value)) {
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
 
-                                    if (emailInput.value.includes('@')) {
-                                        nextButton.disabled = false;
-                                        obligatoryMessage.classList.add('valid');
-                                    } else {
-                                        nextButton.disabled = true;
-                                        obligatoryMessage.classList.remove('valid');
-                                    }
-                                }
+            function validateEmail() {
+                const emailInput = document.getElementById('email');
+                const nextButton = document.getElementById('email-next-button');
+                const obligatoryMessage = document.getElementById('email-obligatory');
 
-                                function validateTelephone() {
-                                    const phoneInput = document.getElementById('telephone');
-                                    const nextButton = document.getElementById('telephone-next-button');
-                                    const obligatoryMessage = document.getElementById('telephone-obligatory');
+                if (emailInput.value.includes('@')) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
 
-                                    if (phoneInput.value.replace(/\D/g, '').length >= 7) {
-                                        nextButton.disabled = false;
-                                        obligatoryMessage.classList.add('valid');
-                                    } else {
-                                        nextButton.disabled = true;
-                                        obligatoryMessage.classList.remove('valid');
-                                    }
-                                }
+            function validateTelephone() {
+                const phoneInput = document.getElementById('telephone');
+                const nextButton = document.getElementById('telephone-next-button');
+                const obligatoryMessage = document.getElementById('telephone-obligatory');
 
-                                function validateAddress(inputId, messageId) {
-                                    const addressInput = document.getElementById(inputId);
-                                    const obligatoryMessage = document.getElementById(messageId);
+                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
 
-                                    if (/[a-z]/i.test(addressInput.value)) {
-                                        obligatoryMessage.classList.add('valid');
-                                    } else {
-                                        obligatoryMessage.classList.remove('valid');
-                                    }
-                                }
+            function validateAddress(inputId, messageId) {
+                const addressInput = document.getElementById(inputId);
+                const obligatoryMessage = document.getElementById(messageId);
 
-                                function validateForm() {
-                                    const email = document.getElementById('email').value;
-                                    const telephone = document.getElementById('telephone').value;
+                if (/[a-z]/i.test(addressInput.value)) {
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
 
-                                    if (!email || !telephone) {
-                                        document.getElementById('error-message').style.display = 'block';
-                                        setTimeout(() => {
-                                            document.getElementById('error-message').style.display = 'none';
-                                        }, 3000);
-                                        return;
-                                    }
+            function validateForm() {
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
 
-                                    const cost = calculateCost();
-                                    saveForm(cost);
-                                    checkAdditionalCost();
-                                }
+                if (!email || !telephone) {
+                    document.getElementById('error-message').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('error-message').style.display = 'none';
+                    }, 3000);
+                    return;
+                }
 
-                                function calculateCost() {
-                                    let cost = 0;
-                                    const formule = document.getElementById('formule').value;
-                                    const pieces = document.getElementById('pieces').value;
-                                    const cartons = document.getElementById('cartons').value;
-                                    const nettoyage = document.getElementById('nettoyage').value;
-                                    const distance = document.getElementById('distance').value;
-                                    const lit_adulte = document.getElementById('lit_adulte').value;
-                                    const lit_enfant = document.getElementById('lit_enfant').value;
-                                    const meubles = document.getElementById('meubles').value;
-                                    const canape = document.getElementById('canape').value;
-                                    const frigo = document.getElementById('frigo').value;
-                                    const balcon = document.getElementById('balcon').value;
-                                    const cave = document.getElementById('cave').value;
-                                    const acces = document.getElementById('acces').value;
-                                    const ascenseur = document.getElementById('ascenseur').value;
-                                    const monte_charge = document.getElementById('monte_charge').value;
+                const cost = calculateCost();
+                saveForm(cost);
+                checkAdditionalCost();
+            }
 
-                                    // Coût par formule
-                                    if (formule === 'economique') cost += 0;
-                                    else if (formule === 'premium') cost += 100; // Coût supplémentaire pour premium
-                                    else if (formule === 'prestige') cost += 200; // Coût supplémentaire pour prestige
+            function calculateCost() {
+                let cost = 0;
+                const formule = document.getElementById('formule').value;
+                const pieces = document.getElementById('pieces').value;
+                const cartons = document.getElementById('cartons').value;
+                const nettoyage = document.getElementById('nettoyage').value;
+                const distance = document.getElementById('distance').value;
+                const lit_adulte = document.getElementById('lit_adulte').value;
+                const lit_enfant = document.getElementById('lit_enfant').value;
+                const meubles = document.getElementById('meubles').value;
+                const canape = document.getElementById('canape').value;
+                const frigo = document.getElementById('frigo').value;
+                const balcon = document.getElementById('balcon').value;
+                const cave = document.getElementById('cave').value;
+                const acces = document.getElementById('acces').value;
+                const ascenseur = document.getElementById('ascenseur').value;
+                const monte_charge = document.getElementById('monte_charge').value;
 
-                                    // Coûts en fonction du nombre de pièces
-                                    const piecesCost = {
-                                        studio: 450,
-                                        une_piece: 600,
-                                        deux_pieces: 900,
-                                        trois_pieces: 1250,
-                                        quatre_pieces: 1550,
-                                        cinq_pieces: 1800,
-                                        six_pieces: 2300,
-                                        sept_pieces: 2550,
-                                        huit_pieces: 2800,
-                                        neuf_pieces: 3050,
-                                        dix_pieces: 3400
-                                    };
+                // Coût par formule
+                if (formule === 'economique') cost += 0;
+                else if (formule === 'premium') cost += 100; // Coût supplémentaire pour premium
+                else if (formule === 'prestige') cost += 200; // Coût supplémentaire pour prestige
 
-                                    cost += piecesCost[pieces] || 0;
+                // Coûts en fonction du nombre de pièces
+                const piecesCost = {
+                    studio: 450,
+                    une_piece: 600,
+                    deux_pieces: 900,
+                    trois_pieces: 1250,
+                    quatre_pieces: 1550,
+                    cinq_pieces: 1800,
+                    six_pieces: 2300,
+                    sept_pieces: 2550,
+                    huit_pieces: 2800,
+                    neuf_pieces: 3050,
+                    dix_pieces: 3400
+                };
 
-                                    // Coût pour les superficies
-                                    const superficieElement = document.querySelector(`#sous-options-pieces select`);
-                                    if (superficieElement) {
-                                        const selectedOption = superficieElement.options[superficieElement.selectedIndex];
-                                        const baseCost = piecesCost[pieces] || 0;
-                                        const additionalCostPercentage = parseFloat(selectedOption.dataset.cost) / 100;
-                                        cost += baseCost * additionalCostPercentage;
-                                    }
+                cost += piecesCost[pieces] || 0;
 
-                                    // Coût pour le nettoyage
-                                    const nettoyageCosts = {
-                                        '30_49': 350,
-                                        '50_69': 450,
-                                        '70_89': 600,
-                                        '90_109': 750,
-                                        '110_129': 900,
-                                        '130_149': 1050,
-                                        '150_169': 1200,
-                                        '170_189': 1350,
-                                        '190_209': 1500,
-                                        'plus_210': 1650
-                                    };
-                                    cost += nettoyageCosts[nettoyage] || 0;
+                // Coût pour les superficies
+                const superficieElement = document.querySelector(`#sous-options-pieces select`);
+                if (superficieElement) {
+                    const selectedOption = superficieElement.options[superficieElement.selectedIndex];
+                    const baseCost = piecesCost[pieces] || 0;
+                    const additionalCostPercentage = parseFloat(selectedOption.dataset.cost) / 100;
+                    cost += baseCost * additionalCostPercentage;
+                }
 
-                                    // Coût pour la distance
-                                    const distanceCosts = {
-                                        '0_9': 0,
-                                        '10_29': 20,
-                                        '30_49': 60,
-                                        '50_69': 100,
-                                        '70_89': 140,
-                                        '90_109': 180,
-                                        'plus_110': 220
-                                    };
-                                    cost += distanceCosts[distance] || 0;
+                // Coût pour le nettoyage
+                const nettoyageCosts = {
+                    '30_49': 350,
+                    '50_69': 450,
+                    '70_89': 600,
+                    '90_109': 750,
+                    '110_129': 900,
+                    '130_149': 1050,
+                    '150_169': 1200,
+                    '170_189': 1350,
+                    '190_209': 1500,
+                    'plus_210': 1650
+                };
+                cost += nettoyageCosts[nettoyage] || 0;
 
-                                    // Coût pour les cartons
-                                    const cartonsCosts = {
-                                        'formule_m': 49,
-                                        'formule_l': 138,
-                                        'formule_xl': 270
-                                    };
-                                    cost += cartonsCosts[cartons] || 0;
+                // Coût pour la distance
+                const distanceCosts = {
+                    '0_9': 0,
+                    '10_29': 20,
+                    '30_49': 60,
+                    '50_69': 100,
+                    '70_89': 140,
+                    '90_109': 180,
+                    'plus_110': 220
+                };
+                cost += distanceCosts[distance] || 0;
 
-                                    // Coût pour les lits adultes
-                                    const litAdulteCosts = {
-                                        '0': 0,
-                                        '1': 0,
-                                        '2': 50,
-                                        '3': 100,
-                                        '4': 150,
-                                        '5': 200,
-                                        '6': 250,
-                                        '7': 300,
-                                        '8': 350,
-                                        'plus_de_huit': 400
-                                    };
-                                    cost += litAdulteCosts[lit_adulte] || 0;
+                // Coût pour les cartons
+                const cartonsCosts = {
+                    'formule_m': 49,
+                    'formule_l': 138,
+                    'formule_xl': 270
+                };
+                cost += cartonsCosts[cartons] || 0;
 
-                                    // Coût pour les lits enfants
-                                    const litEnfantCosts = {
-                                        '0': 0,
-                                        '1': 0,
-                                        '2': 0,
-                                        '3': 50,
-                                        '4': 75,
-                                        '5': 100,
-                                        '6': 125,
-                                        '7': 150,
-                                        '8': 175,
-                                        'plus_de_huit': 200
-                                    };
-                                    cost += litEnfantCosts[lit_enfant] || 0;
+                // Coût pour les lits adultes
+                const litAdulteCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 50,
+                    '3': 100,
+                    '4': 150,
+                    '5': 200,
+                    '6': 250,
+                    '7': 300,
+                    '8': 350,
+                    'plus_de_huit': 400
+                };
+                cost += litAdulteCosts[lit_adulte] || 0;
 
-                                    // Coût pour les meubles
-                                    const meubleCosts = {
-                                        '0': 0,
-                                        '1': 150,
-                                        '2': 300,
-                                        '3': 450,
-                                        '4': 600,
-                                        '5': 750,
-                                        '6': 900,
-                                        '7': 1050,
-                                        '8': 1200,
-                                        'plus_de_huit': 1350
-                                    };
-                                    cost += meubleCosts[meubles] || 0;
+                // Coût pour les lits enfants
+                const litEnfantCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 0,
+                    '3': 50,
+                    '4': 75,
+                    '5': 100,
+                    '6': 125,
+                    '7': 150,
+                    '8': 175,
+                    'plus_de_huit': 200
+                };
+                cost += litEnfantCosts[lit_enfant] || 0;
 
-                                    // Coût pour les canapés
-                                    const canapeCosts = {
-                                        '0': -50,
-                                        '1': 0,
-                                        '2': 0,
-                                        '3': 50,
-                                        '4': 75,
-                                        'autre': 0
-                                    };
-                                    cost += canapeCosts[canape] || 0;
+                // Coût pour les meubles
+                const meubleCosts = {
+                    '0': 0,
+                    '1': 150,
+                    '2': 300,
+                    '3': 450,
+                    '4': 600,
+                    '5': 750,
+                    '6': 900,
+                    '7': 1050,
+                    '8': 1200,
+                    'plus_de_huit': 1350
+                };
+                cost += meubleCosts[meubles] || 0;
 
-                                    // Coût pour les réfrigérateurs
-                                    const frigoCosts = {
-                                        '0': 0,
-                                        '1': 0,
-                                        '2': 50,
-                                        '3': 100,
-                                        '4': 150,
-                                        '5': 200,
-                                        '6': 250,
-                                        '7': 300,
-                                        '8': 350,
-                                        'plus_de_huit': 400
-                                    };
-                                    cost += frigoCosts[frigo] || 0;
+                // Coût pour les canapés
+                const canapeCosts = {
+                    '0': -50,
+                    '1': 0,
+                    '2': 0,
+                    '3': 50,
+                    '4': 75,
+                    'autre': 0
+                };
+                cost += canapeCosts[canape] || 0;
 
-                                    // Coûts supplémentaires
-                                    if (balcon === 'balcon') cost += cost * 0.05; // 5% supplémentaire si balcon
-                                    if (balcon === 'terrasse') cost += cost * 0.10; // 10% supplémentaire si terrasse
-                                    if (cave === 'oui') cost += cost * 0.05; // 5% supplémentaire si cave
-                                    if (acces === 'difficile') cost += cost * 0.10; // 10% supplémentaire si accès difficile
-                                    if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
-                                    else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
-                                    if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
+                // Coût pour les réfrigérateurs
+                const frigoCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 50,
+                    '3': 100,
+                    '4': 150,
+                    '5': 200,
+                    '6': 250,
+                    '7': 300,
+                    '8': 350,
+                    'plus_de_huit': 400
+                };
+                cost += frigoCosts[frigo] || 0;
 
-                                    const originalCost = cost;  // Conserver le coût original
+                // Coûts supplémentaires
+                if (balcon === 'balcon') cost += cost * 0.05; // 5% supplémentaire si balcon
+                if (balcon === 'terrasse') cost += cost * 0.10; // 10% supplémentaire si terrasse
+                if (cave === 'oui') cost += cost * 0.05; // 5% supplémentaire si cave
+                if (acces === 'difficile') cost += cost * 0.10; // 10% supplémentaire si accès difficile
+                if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
+                else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
+                if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
 
-                                    // Vérifier si c'est le mois de janvier pour appliquer la réduction
-                                    const today = new Date();
-                                    let discountedCost = cost;
-                                    if (today.getMonth() === 0) { // Janvier
-                                        discountedCost *= 0.90; // Applique une réduction de 10%
-                                        document.getElementById('discount-message').classList.remove('hidden'); // Affiche le message de réduction
-                                    }
+                const originalCost = cost;  // Conserver le coût original
 
-                                    // Arrondir le cost au dixième inférieur
-                                    const roundedCost = Math.floor(discountedCost * 10) / 10;
+                // Vérifier si c'est le mois de janvier pour appliquer la réduction
+                const today = new Date();
+                let discountedCost = cost;
+                if (today.getMonth() === 0) { // Janvier
+                    discountedCost *= 0.90; // Applique une réduction de 10%
+                    document.getElementById('discount-message').classList.remove('hidden'); // Affiche le message de réduction
+                }
 
-                                    // Mettre à jour les prix affichés
-                                    document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
-                                    document.getElementById('discountedPrice').innerText = roundedCost.toFixed(2);
+                // Arrondir le cost au dixième inférieur
+                const roundedCost = Math.floor(discountedCost * 10) / 10;
 
-                                    // Afficher le prix normal dans l'élément prixDevis
-                                    document.getElementById('originalCost').innerText = originalCost.toFixed(2);
-                                    return cost;
-                                }
+                // Mettre à jour les prix affichés
+                document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
+                document.getElementById('discountedPrice').innerText = roundedCost.toFixed(2);
+                
+                // Afficher le prix normal dans l'élément prixDevis
+                document.getElementById('originalCost').innerText = originalCost.toFixed(2);
+                return cost;
+            }
 
-                                function saveForm(cost) {
-                                    const formDetails = {
-                                        Nom_prenom: document.getElementById('nom_prenom').value,
-                                        Email: document.getElementById('email').value,
-                                        Telephone: document.getElementById('telephone').value,
-                                        Adresse_actuelle: document.getElementById('adresse_actuelle').value,
-                                        Adresse_future: document.getElementById('adresse_future').value,
-                                        Statut: document.getElementById('statut').value,
-                                        Formule: document.getElementById('formule').value,
-                                        Objet: document.getElementById('objet').value,
-                                        Etages: document.getElementById('sous-options-objet').querySelector('select') ? document.getElementById('sous-options-objet').querySelector('select').value : '',
-                                        Pieces: document.getElementById('pieces').value,
-                                        Superficie: document.getElementById('sous-options-pieces').querySelector('select') ? document.getElementById('sous-options-pieces').querySelector('select').value : '',
-                                        Nettoyage: document.getElementById('nettoyage').value,
-                                        Distance: document.getElementById('distance').value,
-                                        Lit_adulte: document.getElementById('lit_adulte').value,
-                                        Lit_enfant: document.getElementById('lit_enfant').value,
-                                        Meubles: document.getElementById('meubles').value,
-                                        Canape: document.getElementById('canape').value,
-                                        Frigo: document.getElementById('frigo').value,
-                                        Balcon: document.getElementById('balcon').value,
-                                        Cave: document.getElementById('cave').value,
-                                        Acces: document.getElementById('acces').value,
-                                        Ascenseur: document.getElementById('ascenseur').value,
-                                        Monte_charge: document.getElementById('monte_charge').value,
-                                        Cartons: document.getElementById('cartons').value,
-                                        Commentaires: document.getElementById('commentaires').value,
-                                        Estimated_cost: cost
-                                    };
+            function saveForm(cost) {
+                const formDetails = {
+                    Nom_prenom: document.getElementById('nom_prenom').value,
+                    Email: document.getElementById('email').value,
+                    Telephone: document.getElementById('telephone').value,
+                    Adresse_actuelle: document.getElementById('adresse_actuelle').value,
+                    Adresse_future: document.getElementById('adresse_future').value,
+                    Statut: document.getElementById('statut').value,
+                    Formule: document.getElementById('formule').value,
+                    Objet: document.getElementById('objet').value,
+                    Etages: document.getElementById('sous-options-objet').querySelector('select') ? document.getElementById('sous-options-objet').querySelector('select').value : '',
+                    Pieces: document.getElementById('pieces').value,
+                    Superficie: document.getElementById('sous-options-pieces').querySelector('select') ? document.getElementById('sous-options-pieces').querySelector('select').value : '',
+                    Nettoyage: document.getElementById('nettoyage').value,
+                    Distance: document.getElementById('distance').value,
+                    Lit_adulte: document.getElementById('lit_adulte').value,
+                    Lit_enfant: document.getElementById('lit_enfant').value,
+                    Meubles: document.getElementById('meubles').value,
+                    Canape: document.getElementById('canape').value,
+                    Frigo: document.getElementById('frigo').value,
+                    Balcon: document.getElementById('balcon').value,
+                    Cave: document.getElementById('cave').value,
+                    Acces: document.getElementById('acces').value,
+                    Ascenseur: document.getElementById('ascenseur').value,
+                    Monte_charge: document.getElementById('monte_charge').value,
+                    Cartons: document.getElementById('cartons').value,
+                    Commentaires: document.getElementById('commentaires').value,
+                    Estimated_cost: cost
+                };
 
-                                    const message = `
-                                        Nom et Prénom: ${formDetails.Nom_prenom}
-                                        Email: ${formDetails.Email}
-                                        Téléphone: ${formDetails.Telephone}
-                                        Adresse Actuelle: ${formDetails.Adresse_actuelle}
-                                        Adresse Future: ${formDetails.Adresse_future}
-                                        Statut: ${formDetails.Statut}
-                                        Formule: ${formDetails.Formule}
-                                        Objet: ${formDetails.Objet} - Nombre d'étages: ${formDetails.Etages}
-                                        Pièces: ${formDetails.Pieces} - Superficie: ${formDetails.Superficie}
-                                        Nettoyage: ${formDetails.Nettoyage}
-                                        Distance: ${formDetails.Distance}
-                                        Lits Adultes: ${formDetails.Lit_adulte}
-                                        Lits Enfants: ${formDetails.Lit_enfant}
-                                        Meubles: ${formDetails.Meubles}
-                                        Canapé: ${formDetails.Canape}
-                                        Frigo: ${formDetails.Frigo}
-                                        Balcon: ${formDetails.Balcon}
-                                        Cave: ${formDetails.Cave}
-                                        Accès: ${formDetails.Acces}
-                                        Ascenseur: ${formDetails.Ascenseur}
-                                        Monte Charge: ${formDetails.Monte_charge}
-                                        Cartons: ${formDetails.Cartons}
-                                        Commentaires: ${formDetails.Commentaires}
-                                        Coût Estimé: ${formDetails.Estimated_cost} CHF
-                                    `;
+                const message = `
+                    Madame, Monsieur, 
 
-                                    emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                                        to_email: formDetails.Email,
-                                        from_name: "L&J Déménagement",
-                                        reply_to: formDetails.Email,
-                                        subject: "Demande de devis de L&J Déménagement",
-                                        message: message
-                                    }).then((response) => {
-                                        console.log('SUCCESS!', response.status, response.text);
-                                        // Envoi d'une copie à votre adresse e-mail
-                                        return emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                                            to_email: "ljdemenagement@etik.com",
-                                            from_name: "L&J Déménagement",
-                                            reply_to: formDetails.Email,
-                                            subject: "Copie de la demande de devis de L&J Déménagement",
-                                            message: message
-                                        });
-                                    }).then((response) => {
-                                        showConfirmationMessage();
-                                        showPage('page3');
-                                    }).catch((err) => {
-                                        console.error('FAILED...', err);
-                                        showNotification("Échec de l'envoi du formulaire.", 'error');
-                                    });
-                                }
+                    Nous vous remercions d'avoir utilisé notre application de devis instantané chez L&J Déménagement. Nous sommes heureux de vous fournir les réponses au formulaire et le prix estimé pour votre déménagement :
 
-                                function checkAdditionalCost() {
-                                    const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
-                                        'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
-                                        'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
-                                        'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
+                    Nom et Prénom: ${formDetails.Nom_prenom}
+                    Email: ${formDetails.Email}
+                    Téléphone: ${formDetails.Telephone}
+                    Adresse Actuelle: ${formDetails.Adresse_actuelle}
+                    Adresse Future: ${formDetails.Adresse_future}
+                    Statut: ${formDetails.Statut}
+                    Formule: ${formDetails.Formule}
+                    Objet: ${formDetails.Objet} - Nombre d'étages: ${formDetails.Etages}
+                    Pièces: ${formDetails.Pieces} - Superficie: ${formDetails.Superficie}
+                    Nettoyage: ${formDetails.Nettoyage}
+                    Distance: ${formDetails.Distance}
+                    Lits Adultes: ${formDetails.Lit_adulte}
+                    Lits Enfants: ${formDetails.Lit_enfant}
+                    Meubles: ${formDetails.Meubles}
+                    Canapé: ${formDetails.Canape}
+                    Frigo: ${formDetails.Frigo}
+                    Balcon: ${formDetails.Balcon}
+                    Cave: ${formDetails.Cave}
+                    Accès: ${formDetails.Acces}
+                    Ascenseur: ${formDetails.Ascenseur}
+                    Monte Charge: ${formDetails.Monte_charge}
+                    Cartons: ${formDetails.Cartons}
+                    Commentaires: ${formDetails.Commentaires}
+                    Coût Estimé: ${formDetails.Estimated_cost} CHF
 
-                                    const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
-                                    const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
+                    Nous vous assurons que notre équipe dévouée mettra tout en œuvre pour rendre votre déménagement aussi fluide et serein que possible. Nous vous offrons un service de qualité, alliant professionnalisme et soin.
 
-                                    if (hasAsteriskOption) {
-                                        document.getElementById('additional-cost-message').classList.remove('hidden');
-                                    } else {
-                                        document.getElementById('additional-cost-message').classList.add('hidden');
-                                    }
-                                }
+                    Votre mandat de déménagement :
 
-                                function showConfirmationMessage() {
-                                    const confirmationMessage = document.getElementById('confirmation-message');
-                                    confirmationMessage.style.display = 'block';
-                                    confirmationMessage.innerText = "Confirmation de l'envoi";
-                                    setTimeout(() => {
-                                        confirmationMessage.style.display = 'none';
-                                    }, 3000);
-                                }
+                    Pour confirmer votre déménagement avec nous, veuillez répondre à cet e-mail ou nous contacter directement par téléphone au +41 78 749 35 94. Un membre de notre équipe se fera un plaisir de finaliser les détails avec vous.
 
-                                function markContacted() {
-                                    const email = document.getElementById('email').value;
+                    En acceptant notre mandat, vous aurez accès à :
 
-                                    emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                                        reply_to: email,
-                                        from_name: "L&J Déménagement",
-                                        subject: "Demande de contact",
-                                        message: "Vous serez contacté par un agent de L&J Déménagement."
-                                    }).then((response) => {
-                                        console.log('SUCCESS!', response.status, response.text);
-                                        alert('Votre demande a été envoyée avec succès !');
-                                    }, (err) => {
-                                        console.error('FAILED...', err);
-                                        alert("Échec de l'envoi de la demande.");
-                                    });
-                                }
+                    - Une planification sur mesure de votre déménagement.
+                    - Un interlocuteur dédié pour répondre à toutes vos questions.
+                    - Des conseils pratiques pour préparer votre départ.
 
-                                function showNotification(message, type) {
-                                    const notification = document.getElementById('notification');
-                                    notification.className = `notification ${type}`;
-                                    notification.innerText = message;
-                                    notification.style.display = 'block';
-                                    setTimeout(() => {
-                                        notification.style.display = 'none';
-                                    }, 3000);
-                                }
+                    Nous restons à votre disposition pour toute information complémentaire. N'hésitez pas à visiter notre site web https://ljdemenagement.com pour plus d'informations sur nos services.
 
-                                // Gestion des sous-options pour l'objet sélectionné
-                                function handleObjetChange() {
-                                    const objet = document.getElementById('objet').value;
-                                    const sousOptionsDiv = document.getElementById('sous-options-objet');
-                                    sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                    Merci de nous faire confiance pour votre projet de déménagement. Nous espérons avoir bientôt le plaisir de vous accompagner dans cette nouvelle étape de votre vie.
 
-                                    if (objet === "Appartement") {
-                                        sousOptionsDiv.innerHTML = `
-                                            <label class="block text-gray-700">Combien d'étages ?</label>
-                                            <select id="etages_appartement" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="un_etage" data-cost="0">Un étage</option>
-                                                <option value="duplex" data-cost="10">Duplex</option>
-                                                <option value="triplex" data-cost="20">Triplex</option>
-                                            </select>`;
-                                    } else if (objet === "Maison") {
-                                        sousOptionsDiv.innerHTML = `
-                                            <label class="block text-gray-700">Combien d'étages ?</label>
-                                            <select id="etages_maison" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="plein_pied" data-cost="0">Plein pied</option>
-                                                <option value="deux_etages" data-cost="10">Deux étages</option>
-                                                <option value="trois_etages" data-cost="20">Trois étages</option>
-                                            </select>
-                                            <label class="block text-gray-700 mt-2">J'ai un sous-sol</label>
-                                            <input type="checkbox" id="sous_sol" class="mt-1" onclick="updateCostForSousSol()">`;
-                                    } else if (objet === "Locaux") {
-                                        sousOptionsDiv.innerHTML = `
-                                            <label class="block text-gray-700">Type de locaux :</label>
-                                            <select id="type_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" onchange="handleTypeLocauxChange()">
-                                                <option value="halle_industriel">Halle industriel*</option>
-                                                <option value="bureau">Bureau*</option>
-                                                <option value="usine">Usine*</option>
-                                            </select>
-                                            <div id="sous-options-locaux" class="nested-option hidden">
-                                                <label class="block text-gray-700 mt-2">Combien d'étages ?</label>
-                                                <select id="etages_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                    <option value="un_etage" data-cost="0">Un étage</option>
-                                                    <option value="deux_etages" data-cost="20">Deux étages</option>
-                                                    <option value="trois_etages" data-cost="30">Trois étages</option>
-                                                </select>
-                                            </div>`;
-                                    }
-                                    sousOptionsDiv.classList.remove('hidden');
-                                }
+                    Cordialement,
 
-                                function handleTypeLocauxChange() {
-                                    const typeLocaux = document.getElementById('type_locaux').value;
-                                    const sousOptionsLocaux = document.getElementById('sous-options-locaux');
-                                    if (typeLocaux) {
-                                        sousOptionsLocaux.classList.remove('hidden');
-                                    } else {
-                                        sousOptionsLocaux.classList.add('hidden');
-                                    }
-                                }
+                    L'équipe L&J Déménagement
+                `;
 
-                                function handlePiecesChange() {
-                                    const pieces = document.getElementById('pieces').value;
-                                    const sousOptionsDiv = document.getElementById('sous-options-pieces');
-                                    sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    to_email: formDetails.Email,
+                    from_name: "L&J Déménagement",
+                    reply_to: formDetails.Email,
+                    subject: "Demande de devis de L&J Déménagement",
+                    message: message
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showConfirmationMessage();
+                    showPage('page3');
+                }, (err) => {
+                    console.error('FAILED...', err);
+                    showNotification("Échec de l'envoi du formulaire.", 'error');
+                });
+            }
 
-                                    const pieceOptions = {
-                                        studio: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_studio" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
-                                                <option value="50_59" data-cost="30">50m² à 59m²</option>
-                                                <option value="60_69" data-cost="40">60m² à 69m²</option>
-                                                <option value="70_80" data-cost="50">70m² à 80m²</option>
-                                            </select>`,
-                                        une_piece: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_une_piece" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
-                                                <option value="50_59" data-cost="10">50m² à 59m²</option>
-                                                <option value="60_69" data-cost="40">60m² à 69m²</option>
-                                                <option value="70_79" data-cost="100">70m² à 79m²</option>
-                                                <option value="80_89" data-cost="130">80m² à 89m²</option>
-                                                <option value="90_99" data-cost="160">90m² à 99m²</option>
-                                                <option value="plus_de_100m²" data-cost="190">Plus de 100m²*</option>
-                                            </select>`,
-                                        deux_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_deux_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
-                                                <option value="80_89" data-cost="40">80m² à 89m²</option>
-                                                <option value="90_99" data-cost="70">90m² à 99m²</option>
-                                                <option value="100_109" data-cost="90">100m² à 109m²</option>
-                                                <option value="plus_de_110m²" data-cost="130">Plus de 110m²*</option>
-                                            </select>`,
-                                        trois_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_trois_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
-                                                <option value="80_89" data-cost="10">80m² à 89m²</option>
-                                                <option value="90_99" data-cost="20">90m² à 99m²</option>
-                                                <option value="100_109" data-cost="30">100m² à 109m²</option>
-                                                <option value="110_119" data-cost="40">110m² à 119m²</option>
-                                                <option value="plus_de_120m²" data-cost="50">Plus de 120m²*</option>
-                                            </select>`,
-                                        quatre_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_quatre_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_109" data-cost="0">Moins de 109m²</option>
-                                                <option value="110_119" data-cost="5">110m² à 119m²</option>
-                                                <option value="120_129" data-cost="10">120m² à 129m²</option>
-                                                <option value="130_139" data-cost="15">130m² à 139m²</option>
-                                                <option value="140_149" data-cost="20">140m² à 149m²</option>
-                                                <option value="plus_de_150m²" data-cost="25">Plus de 150m²*</option>
-                                            </select>`,
-                                        cinq_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_cinq_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_119" data-cost="0">Moins de 119m²</option>
-                                                <option value="120_129" data-cost="10">120m² à 129m²</option>
-                                                <option value="130_139" data-cost="20">130m² à 139m²</option>
-                                                <option value="140_149" data-cost="30">140m² à 149m²</option>
-                                                <option value="150_159" data-cost="40">150m² à 159m²</option>
-                                                <option value="plus_de_160m²" data-cost="50">Plus de 160m²*</option>
-                                            </select>`,
-                                        six_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_six_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_149" data-cost="0">Moins de 149m²</option>
-                                                <option value="150_159" data-cost="10">150m² à 159m²</option>
-                                                <option value="160_169" data-cost="20">160m² à 169m²</option>
-                                                <option value="170_179" data-cost="30">170m² à 179m²</option>
-                                                <option value="180_189" data-cost="40">180m² à 189m²</option>
-                                                <option value="plus_de_190m²" data-cost="50">Plus de 190m²*</option>
-                                            </select>`,
-                                        sept_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_sept_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_169" data-cost="0">Moins de 169m²</option>
-                                                <option value="170_179" data-cost="10">170m² à 179m²</option>
-                                                <option value="180_189" data-cost="20">180m² à 189m²</option>
-                                                <option value="190_199" data-cost="30">190m² à 199m²</option>
-                                                <option value="200_209" data-cost="40">200m² à 209m²</option>
-                                                <option value="plus_de_210m²" data-cost="50">Plus de 210m²*</option>
-                                            </select>`,
-                                        huit_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_huit_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_189" data-cost="0">Moins de 189m²</option>
-                                                <option value="190_199" data-cost="10">190m² à 199m²</option>
-                                                <option value="200_209" data-cost="20">200m² à 209m²</option>
-                                                <option value="210_219" data-cost="30">210m² à 219m²</option>
-                                                <option value="220_229" data-cost="40">220m² à 229m²</option>
-                                                <option value="plus_de_230m²" data-cost="50">Plus de 230m²*</option>
-                                            </select>`,
-                                        neuf_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_neuf_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_209" data-cost="0">Moins de 209m²</option>
-                                                <option value="210_219" data-cost="10">210m² à 219m²</option>
-                                                <option value="220_229" data-cost="20">220m² à 229m²</option>
-                                                <option value="230_239" data-cost="30">230m² à 239m²</option>
-                                                <option value="240_249" data-cost="40">240m² à 249m²</option>
-                                                <option value="plus_de_250m²" data-cost="50">Plus de 250m²*</option>
-                                            </select>`,
-                                        dix_pieces: `
-                                            <label class="block text-gray-700">Superficie :</label>
-                                            <select id="superficie_dix_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="moins_de_229" data-cost="0">Moins de 229m²</option>
-                                                <option value="230_239" data-cost="5">230m² à 239m²</option>
-                                                <option value="240_249" data-cost="10">240m² à 249m²</option>
-                                                <option value="250_259" data-cost="20">250m² à 259m²</option>
-                                                <option value="260_269" data-cost="30">260m² à 269m²</option>
-                                                <option value="plus_de_270m²" data-cost="40">Plus de 270m²*</option>
-                                            </select>`,
-                                    };
+            function checkAdditionalCost() {
+                const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
+                    'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
+                    'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
+                    'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
 
-                                    sousOptionsDiv.innerHTML = pieceOptions[pieces];
-                                    sousOptionsDiv.classList.remove('hidden');
-                                }
+                const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
+                const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
 
-                                function updateCostForSousSol() {
-                                    const sousSolCheckbox = document.getElementById('sous_sol');
-                                    const baseCost = 100; // Exemple de coût pour le sous-sol
-                                    if (sousSolCheckbox.checked) {
-                                        document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) + baseCost).toFixed(2);
-                                    } else {
-                                        document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) - baseCost).toFixed(2);
-                                    }
-                                }
+                if (hasAsteriskOption) {
+                    document.getElementById('additional-cost-message').classList.remove('hidden');
+                } else {
+                    document.getElementById('additional-cost-message').classList.add('hidden');
+                }
+            }
 
-                                // Bouton WhatsApp
-                                const whatsappButton = document.createElement('a');
-                                whatsappButton.href = "https://api.whatsapp.com/send?phone=41787493594";
-                                whatsappButton.target = "_blank";
-                                whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
-                                document.body.appendChild(whatsappButton);
-                            </script>
-                        </div>
-                    </body>
+            function showConfirmationMessage() {
+                const confirmationMessage = document.getElementById('confirmation-message');
+                confirmationMessage.style.display = 'block';
+                confirmationMessage.innerText = "Confirmation de l'envoi";
+                setTimeout(() => {
+                    confirmationMessage.style.display = 'none';
+                }, 3000);
+            }
 
-                    </html>
+            function markContacted() {
+                const email = document.getElementById('email').value;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    reply_to: email,
+                    from_name: "L&J Déménagement",
+                    subject: "Demande de contact",
+                    message: "Vous serez contacté par un agent de L&J Déménagement."
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Votre demande a été envoyée avec succès !');
+                }, (err) => {
+                    console.error('FAILED...', err);
+                    alert("Échec de l'envoi de la demande.");
+                });
+            }
+
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.className = `notification ${type}`;
+                notification.innerText = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+
+            // Gestion des sous-options pour l'objet sélectionné
+            function handleObjetChange() {
+                const objet = document.getElementById('objet').value;
+                const sousOptionsDiv = document.getElementById('sous-options-objet');
+                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+
+                if (objet === "Appartement") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Combien d'étages ?</label>
+                        <select id="etages_appartement" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="un_etage" data-cost="0">Un étage</option>
+                            <option value="duplex" data-cost="10">Duplex</option>
+                            <option value="triplex" data-cost="20">Triplex</option>
+                        </select>`;
+                } else if (objet === "Maison") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Combien d'étages ?</label>
+                        <select id="etages_maison" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="plein_pied" data-cost="0">Plein pied</option>
+                            <option value="deux_etages" data-cost="10">Deux étages</option>
+                            <option value="trois_etages" data-cost="20">Trois étages</option>
+                        </select>
+                        <label class="block text-gray-700 mt-2">J'ai un sous-sol</label>
+                        <input type="checkbox" id="sous_sol" class="mt-1" onclick="updateCostForSousSol()">`;
+                } else if (objet === "Locaux") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Type de locaux :</label>
+                        <select id="type_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" onchange="handleTypeLocauxChange()">
+                            <option value="halle_industriel">Halle industriel*</option>
+                            <option value="bureau">Bureau*</option>
+                            <option value="usine">Usine*</option>
+                        </select>
+                        <div id="sous-options-locaux" class="nested-option hidden">
+                            <label class="block text-gray-700 mt-2">Combien d'étages ?</label>
+                            <select id="etages_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="un_etage" data-cost="0">Un étage</option>
+                                <option value="deux_etages" data-cost="20">Deux étages</option>
+                                <option value="trois_etages" data-cost="30">Trois étages</option>
+                            </select>
+                        </div>`;
+                }
+                sousOptionsDiv.classList.remove('hidden');
+            }
+
+            function handleTypeLocauxChange() {
+                const typeLocaux = document.getElementById('type_locaux').value;
+                const sousOptionsLocaux = document.getElementById('sous-options-locaux');
+                if (typeLocaux) {
+                    sousOptionsLocaux.classList.remove('hidden');
+                } else {
+                    sousOptionsLocaux.classList.add('hidden');
+                }
+            }
+
+            function handlePiecesChange() {
+                const pieces = document.getElementById('pieces').value;
+                const sousOptionsDiv = document.getElementById('sous-options-pieces');
+                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+
+                const pieceOptions = {
+                    studio: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_studio" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
+                            <option value="50_59" data-cost="30">50m² à 59m²</option>
+                            <option value="60_69" data-cost="40">60m² à 69m²</option>
+                            <option value="70_80" data-cost="50">70m² à 80m²</option>
+                        </select>`,
+                    une_piece: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_une_piece" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
+                            <option value="50_59" data-cost="10">50m² à 59m²</option>
+                            <option value="60_69" data-cost="40">60m² à 69m²</option>
+                            <option value="70_79" data-cost="100">70m² à 79m²</option>
+                            <option value="80_89" data-cost="130">80m² à 89m²</option>
+                            <option value="90_99" data-cost="160">90m² à 99m²</option>
+                            <option value="plus_de_100m²" data-cost="190">Plus de 100m²*</option>
+                        </select>`,
+                    deux_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_deux_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
+                            <option value="80_89" data-cost="40">80m² à 89m²</option>
+                            <option value="90_99" data-cost="70">90m² à 99m²</option>
+                            <option value="100_109" data-cost="90">100m² à 109m²</option>
+                            <option value="plus_de_110m²" data-cost="130">Plus de 110m²*</option>
+                        </select>`,
+                    trois_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_trois_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
+                            <option value="80_89" data-cost="10">80m² à 89m²</option>
+                            <option value="90_99" data-cost="20">90m² à 99m²</option>
+                            <option value="100_109" data-cost="30">100m² à 109m²</option>
+                            <option value="110_119" data-cost="40">110m² à 119m²</option>
+                            <option value="plus_de_120m²" data-cost="50">Plus de 120m²*</option>
+                        </select>`,
+                    quatre_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_quatre_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_109" data-cost="0">Moins de 109m²</option>
+                            <option value="110_119" data-cost="5">110m² à 119m²</option>
+                            <option value="120_129" data-cost="10">120m² à 129m²</option>
+                            <option value="130_139" data-cost="15">130m² à 139m²</option>
+                            <option value="140_149" data-cost="20">140m² à 149m²</option>
+                            <option value="plus_de_150m²" data-cost="25">Plus de 150m²*</option>
+                        </select>`,
+                    cinq_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_cinq_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_119" data-cost="0">Moins de 119m²</option>
+                            <option value="120_129" data-cost="10">120m² à 129m²</option>
+                            <option value="130_139" data-cost="20">130m² à 139m²</option>
+                            <option value="140_149" data-cost="30">140m² à 149m²</option>
+                            <option value="150_159" data-cost="40">150m² à 159m²</option>
+                            <option value="plus_de_160m²" data-cost="50">Plus de 160m²*</option>
+                        </select>`,
+                    six_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_six_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_149" data-cost="0">Moins de 149m²</option>
+                            <option value="150_159" data-cost="10">150m² à 159m²</option>
+                            <option value="160_169" data-cost="20">160m² à 169m²</option>
+                            <option value="170_179" data-cost="30">170m² à 179m²</option>
+                            <option value="180_189" data-cost="40">180m² à 189m²</option>
+                            <option value="plus_de_190m²" data-cost="50">Plus de 190m²*</option>
+                        </select>`,
+                    sept_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_sept_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_169" data-cost="0">Moins de 169m²</option>
+                            <option value="170_179" data-cost="10">170m² à 179m²</option>
+                            <option value="180_189" data-cost="20">180m² à 189m²</option>
+                            <option value="190_199" data-cost="30">190m² à 199m²</option>
+                            <option value="200_209" data-cost="40">200m² à 209m²</option>
+                            <option value="plus_de_210m²" data-cost="50">Plus de 210m²*</option>
+                        </select>`,
+                    huit_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_huit_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_189" data-cost="0">Moins de 189m²</option>
+                            <option value="190_199" data-cost="10">190m² à 199m²</option>
+                            <option value="200_209" data-cost="20">200m² à 209m²</option>
+                            <option value="210_219" data-cost="30">210m² à 219m²</option>
+                            <option value="220_229" data-cost="40">220m² à 229m²</option>
+                            <option value="plus_de_230m²" data-cost="50">Plus de 230m²*</option>
+                        </select>`,
+                    neuf_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_neuf_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_209" data-cost="0">Moins de 209m²</option>
+                            <option value="210_219" data-cost="10">210m² à 219m²</option>
+                            <option value="220_229" data-cost="20">220m² à 229m²</option>
+                            <option value="230_239" data-cost="30">230m² à 239m²</option>
+                            <option value="240_249" data-cost="40">240m² à 249m²</option>
+                            <option value="plus_de_250m²" data-cost="50">Plus de 250m²*</option>
+                        </select>`,
+                    dix_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_dix_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_229" data-cost="0">Moins de 229m²</option>
+                            <option value="230_239" data-cost="5">230m² à 239m²</option>
+                            <option value="240_249" data-cost="10">240m² à 249m²</option>
+                            <option value="250_259" data-cost="20">250m² à 259m²</option>
+                            <option value="260_269" data-cost="30">260m² à 269m²</option>
+                            <option value="plus_de_270m²" data-cost="40">Plus de 270m²*</option>
+                        </select>`,
+                };
+
+                sousOptionsDiv.innerHTML = pieceOptions[pieces];
+                sousOptionsDiv.classList.remove('hidden');
+            }
+
+            function updateCostForSousSol() {
+                const sousSolCheckbox = document.getElementById('sous_sol');
+                const baseCost = 100; // Exemple de coût pour le sous-sol
+                if (sousSolCheckbox.checked) {
+                    document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) + baseCost).toFixed(2);
+                } else {
+                    document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) - baseCost).toFixed(2);
+                }
+            }
+
+            // Fonction pour mettre à jour le prix du devis en fonction de l'option sous-sol
+            function updateCostForSousSol() {
+                const sousSolCheckbox = document.getElementById('sous_sol');
+                const baseCost = 100; // Coût additionnel pour sous-sol
+                const currentPrice = parseFloat(document.getElementById('prixDevis').innerText);
+                if (sousSolCheckbox.checked) {
+                    document.getElementById('prixDevis').innerText = (currentPrice + baseCost).toFixed(2);
+                } else {
+                    document.getElementById('prixDevis').innerText = (currentPrice - baseCost).toFixed(2);
+                }
+            }
+
+            // Bouton WhatsApp pour un contact direct
+            const whatsappButton = document.createElement('a');
+            whatsappButton.href = "https://api.whatsapp.com/send?phone=41787493594";
+            whatsappButton.target = "_blank";
+            whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
+            document.body.appendChild(whatsappButton);
+
+            // Fonction pour afficher les notifications
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.className = `notification ${type}`;
+                notification.innerText = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+
+            // Fonction pour gérer la transition entre les questions
+            function handleObjetChange() {
+                const objet = document.getElementById('objet').value;
+                const sousOptionsDiv = document.getElementById('sous-options-objet');
+                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+
+                if (objet === "Appartement") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Combien d'étages ?</label>
+                        <select id="etages_appartement" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="un_etage" data-cost="0">Un étage</option>
+                            <option value="duplex" data-cost="10">Duplex</option>
+                            <option value="triplex" data-cost="20">Triplex</option>
+                        </select>`;
+                } else if (objet === "Maison") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Combien d'étages ?</label>
+                        <select id="etages_maison" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="plein_pied" data-cost="0">Plein pied</option>
+                            <option value="deux_etages" data-cost="10">Deux étages</option>
+                            <option value="trois_etages" data-cost="20">Trois étages</option>
+                        </select>
+                        <label class="block text-gray-700 mt-2">J'ai un sous-sol</label>
+                        <input type="checkbox" id="sous_sol" class="mt-1" onclick="updateCostForSousSol()">`;
+                } else if (objet === "Locaux") {
+                    sousOptionsDiv.innerHTML = `
+                        <label class="block text-gray-700">Type de locaux :</label>
+                        <select id="type_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" onchange="handleTypeLocauxChange()">
+                            <option value="halle_industriel">Halle industriel*</option>
+                            <option value="bureau">Bureau*</option>
+                            <option value="usine">Usine*</option>
+                        </select>
+                        <div id="sous-options-locaux" class="nested-option hidden">
+                            <label class="block text-gray-700 mt-2">Combien d'étages ?</label>
+                            <select id="etages_locaux" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="un_etage" data-cost="0">Un étage</option>
+                                <option value="deux_etages" data-cost="20">Deux étages</option>
+                                <option value="trois_etages" data-cost="30">Trois étages</option>
+                            </select>
+                        </div>`;
+                }
+                sousOptionsDiv.classList.remove('hidden');
+            }
+
+            function handleTypeLocauxChange() {
+                const typeLocaux = document.getElementById('type_locaux').value;
+                const sousOptionsLocaux = document.getElementById('sous-options-locaux');
+                if (typeLocaux) {
+                    sousOptionsLocaux.classList.remove('hidden');
+                } else {
+                    sousOptionsLocaux.classList.add('hidden');
+                }
+            }
+
+            function handlePiecesChange() {
+                const pieces = document.getElementById('pieces').value;
+                const sousOptionsDiv = document.getElementById('sous-options-pieces');
+                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+
+                const pieceOptions = {
+                    studio: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_studio" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
+                            <option value="50_59" data-cost="30">50m² à 59m²</option>
+                            <option value="60_69" data-cost="40">60m² à 69m²</option>
+                            <option value="70_80" data-cost="50">70m² à 80m²</option>
+                        </select>`,
+                    une_piece: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_une_piece" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_49" data-cost="0">Moins de 49m²</option>
+                            <option value="50_59" data-cost="10">50m² à 59m²</option>
+                            <option value="60_69" data-cost="40">60m² à 69m²</option>
+                            <option value="70_79" data-cost="100">70m² à 79m²</option>
+                            <option value="80_89" data-cost="130">80m² à 89m²</option>
+                            <option value="90_99" data-cost="160">90m² à 99m²</option>
+                            <option value="plus_de_100m²" data-cost="190">Plus de 100m²*</option>
+                        </select>`,
+                    deux_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_deux_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
+                            <option value="80_89" data-cost="40">80m² à 89m²</option>
+                            <option value="90_99" data-cost="70">90m² à 99m²</option>
+                            <option value="100_109" data-cost="90">100m² à 109m²</option>
+                            <option value="plus_de_110m²" data-cost="130">Plus de 110m²*</option>
+                        </select>`,
+                    trois_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_trois_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_79" data-cost="0">Moins de 79m²</option>
+                            <option value="80_89" data-cost="10">80m² à 89m²</option>
+                            <option value="90_99" data-cost="20">90m² à 99m²</option>
+                            <option value="100_109" data-cost="30">100m² à 109m²</option>
+                            <option value="110_119" data-cost="40">110m² à 119m²</option>
+                            <option value="plus_de_120m²" data-cost="50">Plus de 120m²*</option>
+                        </select>`,
+                    quatre_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_quatre_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_109" data-cost="0">Moins de 109m²</option>
+                            <option value="110_119" data-cost="5">110m² à 119m²</option>
+                            <option value="120_129" data-cost="10">120m² à 129m²</option>
+                            <option value="130_139" data-cost="15">130m² à 139m²</option>
+                            <option value="140_149" data-cost="20">140m² à 149m²</option>
+                            <option value="plus_de_150m²" data-cost="25">Plus de 150m²*</option>
+                        </select>`,
+                    cinq_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_cinq_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_119" data-cost="0">Moins de 119m²</option>
+                            <option value="120_129" data-cost="10">120m² à 129m²</option>
+                            <option value="130_139" data-cost="20">130m² à 139m²</option>
+                            <option value="140_149" data-cost="30">140m² à 149m²</option>
+                            <option value="150_159" data-cost="40">150m² à 159m²</option>
+                            <option value="plus_de_160m²" data-cost="50">Plus de 160m²*</option>
+                        </select>`,
+                    six_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_six_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_149" data-cost="0">Moins de 149m²</option>
+                            <option value="150_159" data-cost="10">150m² à 159m²</option>
+                            <option value="160_169" data-cost="20">160m² à 169m²</option>
+                            <option value="170_179" data-cost="30">170m² à 179m²</option>
+                            <option value="180_189" data-cost="40">180m² à 189m²</option>
+                            <option value="plus_de_190m²" data-cost="50">Plus de 190m²*</option>
+                        </select>`,
+                    sept_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_sept_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_169" data-cost="0">Moins de 169m²</option>
+                            <option value="170_179" data-cost="10">170m² à 179m²</option>
+                            <option value="180_189" data-cost="20">180m² à 189m²</option>
+                            <option value="190_199" data-cost="30">190m² à 199m²</option>
+                            <option value="200_209" data-cost="40">200m² à 209m²</option>
+                            <option value="plus_de_210m²" data-cost="50">Plus de 210m²*</option>
+                        </select>`,
+                    huit_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_huit_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_189" data-cost="0">Moins de 189m²</option>
+                            <option value="190_199" data-cost="10">190m² à 199m²</option>
+                            <option value="200_209" data-cost="20">200m² à 209m²</option>
+                            <option value="210_219" data-cost="30">210m² à 219m²</option>
+                            <option value="220_229" data-cost="40">220m² à 229m²</option>
+                            <option value="plus_de_230m²" data-cost="50">Plus de 230m²*</option>
+                        </select>`,
+                    neuf_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_neuf_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_209" data-cost="0">Moins de 209m²</option>
+                            <option value="210_219" data-cost="10">210m² à 219m²</option>
+                            <option value="220_229" data-cost="20">220m² à 229m²</option>
+                            <option value="230_239" data-cost="30">230m² à 239m²</option>
+                            <option value="240_249" data-cost="40">240m² à 249m²</option>
+                            <option value="plus_de_250m²" data-cost="50">Plus de 250m²*</option>
+                        </select>`,
+                    dix_pieces: `
+                        <label class="block text-gray-700">Superficie :</label>
+                        <select id="superficie_dix_pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="moins_de_229" data-cost="0">Moins de 229m²</option>
+                            <option value="230_239" data-cost="5">230m² à 239m²</option>
+                            <option value="240_249" data-cost="10">240m² à 249m²</option>
+                            <option value="250_259" data-cost="20">250m² à 259m²</option>
+                            <option value="260_269" data-cost="30">260m² à 269m²</option>
+                            <option value="plus_de_270m²" data-cost="40">Plus de 270m²*</option>
+                        </select>`,
+                };
+
+                sousOptionsDiv.innerHTML = pieceOptions[pieces];
+                sousOptionsDiv.classList.remove('hidden');
+            }
+
+        </script>
+    </div>
+</body>
+</html>
