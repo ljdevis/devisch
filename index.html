@@ -43,20 +43,16 @@
                 <p class="mb-2">Sélectionnez les services de nettoyage :</p>
                 <div>
                     <label><input type="checkbox" name="services" value="canape"> Canapé</label><br>
-                    <label><input type="checkbox" name="services" value="matelas"> Matelas</label><br>
-                    <label><input type="checkbox" name="services" value="tapis"> Tapis</label><br>
-                    <label><input type="checkbox" name="services" value="moquette"> Moquette</label><br>
                     <label><input type="checkbox" name="services" value="chaise"> Chaise</label><br>
-                    <label><input type="checkbox" name="services" value="fauteuil"> Fauteuil</label><br>
-                    <label><input type="checkbox" name="services" value="siege_voiture"> Siège de voiture</label>
+                    <label><input type="checkbox" name="services" value="fauteuil"> Fauteuil</label>
                 </div>
                 <div class="flex justify-between">
                     <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
                 </div>
             </div>
 
-            <!-- Section 2 -->
-            <div class="form-section hidden" data-section="2">
+            <!-- Section Canapé -->
+            <div class="form-section hidden" data-section="canape">
                 <h2 class="text-xl font-bold mb-4">Nettoyage de canapé</h2>
                 <p class="mb-2">Combien de canapés avez-vous à faire nettoyer ?</p>
                 <div>
@@ -66,22 +62,14 @@
                     <label><input type="radio" name="nombre_canapes" value="4"> 4</label><br>
                     <label><input type="radio" name="nombre_canapes" value="5"> 5</label>
                 </div>
-                <div class="flex justify-between">
-                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
-                </div>
-            </div>
-
-            <!-- Section 3 -->
-            <div class="form-section hidden" data-section="3">
-                <h2 class="text-xl font-bold mb-4">En quelle matière est votre canapé ?</h2>
+                <p class="mb-2 mt-4">En quelle matière est/sont le(s) canapé(s) ?</p>
                 <div>
-                    <label><input type="checkbox" name="matiere" value="tissu"> Tissu</label><br>
-                    <label><input type="checkbox" name="matiere" value="cuir"> Cuir</label><br>
-                    <label><input type="checkbox" name="matiere" value="alcantara"> Alcantara</label><br>
-                    <label><input type="checkbox" name="matiere" value="daim"> Nubuck/ Daim/ Suède</label><br>
-                    <label><input type="checkbox" name="matiere" value="velour"> Velour de coton</label><br>
-                    <label><input type="checkbox" name="matiere" value="autre"> Autre</label>
+                    <label><input type="checkbox" name="matiere_canape" value="tissu"> Tissu</label><br>
+                    <label><input type="checkbox" name="matiere_canape" value="cuir"> Cuir</label><br>
+                    <label><input type="checkbox" name="matiere_canape" value="alcantara"> Alcantara</label><br>
+                    <label><input type="checkbox" name="matiere_canape" value="daim"> Nubuck/ Daim/ Suède</label><br>
+                    <label><input type="checkbox" name="matiere_canape" value="velour"> Velour de coton</label><br>
+                    <label><input type="checkbox" name="matiere_canape" value="autre"> Autre</label>
                 </div>
                 <div class="flex justify-between">
                     <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
@@ -89,10 +77,60 @@
                 </div>
             </div>
 
-            <!-- Ajoutez d'autres sections de la même manière -->
+            <!-- Section Chaise -->
+            <div class="form-section hidden" data-section="chaise">
+                <h2 class="text-xl font-bold mb-4">Nettoyage de chaise</h2>
+                <p class="mb-2">Combien de chaises avez-vous à faire nettoyer ?</p>
+                <div>
+                    <label><input type="radio" name="nombre_chaises" value="1"> 1</label><br>
+                    <label><input type="radio" name="nombre_chaises" value="2"> 2</label><br>
+                    <label><input type="radio" name="nombre_chaises" value="3"> 3</label><br>
+                    <label><input type="radio" name="nombre_chaises" value="4"> 4</label><br>
+                    <label><input type="radio" name="nombre_chaises" value="5"> 5</label>
+                </div>
+                <p class="mb-2 mt-4">En quelle matière est/sont le(s) chaise(s) ?</p>
+                <div>
+                    <label><input type="checkbox" name="matiere_chaise" value="tissu"> Tissu</label><br>
+                    <label><input type="checkbox" name="matiere_chaise" value="cuir"> Cuir</label><br>
+                    <label><input type="checkbox" name="matiere_chaise" value="alcantara"> Alcantara</label><br>
+                    <label><input type="checkbox" name="matiere_chaise" value="daim"> Nubuck/ Daim/ Suède</label><br>
+                    <label><input type="checkbox" name="matiere_chaise" value="velour"> Velour de coton</label><br>
+                    <label><input type="checkbox" name="matiere_chaise" value="autre"> Autre</label>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Section Fauteuil -->
+            <div class="form-section hidden" data-section="fauteuil">
+                <h2 class="text-xl font-bold mb-4">Nettoyage de fauteuil</h2>
+                <p class="mb-2">Combien de fauteuils avez-vous à faire nettoyer ?</p>
+                <div>
+                    <label><input type="radio" name="nombre_fauteuils" value="1"> 1</label><br>
+                    <label><input type="radio" name="nombre_fauteuils" value="2"> 2</label><br>
+                    <label><input type="radio" name="nombre_fauteuils" value="3"> 3</label><br>
+                    <label><input type="radio" name="nombre_fauteuils" value="4"> 4</label><br>
+                    <label><input type="radio" name="nombre_fauteuils" value="5"> 5</label>
+                </div>
+                <p class="mb-2 mt-4">En quelle matière est/sont le(s) fauteuil(s) ?</p>
+                <div>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="tissu"> Tissu</label><br>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="cuir"> Cuir</label><br>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="alcantara"> Alcantara</label><br>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="daim"> Nubuck/ Daim/ Suède</label><br>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="velour"> Velour de coton</label><br>
+                    <label><input type="checkbox" name="matiere_fauteuil" value="autre"> Autre</label>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
+                </div>
+            </div>
 
             <!-- Dernière Section -->
-            <div class="form-section hidden" data-section="4">
+            <div class="form-section hidden" data-section="final">
                 <h2 class="text-xl font-bold mb-4">Précisions et photos</h2>
                 <p class="mb-2">Ajoutez des précisions :</p>
                 <textarea name="precisions" rows="4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Ajoutez des précisions si nécessaire"></textarea>
@@ -119,6 +157,7 @@
         })();
 
         let currentSection = 1;
+        const sections = ["canape", "chaise", "fauteuil"];
 
         function startForm() {
             document.getElementById('introPage').classList.add('hidden');
@@ -130,7 +169,21 @@
             document.querySelectorAll('.form-section').forEach((div) => {
                 div.classList.add('hidden');
             });
+
             document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
+
+            // Afficher les sections selon les services sélectionnés
+            if (section === 1) return;
+            const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
+            sections.forEach(service => {
+                if (selectedServices.includes(service)) {
+                    document.querySelector(`[data-section="${service}"]`).classList.remove('hidden');
+                }
+            });
+
+            if (section > sections.length) {
+                document.querySelector(`[data-section="final"]`).classList.remove('hidden');
+            }
         }
 
         function nextSection() {
@@ -162,7 +215,11 @@
             emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
                 services: formData.getAll('services').join(', '),
                 nombre_canapes: formData.get('nombre_canapes'),
-                matiere: formData.getAll('matiere').join(', '),
+                matiere_canape: formData.getAll('matiere_canape').join(', '),
+                nombre_chaises: formData.get('nombre_chaises'),
+                matiere_chaise: formData.getAll('matiere_chaise').join(', '),
+                nombre_fauteuils: formData.get('nombre_fauteuils'),
+                matiere_fauteuil: formData.getAll('matiere_fauteuil').join(', '),
                 precisions: formData.get('precisions'),
                 totalCost: totalCost
             }).then((response) => {
