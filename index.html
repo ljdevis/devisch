@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XL Clean Sofa - Devis en Ligne</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XL Clean Sofa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .hidden { display: none; }
-        .form-section { margin-bottom: 20px; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 8px;
+            background-color: #ec4899;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+        .hidden {
+            display: none;
+        }
         .navigation-button {
             display: inline-block;
             margin: 5px;
@@ -15,177 +32,179 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .next-button { background-color: #ec4899; color: white; }
-        .back-button { background-color: #a0aec0; color: white; }
-        .intro-button { background-color: #ec4899; color: white; margin-top: 20px; }
-        .site-button { background-color: #a0aec0; color: white; margin-top: 10px; }
-        body { background-color: #f7fafc; }
-        .header { background-color: #f3f4f6; padding: 20px; border-radius: 10px; }
+        .next-button {
+            background-color: #ec4899;
+            color: white;
+        }
+        .back-button {
+            background-color: #a0aec0;
+            color: white;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .video-background iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .content-container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
-    <div id="introPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 text-center">
-        <div class="header">
-            <h1 class="text-3xl font-bold text-gray-800">XL Clean Sofa</h1>
-            <p class="text-lg text-pink-500 mt-2">Bienvenue dans le paradis des canapés !</p>
-            <button class="intro-button" onclick="startForm()">Faire mon devis en ligne avec coût immédiat</button>
-            <button class="site-button" onclick="window.location.href='https://www.xlcleansofa.com'">Aller sur le site de XL Clean Sofa</button>
+    <div class="video-background">
+        <iframe id="video-frame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="content-container max-w-xl mx-auto mt-10">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script>
+            (function () {
+                emailjs.init("YOUR_NEW_USER_ID");
+                setVideo();
+            })();
+
+            function setVideo() {
+                const videoFrame = document.getElementById('video-frame');
+                videoFrame.src = "YOUR_NEW_VIDEO_URL"; // Set your video URL here
+            }
+
+            let currentQuestion = 1;
+            const totalQuestions = 3;
+
+            function showPage(page) {
+                document.getElementById('page1').classList.add('hidden');
+                document.getElementById('page2').classList.add('hidden');
+                document.getElementById('page3').classList.add('hidden');
+                document.getElementById(page).classList.remove('hidden');
+            }
+
+            function nextQuestion() {
+                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                currentDiv.classList.add('hidden');
+                currentQuestion++;
+                if (currentQuestion <= totalQuestions) {
+                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    nextDiv.classList.remove('hidden');
+                } else {
+                    showPage('page3');
+                }
+                updateProgressBar();
+            }
+
+            function previousQuestion() {
+                if (currentQuestion > 1) {
+                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    currentDiv.classList.add('hidden');
+                    currentQuestion--;
+                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    previousDiv.classList.remove('hidden');
+                } else {
+                    showPage('page1');
+                }
+                updateProgressBar();
+            }
+
+            function updateProgressBar() {
+                const progress = (currentQuestion / totalQuestions) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            }
+
+            function validateForm() {
+                // Additional form validation can be added here
+            }
+
+            function sendForm() {
+                const formDetails = {
+                    Service: document.getElementById('service').value,
+                    Nombre: document.getElementById('nombre').value,
+                    Matiere: document.getElementById('matiere').value
+                };
+
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    service: formDetails.Service,
+                    nombre: formDetails.Nombre,
+                    matiere: formDetails.Matiere
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showPage('page3');
+                }, (err) => {
+                    console.error('FAILED...', err);
+                });
+            }
+        </script>
+
+        <div id="page1" class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="p-6 text-center">
+                <h1 class="text-2xl font-bold text-pink-600 mb-6">Bienvenue chez XL Clean Sofa</h1>
+                <button class="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600" onclick="showPage('page2')">Démarrer maintenant</button>
+            </div>
+        </div>
+
+        <div id="page2" class="bg-white shadow-md rounded-lg overflow-hidden hidden">
+            <div class="p-6">
+                <div class="progress-bar">
+                    <div id="progress" class="progress"></div>
+                </div>
+                <form id="devisForm" onsubmit="return false;">
+                    <div class="form-group mb-4" data-question="1">
+                        <label for="service" class="block text-gray-700">1. Service souhaité :</label>
+                        <select id="service" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Canapé">Canapé</option>
+                            <option value="Chaise">Chaise</option>
+                            <option value="Fauteuil">Fauteuil</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="2">
+                        <label for="nombre" class="block text-gray-700">2. Combien d'articles ?</label>
+                        <input type="number" id="nombre" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="3">
+                        <label for="matiere" class="block text-gray-700">3. Matière des articles :</label>
+                        <select id="matiere" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Tissu">Tissu</option>
+                            <option value="Cuir">Cuir</option>
+                            <option value="Alcantara">Alcantara</option>
+                            <option value="Daim">Nubuck/ Daim/ Suède</option>
+                            <option value="Velour">Velour de coton</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="sendForm()">Envoyer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="page3" class="bg-white shadow-md rounded-lg overflow-hidden hidden">
+            <div class="p-6 text-center">
+                <h1 class="text-2xl font-bold text-pink-600 mb-6">Merci de nous avoir choisi!</h1>
+                <p class="text-gray-700 mb-6">Nous vous contacterons sous peu avec un devis détaillé.</p>
+            </div>
         </div>
     </div>
-
-    <div id="formPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 hidden">
-        <form id="devisForm">
-            <!-- Section 1: Choix du Service -->
-            <div class="form-section" data-section="1">
-                <h2 class="text-xl font-bold mb-4">Service(s) souhaité(s)</h2>
-                <p class="mb-2">Sélectionnez les services de nettoyage :</p>
-                <div>
-                    <label><input type="checkbox" name="services" value="canape"> Canapé</label><br>
-                    <label><input type="checkbox" name="services" value="chaise"> Chaise</label><br>
-                    <label><input type="checkbox" name="services" value="fauteuil"> Fauteuil</label>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" class="navigation-button next-button" onclick="generateQuestions()">Suivant</button>
-                </div>
-            </div>
-
-            <!-- Questions dynamiques -->
-            <div id="dynamicQuestions"></div>
-
-            <!-- Section Précisions et Photos -->
-            <div class="form-section hidden" data-section="final">
-                <h2 class="text-xl font-bold mb-4">Précisions et photos</h2>
-                <p class="mb-2">Ajoutez des précisions :</p>
-                <textarea name="precisions" rows="4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Ajoutez des précisions si nécessaire"></textarea>
-                <p class="mb-2 mt-4">Ajoutez des photos :</p>
-                <input type="file" name="photos" multiple class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                <div class="flex justify-between mt-4">
-                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                    <button type="submit" class="navigation-button next-button">Envoyer</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <div id="resultPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 hidden">
-        <h2 class="text-xl font-bold mb-4">Votre Devis</h2>
-        <p class="mb-2">Le coût total estimé pour votre nettoyage est de : <span id="totalCost">0</span> CHF</p>
-        <button onclick="window.location.reload()" class="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600">Recommencer</button>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        (function() {
-            emailjs.init("YOUR_USER_ID");  // Remplacez par votre ID utilisateur
-        })();
-
-        let currentSection = 1;
-        const sectionsOrder = [];
-
-        function startForm() {
-            document.getElementById('introPage').classList.add('hidden');
-            document.getElementById('formPage').classList.remove('hidden');
-            showSection(currentSection);
-        }
-
-        function generateQuestions() {
-            const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
-            const dynamicQuestions = document.getElementById('dynamicQuestions');
-            dynamicQuestions.innerHTML = '';
-
-            selectedServices.forEach(service => {
-                sectionsOrder.push(`${service}-quantity`, `${service}-material`);
-                dynamicQuestions.innerHTML += `
-                    <div class="form-section hidden" data-section="${service}-quantity">
-                        <h2 class="text-xl font-bold mb-4">Nettoyage de ${service}</h2>
-                        <p class="mb-2">Combien de ${service}s avez-vous à faire nettoyer ?</p>
-                        <div>
-                            <label><input type="radio" name="nombre_${service}" value="1"> 1</label><br>
-                            <label><input type="radio" name="nombre_${service}" value="2"> 2</label><br>
-                            <label><input type="radio" name="nombre_${service}" value="3"> 3</label><br>
-                            <label><input type="radio" name="nombre_${service}" value="4"> 4</label><br>
-                            <label><input type="radio" name="nombre_${service}" value="5"> 5</label>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-section hidden" data-section="${service}-material">
-                        <h2 class="text-xl font-bold mb-4">Matière des ${service}s</h2>
-                        <p class="mb-2">En quelle matière est/sont le(s) ${service}s ?</p>
-                        <div>
-                            <label><input type="checkbox" name="matiere_${service}" value="tissu"> Tissu</label><br>
-                            <label><input type="checkbox" name="matiere_${service}" value="cuir"> Cuir</label><br>
-                            <label><input type="checkbox" name="matiere_${service}" value="alcantara"> Alcantara</label><br>
-                            <label><input type="checkbox" name="matiere_${service}" value="daim"> Nubuck/ Daim/ Suède</label><br>
-                            <label><input type="checkbox" name="matiere_${service}" value="velour"> Velour de coton</label><br>
-                            <label><input type="checkbox" name="matiere_${service}" value="autre"> Autre</label>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            sectionsOrder.push("final");
-            nextSection();
-        }
-
-        function showSection(sectionIndex) {
-            document.querySelectorAll('.form-section').forEach((div) => {
-                div.classList.add('hidden');
-            });
-            const currentSectionName = sectionsOrder[sectionIndex - 1];
-            document.querySelector(`[data-section="${currentSectionName}"]`).classList.remove('hidden');
-        }
-
-        function nextSection() {
-            currentSection++;
-            showSection(currentSection);
-        }
-
-        function previousSection() {
-            currentSection--;
-            showSection(currentSection);
-        }
-
-        document.getElementById('devisForm').onsubmit = function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(document.getElementById('devisForm'));
-            let totalCost = 0;
-
-            formData.forEach((value, key) => {
-                if (key !== 'photos') {
-                    totalCost += 1; // Chaque option ajoutée coûte 1 CHF
-                }
-            });
-
-            document.getElementById('totalCost').innerText = totalCost;
-            document.getElementById('formPage').classList.add('hidden');
-            document.getElementById('resultPage').classList.remove('hidden');
-
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                services: formData.getAll('services').join(', '),
-                nombre_canapes: formData.get('nombre_canapes'),
-                matiere_canape: formData.getAll('matiere_canape').join(', '),
-                nombre_chaises: formData.get('nombre_chaises'),
-                matiere_chaise: formData.getAll('matiere_chaise').join(', '),
-                nombre_fauteuils: formData.get('nombre_fauteuils'),
-                matiere_fauteuil: formData.getAll('matiere_fauteuil').join(', '),
-                precisions: formData.get('precisions'),
-                totalCost: totalCost
-            }).then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-            }, (err) => {
-                console.error('FAILED...', err);
-            });
-        };
-
-        showSection(currentSection);
-    </script>
 </body>
 </html>
