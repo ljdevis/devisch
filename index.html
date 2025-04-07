@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devis de Nettoyage de Canapés</title>
+    <title>XL Clean Sofa - Devis en Ligne</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -17,12 +17,25 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .next-button { background-color: #3b82f6; color: white; }
-        .back-button { background-color: #a0aec0; color: white; float: right; }
+        .next-button { background-color: #ec4899; color: white; }
+        .back-button { background-color: #a0aec0; color: white; }
+        .intro-button { background-color: #ec4899; color: white; margin-top: 20px; }
+        .site-button { background-color: #a0aec0; color: white; margin-top: 10px; }
+        body { background-color: #f7fafc; }
+        .header { background-color: #f3f4f6; padding: 20px; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
-    <div id="formPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+    <div id="introPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 text-center">
+        <div class="header">
+            <h1 class="text-3xl font-bold text-gray-800">XL Clean Sofa</h1>
+            <p class="text-lg text-pink-500 mt-2">Bienvenue dans le paradis des canapés !</p>
+            <button class="intro-button" onclick="startForm()">Faire mon devis en ligne avec coût immédiat</button>
+            <button class="site-button" onclick="window.location.href='https://www.xlcleansofa.com'">Aller sur le site de XL Clean Sofa</button>
+        </div>
+    </div>
+
+    <div id="formPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 hidden">
         <form id="devisForm">
             <!-- Section 1 -->
             <div class="form-section" data-section="1">
@@ -59,12 +72,33 @@
                 </div>
             </div>
 
+            <!-- Section 3 -->
+            <div class="form-section hidden" data-section="3">
+                <h2 class="text-xl font-bold mb-4">En quelle matière est votre canapé ?</h2>
+                <div>
+                    <label><input type="checkbox" name="matiere" value="tissu"> Tissu</label><br>
+                    <label><input type="checkbox" name="matiere" value="cuir"> Cuir</label><br>
+                    <label><input type="checkbox" name="matiere" value="alcantara"> Alcantara</label><br>
+                    <label><input type="checkbox" name="matiere" value="daim"> Nubuck/ Daim/ Suède</label><br>
+                    <label><input type="checkbox" name="matiere" value="velour"> Velour de coton</label><br>
+                    <label><input type="checkbox" name="matiere" value="autre"> Autre</label>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
+                </div>
+            </div>
+
             <!-- Ajoutez d'autres sections de la même manière -->
 
             <!-- Dernière Section -->
-            <div class="form-section hidden" data-section="3">
-                <!-- Ajoutez le contenu de la dernière section ici -->
-                <div class="flex justify-between">
+            <div class="form-section hidden" data-section="4">
+                <h2 class="text-xl font-bold mb-4">Précisions et photos</h2>
+                <p class="mb-2">Ajoutez des précisions :</p>
+                <textarea name="precisions" rows="4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Ajoutez des précisions si nécessaire"></textarea>
+                <p class="mb-2 mt-4">Ajoutez des photos :</p>
+                <input type="file" name="photos" multiple class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                <div class="flex justify-between mt-4">
                     <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
                     <button type="submit" class="navigation-button next-button">Envoyer</button>
                 </div>
@@ -75,7 +109,7 @@
     <div id="resultPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 hidden">
         <h2 class="text-xl font-bold mb-4">Votre Devis</h2>
         <p class="mb-2">Le coût total estimé pour votre nettoyage est de : <span id="totalCost">0</span> CHF</p>
-        <button onclick="window.location.reload()" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Recommencer</button>
+        <button onclick="window.location.reload()" class="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600">Recommencer</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -85,6 +119,12 @@
         })();
 
         let currentSection = 1;
+
+        function startForm() {
+            document.getElementById('introPage').classList.add('hidden');
+            document.getElementById('formPage').classList.remove('hidden');
+            showSection(currentSection);
+        }
 
         function showSection(section) {
             document.querySelectorAll('.form-section').forEach((div) => {
@@ -122,7 +162,8 @@
             emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
                 services: formData.getAll('services').join(', '),
                 nombre_canapes: formData.get('nombre_canapes'),
-                // Ajoutez les autres champs ici
+                matiere: formData.getAll('matiere').join(', '),
+                precisions: formData.get('precisions'),
                 totalCost: totalCost
             }).then((response) => {
                 console.log('SUCCESS!', response.status, response.text);
