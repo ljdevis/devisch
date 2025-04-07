@@ -80,11 +80,7 @@
         })();
 
         let currentSection = 1;
-        const services = {
-            canape: "Canapé",
-            chaise: "Chaise",
-            fauteuil: "Fauteuil"
-        };
+        const sectionsOrder = [];
 
         function startForm() {
             document.getElementById('introPage').classList.add('hidden');
@@ -98,10 +94,11 @@
             dynamicQuestions.innerHTML = '';
 
             selectedServices.forEach(service => {
+                sectionsOrder.push(`${service}-quantity`, `${service}-material`);
                 dynamicQuestions.innerHTML += `
-                    <div class="form-section" data-section="${service}-quantity">
-                        <h2 class="text-xl font-bold mb-4">Nettoyage de ${services[service]}</h2>
-                        <p class="mb-2">Combien de ${services[service].toLowerCase()}s avez-vous à faire nettoyer ?</p>
+                    <div class="form-section hidden" data-section="${service}-quantity">
+                        <h2 class="text-xl font-bold mb-4">Nettoyage de ${service}</h2>
+                        <p class="mb-2">Combien de ${service}s avez-vous à faire nettoyer ?</p>
                         <div>
                             <label><input type="radio" name="nombre_${service}" value="1"> 1</label><br>
                             <label><input type="radio" name="nombre_${service}" value="2"> 2</label><br>
@@ -115,8 +112,8 @@
                         </div>
                     </div>
                     <div class="form-section hidden" data-section="${service}-material">
-                        <h2 class="text-xl font-bold mb-4">Matière des ${services[service].toLowerCase()}s</h2>
-                        <p class="mb-2">En quelle matière est/sont le(s) ${services[service].toLowerCase()}s ?</p>
+                        <h2 class="text-xl font-bold mb-4">Matière des ${service}s</h2>
+                        <p class="mb-2">En quelle matière est/sont le(s) ${service}s ?</p>
                         <div>
                             <label><input type="checkbox" name="matiere_${service}" value="tissu"> Tissu</label><br>
                             <label><input type="checkbox" name="matiere_${service}" value="cuir"> Cuir</label><br>
@@ -133,14 +130,16 @@
                 `;
             });
 
+            sectionsOrder.push("final");
             nextSection();
         }
 
-        function showSection(section) {
+        function showSection(sectionIndex) {
             document.querySelectorAll('.form-section').forEach((div) => {
                 div.classList.add('hidden');
             });
-            document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
+            const currentSectionName = sectionsOrder[sectionIndex - 1];
+            document.querySelector(`[data-section="${currentSectionName}"]`).classList.remove('hidden');
         }
 
         function nextSection() {
