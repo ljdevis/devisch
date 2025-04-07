@@ -37,7 +37,7 @@
 
     <div id="formPage" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6 hidden">
         <form id="devisForm">
-            <!-- Section 1 -->
+            <!-- Section 1: Services -->
             <div class="form-section" data-section="1">
                 <h2 class="text-xl font-bold mb-4">Service(s) souhaité(s)</h2>
                 <p class="mb-2">Sélectionnez les services de nettoyage :</p>
@@ -71,10 +71,6 @@
                     <label><input type="checkbox" name="matiere_canape" value="velour"> Velour de coton</label><br>
                     <label><input type="checkbox" name="matiere_canape" value="autre"> Autre</label>
                 </div>
-                <div class="flex justify-between">
-                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
-                </div>
             </div>
 
             <!-- Section Chaise -->
@@ -97,10 +93,6 @@
                     <label><input type="checkbox" name="matiere_chaise" value="velour"> Velour de coton</label><br>
                     <label><input type="checkbox" name="matiere_chaise" value="autre"> Autre</label>
                 </div>
-                <div class="flex justify-between">
-                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
-                </div>
             </div>
 
             <!-- Section Fauteuil -->
@@ -122,10 +114,6 @@
                     <label><input type="checkbox" name="matiere_fauteuil" value="daim"> Nubuck/ Daim/ Suède</label><br>
                     <label><input type="checkbox" name="matiere_fauteuil" value="velour"> Velour de coton</label><br>
                     <label><input type="checkbox" name="matiere_fauteuil" value="autre"> Autre</label>
-                </div>
-                <div class="flex justify-between">
-                    <button type="button" class="navigation-button back-button" onclick="previousSection()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextSection()">Suivant</button>
                 </div>
             </div>
 
@@ -170,18 +158,17 @@
                 div.classList.add('hidden');
             });
 
-            document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
+            if (section === 1) {
+                document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
+                return;
+            }
 
-            // Afficher les sections selon les services sélectionnés
-            if (section === 1) return;
             const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
-            sections.forEach(service => {
-                if (selectedServices.includes(service)) {
-                    document.querySelector(`[data-section="${service}"]`).classList.remove('hidden');
-                }
+            selectedServices.forEach(service => {
+                document.querySelector(`[data-section="${service}"]`).classList.remove('hidden');
             });
 
-            if (section > sections.length) {
+            if (section > selectedServices.length) {
                 document.querySelector(`[data-section="final"]`).classList.remove('hidden');
             }
         }
