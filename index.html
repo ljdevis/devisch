@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <title>XL Clean Sofa - Devis en Ligne</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .hidden { display: none; }
@@ -52,7 +50,7 @@
             </div>
 
             <!-- Section Canapé: Quantité -->
-            <div class="form-section hidden" data-section="canape-quantity">
+            <div class="form-section hidden" data-section="2">
                 <h2 class="text-xl font-bold mb-4">Nettoyage de canapé</h2>
                 <p class="mb-2">Combien de canapés avez-vous à faire nettoyer ?</p>
                 <div>
@@ -69,7 +67,7 @@
             </div>
 
             <!-- Section Canapé: Matière -->
-            <div class="form-section hidden" data-section="canape-material">
+            <div class="form-section hidden" data-section="3">
                 <h2 class="text-xl font-bold mb-4">Matière des canapés</h2>
                 <p class="mb-2">En quelle matière est/sont le(s) canapé(s) ?</p>
                 <div>
@@ -86,10 +84,10 @@
                 </div>
             </div>
 
-            <!-- Répétez pour Chaise et Fauteuil -->
+            <!-- Questions pour Chaise et Fauteuil en sections individuelles similaires -->
 
             <!-- Section Précisions et Photos -->
-            <div class="form-section hidden" data-section="final">
+            <div class="form-section hidden" data-section="4">
                 <h2 class="text-xl font-bold mb-4">Précisions et photos</h2>
                 <p class="mb-2">Ajoutez des précisions :</p>
                 <textarea name="precisions" rows="4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Ajoutez des précisions si nécessaire"></textarea>
@@ -116,7 +114,6 @@
         })();
 
         let currentSection = 1;
-        const sections = ["canape-quantity", "canape-material", "final"];
 
         function startForm() {
             document.getElementById('introPage').classList.add('hidden');
@@ -128,21 +125,7 @@
             document.querySelectorAll('.form-section').forEach((div) => {
                 div.classList.add('hidden');
             });
-
-            if (section === 1) {
-                document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
-                return;
-            }
-
-            const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
-            if (selectedServices.includes("canape")) {
-                if (section === 2) document.querySelector(`[data-section="canape-quantity"]`).classList.remove('hidden');
-                if (section === 3) document.querySelector(`[data-section="canape-material"]`).classList.remove('hidden');
-            }
-
-            if (section > 3) {
-                document.querySelector(`[data-section="final"]`).classList.remove('hidden');
-            }
+            document.querySelector(`[data-section="${section}"]`).classList.remove('hidden');
         }
 
         function nextSection() {
