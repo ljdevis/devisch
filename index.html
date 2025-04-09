@@ -94,6 +94,40 @@
         .obligatory-message i {
             margin-right: 5px;
         }
+        .column-select {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, green, yellow, orange, red);
+            outline: none;
+            opacity: 0.9;
+            transition: opacity .15s ease-in-out;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ec4899;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ec4899;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -103,13 +137,7 @@
     </div>
 
     <div class="content-container">
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script type="text/javascript">
-            (function () {
-                emailjs.init("QLVxHPQkX73nk7n9v");
-                detectDeviceAndSetVideo();
-            })();
-
             function detectDeviceAndSetVideo() {
                 const videoFrame = document.getElementById('video-frame');
                 if (window.innerWidth <= 768) {
@@ -117,53 +145,6 @@
                 } else {
                     videoFrame.src = "YOUR_NEW_VIDEO_URL_DESKTOP";
                 }
-            }
-
-            function sendFinalData() {
-                const nomPrenom = document.getElementById('nom_prenom').value;
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-                const question4 = document.getElementById('question4').value;
-                const question5 = document.getElementById('question5').value;
-                const question6 = document.getElementById('question6').value;
-                const question7 = document.getElementById('question7').value;
-                const question8 = document.getElementById('question8').value;
-                const question9 = document.getElementById('question9').value;
-                const question10 = document.getElementById('question10').value;
-
-                const message = `
-                    Voici les réponses complètes du formulaire de nettoyage de canapés :
-
-                    Nom et Prénom: ${nomPrenom}
-                    Adresse Email: ${email}
-                    Numéro de Téléphone: ${telephone}
-                    Matériel: ${question4}
-                    Matière: ${question5}
-                    Couleur: ${question6}
-                    Type de tâches: ${question7}
-                    Poils d'animaux: ${question8}
-                    Matériel haut de gamme: ${question9}
-                    Niveau de salissure: ${question10}
-                `;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    nom_prenom: nomPrenom,
-                    email: email,
-                    telephone: telephone,
-                    question4: question4,
-                    question5: question5,
-                    question6: question6,
-                    question7: question7,
-                    question8: question8,
-                    question9: question9,
-                    question10: question10,
-                    message: message
-                }).then((response) => {
-                    console.log('Final data sent!', response.status, response.text);
-                    showPage('page3');
-                }, (err) => {
-                    console.error('Failed to send final data...', err);
-                });
             }
 
             let currentQuestion = 1;
@@ -184,7 +165,8 @@
                     const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     nextDiv.classList.remove('hidden');
                 } else {
-                    sendFinalData();
+                    // Final data processing or submission can go here if needed
+                    showPage('page3');
                 }
                 updateProgressBar();
             }
@@ -247,6 +229,7 @@
             }
 
             document.addEventListener('DOMContentLoaded', function() {
+                detectDeviceAndSetVideo();
                 document.getElementById('canape').addEventListener('change', function() {
                     document.getElementById('canape-options').classList.toggle('hidden', !this.checked);
                 });
@@ -298,19 +281,17 @@
                         <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <!-- Bouton "Suivant" qui passe directement à la question suivante -->
                             <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <!-- Question 4 -->
                     <div class="form-group mb-4 hidden" data-question="4">
                         <label class="block text-gray-700">4. Matériel :</label>
-                        <div>
+                        <div class="column-select">
                             <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
-                            <div id="canape-options" class="hidden ml-4">
+                            <div id="canape-options" class="hidden ml-4 column-select">
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                                 <label>Type:</label>
@@ -334,15 +315,14 @@
                                 </select>
                             </div>
                             <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
-                            <div id="fauteuil-options" class="hidden ml-4">
+                            <div id="fauteuil-options" class="hidden ml-4 column-select">
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                             </div>
                             <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
-                            <div id="chaise-options" class="hidden ml-4">
+                            <div id="chaise-options" class="hidden ml-4 column-select">
                                 <label>Type:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
                                     <option value="" disabled selected>Choisissez…</option>
@@ -352,7 +332,6 @@
                                 </select>
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 100}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                             </div>
@@ -365,7 +344,7 @@
                     <!-- Question 5 -->
                     <div class="form-group mb-4 hidden" data-question="5">
                         <label class="block text-gray-700">5. Matière :</label>
-                        <div>
+                        <div class="column-select">
                             <label><input type="checkbox" class="mr-2"> Tissus synthétiques</label>
                             <label><input type="checkbox" class="mr-2"> Polyester</label>
                             <label><input type="checkbox" class="mr-2"> Microfibre</label>
@@ -392,7 +371,7 @@
                     <!-- Question 6 -->
                     <div class="form-group mb-4 hidden" data-question="6">
                         <label class="block text-gray-700">6. Couleur :</label>
-                        <div>
+                        <div class="column-select">
                             <label><input type="checkbox" class="mr-2"> Nuances de noir & gris</label>
                             <label><input type="checkbox" class="mr-2"> Noir</label>
                             <label><input type="checkbox" class="mr-2"> Gris anthracite</label>
@@ -467,7 +446,7 @@
                     <!-- Question 7 -->
                     <div class="form-group mb-4 hidden" data-question="7">
                         <label class="block text-gray-700">7. Type de tâches :</label>
-                        <div>
+                        <div class="column-select">
                             <label><input type="checkbox" class="mr-2"> Salissure noire/ Usure</label>
                             <label><input type="checkbox" class="mr-2"> Alimentaire</label>
                             <label><input type="checkbox" class="mr-2"> Lait</label>
@@ -508,6 +487,7 @@
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Oui">Oui</option>
                             <option value="Non">Non</option>
+                            <option value="Je ne sais pas">Je ne sais pas</option>
                         </select>
                         <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -517,17 +497,10 @@
                     <!-- Question 10 -->
                     <div class="form-group mb-4 hidden" data-question="10">
                         <label class="block text-gray-700">10. Veuillez choisir le niveau de salissure :</label>
-                        <select id="question10" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                        <input type="range" id="question10" class="slider" min="1" max="5" step="1" value="1">
                         <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="sendFinalData()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                 </form>
