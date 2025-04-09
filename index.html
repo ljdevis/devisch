@@ -106,7 +106,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script type="text/javascript">
             (function () {
-                emailjs.init("YOUR_NEW_USER_ID");
+                emailjs.init("QLVxHPQkX73nk7n9v");
                 detectDeviceAndSetVideo();
             })();
 
@@ -132,16 +132,63 @@
                     Numéro de Téléphone: ${telephone}
                 `;
 
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
                     nom_prenom: nomPrenom,
                     email: email,
                     telephone: telephone,
                     message: message
                 }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
+                    console.log('Initial data sent!', response.status, response.text);
                     nextQuestion();
                 }, (err) => {
-                    console.error('FAILED...', err);
+                    console.error('Failed to send initial data...', err);
+                });
+            }
+
+            function sendFinalData() {
+                const nomPrenom = document.getElementById('nom_prenom').value;
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+                const question4 = document.getElementById('question4').value;
+                const question5 = document.getElementById('question5').value;
+                const question6 = document.getElementById('question6').value;
+                const question7 = document.getElementById('question7').value;
+                const question8 = document.getElementById('question8').value;
+                const question9 = document.getElementById('question9').value;
+                const question10 = document.getElementById('question10').value;
+
+                const message = `
+                    Voici les réponses complètes du formulaire de nettoyage de canapés :
+
+                    Nom et Prénom: ${nomPrenom}
+                    Adresse Email: ${email}
+                    Numéro de Téléphone: ${telephone}
+                    Question 4: ${question4}
+                    Question 5: ${question5}
+                    Question 6: ${question6}
+                    Question 7: ${question7}
+                    Question 8: ${question8}
+                    Question 9: ${question9}
+                    Question 10: ${question10}
+                `;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    nom_prenom: nomPrenom,
+                    email: email,
+                    telephone: telephone,
+                    question4: question4,
+                    question5: question5,
+                    question6: question6,
+                    question7: question7,
+                    question8: question8,
+                    question9: question9,
+                    question10: question10,
+                    message: message
+                }).then((response) => {
+                    console.log('Final data sent!', response.status, response.text);
+                    showPage('page3');
+                }, (err) => {
+                    console.error('Failed to send final data...', err);
                 });
             }
 
@@ -163,7 +210,7 @@
                     const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     nextDiv.classList.remove('hidden');
                 } else {
-                    showPage('page3');
+                    sendFinalData();
                 }
                 updateProgressBar();
             }
@@ -357,7 +404,7 @@
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="sendFinalData()">Suivant</button>
                         </div>
                     </div>
                 </form>
@@ -458,7 +505,7 @@
                     L'équipe XL Clean Sofa
                 `;
 
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
                     to_email: formDetails.Email,
                     from_name: "XL Clean Sofa",
                     reply_to: formDetails.Email,
