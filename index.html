@@ -271,6 +271,18 @@
                     obligatoryMessage.classList.remove('valid');
                 }
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('canape').addEventListener('change', function() {
+                    document.getElementById('canape-options').classList.toggle('hidden', !this.checked);
+                });
+                document.getElementById('fauteuil').addEventListener('change', function() {
+                    document.getElementById('fauteuil-options').classList.toggle('hidden', !this.checked);
+                });
+                document.getElementById('chaise').addEventListener('change', function() {
+                    document.getElementById('chaise-options').classList.toggle('hidden', !this.checked);
+                });
+            });
         </script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
