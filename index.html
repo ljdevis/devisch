@@ -163,13 +163,13 @@
                     Nom et Prénom: ${nomPrenom}
                     Adresse Email: ${email}
                     Numéro de Téléphone: ${telephone}
-                    Question 4: ${question4}
-                    Question 5: ${question5}
-                    Question 6: ${question6}
-                    Question 7: ${question7}
-                    Question 8: ${question8}
-                    Question 9: ${question9}
-                    Question 10: ${question10}
+                    Matériel: ${question4}
+                    Matière: ${question5}
+                    Couleur: ${question6}
+                    Type de tâches: ${question7}
+                    Poils d'animaux: ${question8}
+                    Matériel haut de gamme: ${question9}
+                    Niveau de salissure: ${question10}
                 `;
 
                 emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
@@ -315,94 +315,230 @@
                             <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="sendInitialData()">Suivant</button>
                         </div>
                     </div>
-                    <!-- Questions 4 to 10 with placeholder numbers -->
+                    <!-- Question 4 -->
                     <div class="form-group mb-4 hidden" data-question="4">
-                        <label for="question4" class="block text-gray-700">4. Question 4</label>
-                        <select id="question4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
-                        </select>
-                        <div class="flex justify-between">
+                        <label class="block text-gray-700">4. Matériel :</label>
+                        <div>
+                            <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
+                            <div id="canape-options" class="hidden ml-4">
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+                                </select>
+                                <label>Type:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option>Canapé d'angle trois places</option>
+                                    <option>Canapé d'angle quatre places</option>
+                                    <option>Canapé d'angle cinque places</option>
+                                    <option>Canapé d'angle six places</option>
+                                    <option>Canapé d'angle sept places</option>
+                                    <option>Canapé d'angle huit places</option>
+                                    <option>Canapé d'angle neuf places</option>
+                                    <option>Canapé droit deux places</option>
+                                    <option>Canapé droit trois places</option>
+                                    <option>Canapé droit quatre places</option>
+                                    <option>Canapé droit cinque places</option>
+                                    <option>Canapé droit six places</option>
+                                    <option>Canapé droit sept places</option>
+                                    <option>Canapé droit huit places</option>
+                                    <option>Canapé droit neuf places</option>
+                                </select>
+                            </div>
+                            <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
+                            <div id="fauteuil-options" class="hidden ml-4">
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+                                </select>
+                            </div>
+                            <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
+                            <div id="chaise-options" class="hidden ml-4">
+                                <label>Type:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option>Nettoyage de l'assise</option>
+                                    <option>Nettoyage de l'assise et dossier</option>
+                                    <option>Nettoyage de l'assise, dossier et accoudoirs</option>
+                                </select>
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    ${Array.from({length: 100}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 5 -->
                     <div class="form-group mb-4 hidden" data-question="5">
-                        <label for="question5" class="block text-gray-700">5. Question 5</label>
-                        <select id="question5" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
-                        </select>
-                        <div class="flex justify-between">
+                        <label class="block text-gray-700">5. Matière :</label>
+                        <div>
+                            <label><input type="checkbox" class="mr-2"> Tissus synthétiques</label>
+                            <label><input type="checkbox" class="mr-2"> Polyester</label>
+                            <label><input type="checkbox" class="mr-2"> Microfibre</label>
+                            <label><input type="checkbox" class="mr-2"> Acrylique</label>
+                            <label><input type="checkbox" class="mr-2"> Nylon</label>
+                            <label><input type="checkbox" class="mr-2"> Trevira CS (tissu ignifugé)</label>
+                            <label><input type="checkbox" class="mr-2"> Tissus naturels</label>
+                            <label><input type="checkbox" class="mr-2"> Coton (surtout mélangé à du synthétique)</label>
+                            <label><input type="checkbox" class="mr-2"> Lin mélangé (lin + polyester, par exemple)</label>
+                            <label><input type="checkbox" class="mr-2"> Chanvre (en mélange)</label>
+                            <label><input type="checkbox" class="mr-2"> Velours synthétique</label>
+                            <label><input type="checkbox" class="mr-2"> Velours polyester</label>
+                            <label><input type="checkbox" class="mr-2"> Velours microfibre</label>
+                            <label><input type="checkbox" class="mr-2"> Alcantaras et suédines synthétiques</label>
+                            <label><input type="checkbox" class="mr-2"> Alcantara®️</label>
+                            <label><input type="checkbox" class="mr-2"> Simili suède</label>
+                            <label><input type="checkbox" class="mr-2"> Je ne connais pas la matière de mon canapé.</label>
+                        </div>
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 6 -->
                     <div class="form-group mb-4 hidden" data-question="6">
-                        <label for="question6" class="block text-gray-700">6. Question 6</label>
-                        <select id="question6" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
-                        </select>
-                        <div class="flex justify-between">
+                        <label class="block text-gray-700">6. Couleur :</label>
+                        <div>
+                            <label><input type="checkbox" class="mr-2"> Nuances de noir & gris</label>
+                            <label><input type="checkbox" class="mr-2"> Noir</label>
+                            <label><input type="checkbox" class="mr-2"> Gris anthracite</label>
+                            <label><input type="checkbox" class="mr-2"> Gris foncé</label>
+                            <label><input type="checkbox" class="mr-2"> Gris moyen</label>
+                            <label><input type="checkbox" class="mr-2"> Gris clair</label>
+                            <label><input type="checkbox" class="mr-2"> Gris perle</label>
+                            <label><input type="checkbox" class="mr-2"> Argenté</label>
+                            <label><input type="checkbox" class="mr-2"> Charbon</label>
+                            <label><input type="checkbox" class="mr-2"> Graphite</label>
+                            <label><input type="checkbox" class="mr-2"> Cendre</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances de blanc & beige</label>
+                            <label><input type="checkbox" class="mr-2"> Blanc pur</label>
+                            <label><input type="checkbox" class="mr-2"> Blanc cassé</label>
+                            <label><input type="checkbox" class="mr-2"> Ivoire</label>
+                            <label><input type="checkbox" class="mr-2"> Crème</label>
+                            <label><input type="checkbox" class="mr-2"> Beige</label>
+                            <label><input type="checkbox" class="mr-2"> Sable</label>
+                            <label><input type="checkbox" class="mr-2"> Lin</label>
+                            <label><input type="checkbox" class="mr-2"> Taupe clair</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances de brun & terre</label>
+                            <label><input type="checkbox" class="mr-2"> Marron foncé (chocolat)</label>
+                            <label><input type="checkbox" class="mr-2"> Marron moyen (noisette)</label>
+                            <label><input type="checkbox" class="mr-2"> Marron clair (caramel)</label>
+                            <label><input type="checkbox" class="mr-2"> Cappuccino</label>
+                            <label><input type="checkbox" class="mr-2"> Café</label>
+                            <label><input type="checkbox" class="mr-2"> Terracotta</label>
+                            <label><input type="checkbox" class="mr-2"> Ocre</label>
+                            <label><input type="checkbox" class="mr-2"> Bronze</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances de bleu</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu marine</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu nuit</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu canard</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu pétrole</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu roi</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu ciel</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu turquoise</label>
+                            <label><input type="checkbox" class="mr-2"> Bleu pastel</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances de vert</label>
+                            <label><input type="checkbox" class="mr-2"> Vert sapin</label>
+                            <label><input type="checkbox" class="mr-2"> Vert forêt</label>
+                            <label><input type="checkbox" class="mr-2"> Vert émeraude</label>
+                            <label><input type="checkbox" class="mr-2"> Vert olive</label>
+                            <label><input type="checkbox" class="mr-2"> Vert kaki</label>
+                            <label><input type="checkbox" class="mr-2"> Vert menthe</label>
+                            <label><input type="checkbox" class="mr-2"> Vert sauge</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances de rouge & rose</label>
+                            <label><input type="checkbox" class="mr-2"> Rouge bordeaux</label>
+                            <label><input type="checkbox" class="mr-2"> Rouge grenat</label>
+                            <label><input type="checkbox" class="mr-2"> Rouge cerise</label>
+                            <label><input type="checkbox" class="mr-2"> Rouge coquelicot</label>
+                            <label><input type="checkbox" class="mr-2"> Rouge framboise</label>
+                            <label><input type="checkbox" class="mr-2"> Rose poudré</label>
+                            <label><input type="checkbox" class="mr-2"> Rose pastel</label>
+                            <label><input type="checkbox" class="mr-2"> Vieux rose</label>
+                            <label><input type="checkbox" class="mr-2"> Fuchsia</label>
+                            <label><input type="checkbox" class="mr-2"> Nuances d'orange & jaune</label>
+                            <label><input type="checkbox" class="mr-2"> Orange brûlé</label>
+                            <label><input type="checkbox" class="mr-2"> Brique</label>
+                            <label><input type="checkbox" class="mr-2"> Corail</label>
+                            <label><input type="checkbox" class="mr-2"> Saumon</label>
+                            <label><input type="checkbox" class="mr-2"> Jaune moutarde</label>
+                            <label><input type="checkbox" class="mr-2"> Jaune soleil</label>
+                            <label><input type="checkbox" class="mr-2"> Jaune pastel</label>
+                            <label><input type="checkbox" class="mr-2"> Je ne connais pas la couleur de mon canapé ou celle-ci n'est pas dans la liste.</label>
+                        </div>
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 7 -->
                     <div class="form-group mb-4 hidden" data-question="7">
-                        <label for="question7" class="block text-gray-700">7. Question 7</label>
-                        <select id="question7" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
-                        </select>
-                        <div class="flex justify-between">
+                        <label class="block text-gray-700">7. Type de tâches :</label>
+                        <div>
+                            <label><input type="checkbox" class="mr-2"> Salissure noire/ Usure</label>
+                            <label><input type="checkbox" class="mr-2"> Alimentaire</label>
+                            <label><input type="checkbox" class="mr-2"> Lait</label>
+                            <label><input type="checkbox" class="mr-2"> Soda/ Jus de fruits</label>
+                            <label><input type="checkbox" class="mr-2"> Eau</label>
+                            <label><input type="checkbox" class="mr-2"> Café</label>
+                            <label><input type="checkbox" class="mr-2"> Vin rouge</label>
+                            <label><input type="checkbox" class="mr-2"> Sang</label>
+                            <label><input type="checkbox" class="mr-2"> Urine</label>
+                            <label><input type="checkbox" class="mr-2"> Vomi</label>
+                            <label><input type="checkbox" class="mr-2"> Produit de nettoyage</label>
+                            <label><input type="checkbox" class="mr-2"> Feutre/ Stylo/ Peinture/ Vernis</label>
+                            <label><input type="checkbox" class="mr-2"> Pollution</label>
+                            <label><input type="checkbox" class="mr-2"> Transpiration</label>
+                        </div>
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 8 -->
                     <div class="form-group mb-4 hidden" data-question="8">
-                        <label for="question8" class="block text-gray-700">8. Question 8</label>
+                        <label class="block text-gray-700">8. Est-ce qu'il y a des poils d'animaux ?</label>
                         <select id="question8" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
+                            <option value="Oui">Oui</option>
+                            <option value="Non">Non</option>
                         </select>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 9 -->
                     <div class="form-group mb-4 hidden" data-question="9">
-                        <label for="question9" class="block text-gray-700">9. Question 9</label>
+                        <label class="block text-gray-700">9. Est-ce du matériel haut de gamme ?</label>
                         <select id="question9" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
+                            <option value="Oui">Oui</option>
+                            <option value="Non">Non</option>
                         </select>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Question 10 -->
                     <div class="form-group mb-4 hidden" data-question="10">
-                        <label for="question10" class="block text-gray-700">10. Question 10</label>
+                        <label class="block text-gray-700">10. Veuillez choisir le niveau de salissure :</label>
                         <select id="question10" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">Question 1</option>
-                            <option value="2">Question 2</option>
-                            <option value="3">Question 3</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                         </select>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="sendFinalData()">Suivant</button>
                         </div>
@@ -455,72 +591,6 @@
 
         <div id="confirmation-message" class="notification hidden"></div>
         <div id="notification" class="notification hidden"></div>
-
-        <script>
-            function validateForm() {
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-
-                if (!email || !telephone) {
-                    document.getElementById('error-message').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('error-message').style.display = 'none';
-                    }, 3000);
-                    return;
-                }
-
-                const cost = calculateCost();
-                saveForm(cost);
-                checkAdditionalCost();
-            }
-
-            function calculateCost() {
-                // Add logic to calculate the cost for sofa cleaning
-                // This is a placeholder function
-                return 100; // Example cost
-            }
-
-            function saveForm(cost) {
-                const formDetails = {
-                    Nom_prenom: document.getElementById('nom_prenom').value,
-                    Email: document.getElementById('email').value,
-                    Telephone: document.getElementById('telephone').value,
-                    Estimated_cost: cost
-                };
-
-                const message = `
-                    Madame, Monsieur, 
-
-                    Nous vous remercions d'avoir utilisé notre application de devis instantané chez XL Clean Sofa. Voici votre devis estimé :
-
-                    Nom et Prénom: ${formDetails.Nom_prenom}
-                    Email: ${formDetails.Email}
-                    Téléphone: ${formDetails.Telephone}
-                    Coût Estimé: ${formDetails.Estimated_cost} CHF
-
-                    Merci de nous faire confiance pour le nettoyage de votre canapé. Nous espérons avoir bientôt le plaisir de vous servir.
-
-                    Cordialement,
-
-                    L'équipe XL Clean Sofa
-                `;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    to_email: formDetails.Email,
-                    from_name: "XL Clean Sofa",
-                    reply_to: formDetails.Email,
-                    subject: "Demande de devis de XL Clean Sofa",
-                    message: message
-                }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                    showConfirmationMessage();
-                    showPage('page3');
-                }, (err) => {
-                    console.error('FAILED...', err);
-                    showNotification("Échec de l'envoi du formulaire.", 'error');
-                });
-            }
-        </script>
     </div>
 </body>
 </html>
