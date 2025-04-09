@@ -62,7 +62,6 @@
             z-index: -1;
             pointer-events: none;
         }
-
         @media (max-width: 768px) {
         .video-background {
             top: calc(-1.7cm - 1cm);
@@ -94,7 +93,7 @@
         .obligatory-message i {
             margin-right: 5px;
         }
-        .column-select {
+        .column-options {
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -287,11 +286,12 @@
                     <!-- Question 4 -->
                     <div class="form-group mb-4 hidden" data-question="4">
                         <label class="block text-gray-700">4. Matériel :</label>
-                        <div class="column-select">
+                        <div>
                             <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
-                            <div id="canape-options" class="hidden ml-4 column-select">
+                            <div id="canape-options" class="hidden ml-4">
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                                 <label>Type:</label>
@@ -315,14 +315,15 @@
                                 </select>
                             </div>
                             <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
-                            <div id="fauteuil-options" class="hidden ml-4 column-select">
+                            <div id="fauteuil-options" class="hidden ml-4">
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                             </div>
                             <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
-                            <div id="chaise-options" class="hidden ml-4 column-select">
+                            <div id="chaise-options" class="hidden ml-4">
                                 <label>Type:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
                                     <option value="" disabled selected>Choisissez…</option>
@@ -332,6 +333,7 @@
                                 </select>
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
                                     ${Array.from({length: 100}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                             </div>
@@ -344,7 +346,7 @@
                     <!-- Question 5 -->
                     <div class="form-group mb-4 hidden" data-question="5">
                         <label class="block text-gray-700">5. Matière :</label>
-                        <div class="column-select">
+                        <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Tissus synthétiques</label>
                             <label><input type="checkbox" class="mr-2"> Polyester</label>
                             <label><input type="checkbox" class="mr-2"> Microfibre</label>
@@ -371,7 +373,7 @@
                     <!-- Question 6 -->
                     <div class="form-group mb-4 hidden" data-question="6">
                         <label class="block text-gray-700">6. Couleur :</label>
-                        <div class="column-select">
+                        <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Nuances de noir & gris</label>
                             <label><input type="checkbox" class="mr-2"> Noir</label>
                             <label><input type="checkbox" class="mr-2"> Gris anthracite</label>
@@ -446,7 +448,7 @@
                     <!-- Question 7 -->
                     <div class="form-group mb-4 hidden" data-question="7">
                         <label class="block text-gray-700">7. Type de tâches :</label>
-                        <div class="column-select">
+                        <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Salissure noire/ Usure</label>
                             <label><input type="checkbox" class="mr-2"> Alimentaire</label>
                             <label><input type="checkbox" class="mr-2"> Lait</label>
