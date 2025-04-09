@@ -80,6 +80,20 @@
             padding: 20px;
             border-radius: 10px;
         }
+        .obligatory-message {
+            color: #D32F2F;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            margin-top: 4px;
+            transition: color 0.3s;
+        }
+        .obligatory-message.valid {
+            color: #28a745;
+        }
+        .obligatory-message i {
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -99,9 +113,9 @@
             function detectDeviceAndSetVideo() {
                 const videoFrame = document.getElementById('video-frame');
                 if (window.innerWidth <= 768) {
-                    videoFrame.src = "YOUR_NEW_VIDEO_URL_MOBILE"; // Mobile video URL
+                    videoFrame.src = "YOUR_NEW_VIDEO_URL_MOBILE";
                 } else {
-                    videoFrame.src = "YOUR_NEW_VIDEO_URL_DESKTOP"; // Desktop video URL
+                    videoFrame.src = "YOUR_NEW_VIDEO_URL_DESKTOP";
                 }
             }
 
@@ -256,12 +270,12 @@
                     </div>
                     <!-- Questions 4 to 10 with placeholder numbers -->
                     <div class="form-group mb-4 hidden" data-question="4">
-                        <label for="question4" class="block text-gray-700">4.</label>
+                        <label for="question4" class="block text-gray-700">4. Question 4</label>
                         <select id="question4" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -269,12 +283,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="5">
-                        <label for="question5" class="block text-gray-700">5.</label>
+                        <label for="question5" class="block text-gray-700">5. Question 5</label>
                         <select id="question5" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -282,12 +296,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="6">
-                        <label for="question6" class="block text-gray-700">6.</label>
+                        <label for="question6" class="block text-gray-700">6. Question 6</label>
                         <select id="question6" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -295,12 +309,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="7">
-                        <label for="question7" class="block text-gray-700">7.</label>
+                        <label for="question7" class="block text-gray-700">7. Question 7</label>
                         <select id="question7" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -308,12 +322,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="8">
-                        <label for="question8" class="block text-gray-700">8.</label>
+                        <label for="question8" class="block text-gray-700">8. Question 8</label>
                         <select id="question8" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -321,12 +335,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="9">
-                        <label for="question9" class="block text-gray-700">9.</label>
+                        <label for="question9" class="block text-gray-700">9. Question 9</label>
                         <select id="question9" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -334,12 +348,12 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="10">
-                        <label for="question10" class="block text-gray-700">10.</label>
+                        <label for="question10" class="block text-gray-700">10. Question 10</label>
                         <select id="question10" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="1">Question 1</option>
+                            <option value="2">Question 2</option>
+                            <option value="3">Question 3</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
