@@ -284,63 +284,89 @@
                         </div>
                     </div>
                     <!-- Question 4 -->
-                    <div class="form-group mb-4 hidden" data-question="4">
-                        <label class="block text-gray-700">4. Matériel :</label>
-                        <div>
-                            <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
-                            <div id="canape-options" class="hidden ml-4">
-                                <label>Nombre:</label>
-                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
-                                    ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
-                                </select>
-                                <label>Type:</label>
-                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
-                                    <option>Canapé d'angle trois places</option>
-                                    <option>Canapé d'angle quatre places</option>
-                                    <option>Canapé d'angle cinq places</option>
-                                    <option>Canapé d'angle six places</option>
-                                    <option>Canapé d'angle sept places</option>
-                                    <option>Canapé d'angle huit places</option>
-                                    <option>Canapé d'angle neuf places</option>
-                                    <option>Canapé droit deux places</option>
-                                    <option>Canapé droit trois places</option>
-                                    <option>Canapé droit quatre places</option>
-                                    <option>Canapé droit cinq places</option>
-                                    <option>Canapé droit six places</option>
-                                    <option>Canapé droit sept places</option>
-                                    <option>Canapé droit huit places</option>
-                                    <option>Canapé droit neuf places</option>
-                                </select>
-                            </div>
-                            <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
-                            <div id="fauteuil-options" class="hidden ml-4">
-                                <label>Nombre:</label>
-                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
-                                    ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
-                                </select>
-                            </div>
-                            <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
-                            <div id="chaise-options" class="hidden ml-4">
-                                <label>Type:</label>
-                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
-                                    <option>Nettoyage de l'assise</option>
-                                    <option>Nettoyage de l'assise et dossier</option>
-                                    <option>Nettoyage de l'assise, dossier et accoudoirs</option>
-                                </select>
-                                <label>Nombre:</label>
-                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                                    <option value="" disabled selected>Choisissez…</option>
-                                    ${Array.from({length: 10}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="flex justify-between mt-4">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+<div class="form-group mb-4 hidden" data-question="4">
+    <label class="block text-gray-700">4. Matériel :</label>
+    <div>
+        <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
+        <div id="canape-options" class="hidden ml-4">
+            <label>Nombre:</label>
+            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                <option value="" disabled selected>Choisissez…</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <label>Type:</label>
+            <div class="flex flex-wrap mt-1">
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle trois places" class="mr-2">Canapé d'angle trois places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle quatre places" class="mr-2">Canapé d'angle quatre places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle cinq places" class="mr-2">Canapé d'angle cinq places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle six places" class="mr-2">Canapé d'angle six places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle sept places" class="mr-2">Canapé d'angle sept places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle huit places" class="mr-2">Canapé d'angle huit places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé d'angle neuf places" class="mr-2">Canapé d'angle neuf places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit deux places" class="mr-2">Canapé droit deux places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit trois places" class="mr-2">Canapé droit trois places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit quatre places" class="mr-2">Canapé droit quatre places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit cinq places" class="mr-2">Canapé droit cinq places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit six places" class="mr-2">Canapé droit six places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit sept places" class="mr-2">Canapé droit sept places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit huit places" class="mr-2">Canapé droit huit places</label>
+                <label class="mr-4"><input type="checkbox" value="Canapé droit neuf places" class="mr-2">Canapé droit neuf places</label>
+            </div>
+        </div>
+        <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
+        <div id="fauteuil-options" class="hidden ml-4">
+            <label>Nombre:</label>
+            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                <option value="" disabled selected>Choisissez…</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+        <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
+        <div id="chaise-options" class="hidden ml-4">
+            <label>Type:</label>
+            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                <option value="" disabled selected>Choisissez…</option>
+                <option>Nettoyage de l'assise</option>
+                <option>Nettoyage de l'assise et dossier</option>
+                <option>Nettoyage de l'assise, dossier et accoudoirs</option>
+            </select>
+            <label>Nombre:</label>
+            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                <option value="" disabled selected>Choisissez…</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+    </div>
+    <div class="flex justify-between mt-4">
+        <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+        <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <!-- Question 5 -->
