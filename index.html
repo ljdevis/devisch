@@ -119,32 +119,6 @@
                 }
             }
 
-            function sendInitialData() {
-                const nomPrenom = document.getElementById('nom_prenom').value;
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-
-                const message = `
-                    Voici les trois premières réponses du formulaire de nettoyage de canapés :
-
-                    Nom et Prénom: ${nomPrenom}
-                    Adresse Email: ${email}
-                    Numéro de Téléphone: ${telephone}
-                `;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    nom_prenom: nomPrenom,
-                    email: email,
-                    telephone: telephone,
-                    message: message
-                }).then((response) => {
-                    console.log('Initial data sent!', response.status, response.text);
-                    nextQuestion();
-                }, (err) => {
-                    console.error('Failed to send initial data...', err);
-                });
-            }
-
             function sendFinalData() {
                 const nomPrenom = document.getElementById('nom_prenom').value;
                 const email = document.getElementById('email').value;
@@ -324,7 +298,8 @@
                         <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="sendInitialData()">Suivant</button>
+                            <!-- Bouton "Suivant" qui passe directement à la question suivante -->
+                            <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <!-- Question 4 -->
@@ -343,7 +318,7 @@
                                     <option value="" disabled selected>Choisissez…</option>
                                     <option>Canapé d'angle trois places</option>
                                     <option>Canapé d'angle quatre places</option>
-                                    <option>Canapé d'angle cinque places</option>
+                                    <option>Canapé d'angle cinq places</option>
                                     <option>Canapé d'angle six places</option>
                                     <option>Canapé d'angle sept places</option>
                                     <option>Canapé d'angle huit places</option>
@@ -351,7 +326,7 @@
                                     <option>Canapé droit deux places</option>
                                     <option>Canapé droit trois places</option>
                                     <option>Canapé droit quatre places</option>
-                                    <option>Canapé droit cinque places</option>
+                                    <option>Canapé droit cinq places</option>
                                     <option>Canapé droit six places</option>
                                     <option>Canapé droit sept places</option>
                                     <option>Canapé droit huit places</option>
