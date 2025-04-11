@@ -122,6 +122,16 @@
             background: #ec4899;
             cursor: pointer;
         }
+        .file-upload {
+            margin-top: 20px;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .file-upload input {
+            display: none;
+        }
     </style>
 </head>
 
@@ -346,16 +356,7 @@
                                 <label>Nombre:</label>
                                 <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
                                     <option value="" disabled selected>Choisissez…</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    ${Array.from({length: 100}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
                                 </select>
                             </div>
                         </div>
@@ -521,6 +522,15 @@
                     <div class="form-group mb-4 hidden" data-question="10">
                         <label class="block text-gray-700 title">10. Veuillez choisir le niveau de salissure :</label>
                         <input type="range" id="question10" class="slider" min="1" max="5" step="1" value="1">
+                        <div class="file-upload">
+                            <label for="file-input">Merci de joindre une ou plusieurs photos à votre demande afin que nous puissions vous établir la proposition.</label>
+                            <input type="file" id="file-input" multiple>
+                            <div class="mt-2">
+                                <span>Déposer les fichiers ici ou </span>
+                                <label for="file-input" class="text-pink-500 cursor-pointer">Sélectionnez des fichiers</label>
+                            </div>
+                            <p class="mt-2 text-sm">Taille max. des fichiers : 300 MB.</p>
+                        </div>
                         <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
