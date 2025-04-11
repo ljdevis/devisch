@@ -40,18 +40,13 @@
             background-color: #a0aec0;
             color: white;
         }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .option-label {
+            font-size: 1.25rem;
+            font-weight: bold;
         }
         .video-background {
             position: fixed;
@@ -147,7 +142,7 @@
             }
 
             let currentQuestion = 1;
-            const totalQuestions = 10;
+            const totalQuestions = 11;
 
             function showPage(page) {
                 document.getElementById('page1').classList.add('hidden');
@@ -164,7 +159,6 @@
                     const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     nextDiv.classList.remove('hidden');
                 } else {
-                    // Final data processing or submission can go here if needed
                     showPage('page3');
                 }
                 updateProgressBar();
@@ -258,24 +252,25 @@
                 </div>
                 <form id="devisForm" onsubmit="return false;">
                     <div class="form-group mb-4" data-question="1">
-                        <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
+                        <label for="nom_prenom" class="block text-gray-700 title">1. Nom et Prénom :</label>
                         <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="exemple : Alan Favre" required oninput="validateName()">
                         <p class="obligatory-message" id="name-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mt-4">
+                            <button type="button" class="navigation-button back-button" onclick="showPage('page1')">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="2">
-                        <label for="email" class="block text-gray-700">2. Adresse Mail :</label>
+                        <label for="email" class="block text-gray-700 title">2. Adresse Mail :</label>
                         <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="exemple : alan.favre@exemple.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Veuillez entrer une adresse email valide contenant @ et un domaine." oninput="validateEmail()">
                         <p class="obligatory-message" id="email-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" id="email-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="3">
-                        <label for="telephone" class="block text-gray-700">3. Numéro de Téléphone :</label>
+                        <label for="telephone" class="block text-gray-700 title">3. Numéro de Téléphone :</label>
                         <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="exemple : 077 345 34 45" required pattern="^\d{10,15}$" title="Veuillez entrer un numéro de téléphone valide." oninput="validateTelephone()">
                         <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
@@ -284,94 +279,94 @@
                         </div>
                     </div>
                     <!-- Question 4 -->
-<div class="form-group mb-4 hidden" data-question="4">
-    <label class="block text-gray-700">4. Matériel :</label>
-    <div>
-        <label><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
-        <div id="canape-options" class="hidden ml-4">
-            <label>Nombre:</label>
-            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                <option value="" disabled selected>Choisissez…</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-            <label>Type:</label>
-            <div class="flex flex-wrap mt-1">
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle trois places" class="mr-2">Canapé d'angle trois places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle quatre places" class="mr-2">Canapé d'angle quatre places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle cinq places" class="mr-2">Canapé d'angle cinq places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle six places" class="mr-2">Canapé d'angle six places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle sept places" class="mr-2">Canapé d'angle sept places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle huit places" class="mr-2">Canapé d'angle huit places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé d'angle neuf places" class="mr-2">Canapé d'angle neuf places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit deux places" class="mr-2">Canapé droit deux places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit trois places" class="mr-2">Canapé droit trois places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit quatre places" class="mr-2">Canapé droit quatre places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit cinq places" class="mr-2">Canapé droit cinq places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit six places" class="mr-2">Canapé droit six places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit sept places" class="mr-2">Canapé droit sept places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit huit places" class="mr-2">Canapé droit huit places</label>
-                <label class="mr-4"><input type="checkbox" value="Canapé droit neuf places" class="mr-2">Canapé droit neuf places</label>
-            </div>
-        </div>
-        <label><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
-        <div id="fauteuil-options" class="hidden ml-4">
-            <label>Nombre:</label>
-            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                <option value="" disabled selected>Choisissez…</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        </div>
-        <label><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
-        <div id="chaise-options" class="hidden ml-4">
-            <label>Type:</label>
-            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                <option value="" disabled selected>Choisissez…</option>
-                <option>Nettoyage de l'assise</option>
-                <option>Nettoyage de l'assise et dossier</option>
-                <option>Nettoyage de l'assise, dossier et accoudoirs</option>
-            </select>
-            <label>Nombre:</label>
-            <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
-                <option value="" disabled selected>Choisissez…</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        </div>
-    </div>
-    <div class="flex justify-between mt-4">
-        <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-        <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                    <div class="form-group mb-4 hidden" data-question="4">
+                        <label class="block text-gray-700 title">4. Matériel :</label>
+                        <div class="flex flex-col">
+                            <label class="option-label"><input type="checkbox" id="canape" class="mr-2"> Canapé</label>
+                            <div id="canape-options" class="hidden ml-4">
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                                <label>Type:</label>
+                                <div class="flex flex-wrap mt-1">
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle trois places" class="mr-2">Canapé d'angle trois places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle quatre places" class="mr-2">Canapé d'angle quatre places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle cinq places" class="mr-2">Canapé d'angle cinq places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle six places" class="mr-2">Canapé d'angle six places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle sept places" class="mr-2">Canapé d'angle sept places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle huit places" class="mr-2">Canapé d'angle huit places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé d'angle neuf places" class="mr-2">Canapé d'angle neuf places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit deux places" class="mr-2">Canapé droit deux places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit trois places" class="mr-2">Canapé droit trois places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit quatre places" class="mr-2">Canapé droit quatre places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit cinq places" class="mr-2">Canapé droit cinq places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit six places" class="mr-2">Canapé droit six places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit sept places" class="mr-2">Canapé droit sept places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit huit places" class="mr-2">Canapé droit huit places</label>
+                                    <label class="mr-4"><input type="checkbox" value="Canapé droit neuf places" class="mr-2">Canapé droit neuf places</label>
+                                </div>
+                            </div>
+                            <label class="option-label"><input type="checkbox" id="fauteuil" class="mr-2"> Fauteuil</label>
+                            <div id="fauteuil-options" class="hidden ml-4">
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            <label class="option-label"><input type="checkbox" id="chaise" class="mr-2"> Chaise</label>
+                            <div id="chaise-options" class="hidden ml-4">
+                                <label>Type:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option>Nettoyage de l'assise</option>
+                                    <option>Nettoyage de l'assise et dossier</option>
+                                    <option>Nettoyage de l'assise, dossier et accoudoirs</option>
+                                </select>
+                                <label>Nombre:</label>
+                                <select class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="" disabled selected>Choisissez…</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-4">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <!-- Question 5 -->
                     <div class="form-group mb-4 hidden" data-question="5">
-                        <label class="block text-gray-700">5. Matière :</label>
+                        <label class="block text-gray-700 title">5. Matière :</label>
                         <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Tissus synthétiques</label>
                             <label><input type="checkbox" class="mr-2"> Polyester</label>
@@ -398,7 +393,7 @@
                     </div>
                     <!-- Question 6 -->
                     <div class="form-group mb-4 hidden" data-question="6">
-                        <label class="block text-gray-700">6. Couleur :</label>
+                        <label class="block text-gray-700 title">6. Couleur :</label>
                         <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Nuances de noir & gris</label>
                             <label><input type="checkbox" class="mr-2"> Noir</label>
@@ -473,7 +468,7 @@
                     </div>
                     <!-- Question 7 -->
                     <div class="form-group mb-4 hidden" data-question="7">
-                        <label class="block text-gray-700">7. Type de tâches :</label>
+                        <label class="block text-gray-700 title">7. Type de tâches :</label>
                         <div class="column-options">
                             <label><input type="checkbox" class="mr-2"> Salissure noire/ Usure</label>
                             <label><input type="checkbox" class="mr-2"> Alimentaire</label>
@@ -497,7 +492,7 @@
                     </div>
                     <!-- Question 8 -->
                     <div class="form-group mb-4 hidden" data-question="8">
-                        <label class="block text-gray-700">8. Est-ce qu'il y a des poils d'animaux ?</label>
+                        <label class="block text-gray-700 title">8. Est-ce qu'il y a des poils d'animaux ?</label>
                         <select id="question8" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Oui">Oui</option>
@@ -510,7 +505,7 @@
                     </div>
                     <!-- Question 9 -->
                     <div class="form-group mb-4 hidden" data-question="9">
-                        <label class="block text-gray-700">9. Est-ce du matériel haut de gamme ?</label>
+                        <label class="block text-gray-700 title">9. Est-ce du matériel haut de gamme ?</label>
                         <select id="question9" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Oui">Oui</option>
@@ -524,11 +519,20 @@
                     </div>
                     <!-- Question 10 -->
                     <div class="form-group mb-4 hidden" data-question="10">
-                        <label class="block text-gray-700">10. Veuillez choisir le niveau de salissure :</label>
+                        <label class="block text-gray-700 title">10. Veuillez choisir le niveau de salissure :</label>
                         <input type="range" id="question10" class="slider" min="1" max="5" step="1" value="1">
                         <div class="flex justify-between mt-4">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <!-- Question 11 -->
+                    <div class="form-group mb-4 hidden" data-question="11">
+                        <label class="block text-gray-700 title">11. Avez-vous des commentaires supplémentaires ?</label>
+                        <textarea class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" rows="4" placeholder="Vos commentaires..."></textarea>
+                        <div class="flex justify-between mt-4">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Terminer</button>
                         </div>
                     </div>
                 </form>
