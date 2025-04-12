@@ -142,6 +142,95 @@
 
     <div class="content-container">
         <script type="text/javascript">
+            // Définition des prix pour chaque catégorie et option
+            const prix = {
+                canape: 100, // Prix par canapé en CHF
+                fauteuil: 50, // Prix par fauteuil en CHF
+                chaise: 20, // Prix par chaise en CHF
+                materiaux: {
+                    "Tissus synthétiques": 15,
+                    "Polyester": 10,
+                    "Microfibre": 12,
+                    "Acrylique": 8,
+                    "Nylon": 9,
+                    "Trevira CS (tissu ignifugé)": 20,
+                    "Tissus naturels": 25,
+                    "Coton (surtout mélangé à du synthétique)": 18,
+                    "Lin mélangé (lin + polyester, par exemple)": 22,
+                    "Chanvre (en mélange)": 19,
+                    "Velours synthétique": 20,
+                    "Velours polyester": 21,
+                    "Velours microfibre": 23,
+                    "Alcantaras et suédines synthétiques": 24,
+                    "Alcantara®️": 30,
+                    "Simili suède": 26,
+                    "Je ne connais pas la matière de mon canapé.": 0
+                },
+                taches: {
+                    "Salissure noire/ Usure": 5,
+                    "Alimentaire": 10,
+                    "Lait": 8,
+                    "Soda/ Jus de fruits": 7,
+                    "Eau": 3,
+                    "Café": 12,
+                    "Vin rouge": 15,
+                    "Sang": 14,
+                    "Urine": 9,
+                    "Vomi": 10,
+                    "Produit de nettoyage": 5,
+                    "Feutre/ Stylo/ Peinture/ Vernis": 12,
+                    "Pollution": 6,
+                    "Transpiration": 4
+                },
+                poilsAnimaux: 20, // Supplément pour poils d'animaux en CHF
+                materiauHautDeGamme: 50, // Supplément pour matériel haut de gamme en CHF
+                niveauxSalissure: [10, 20, 30, 40, 50] // Prix pour les niveaux de salissure 1-5 en CHF
+            };
+
+            // Fonction pour calculer le prix total basé sur les options sélectionnées
+            function calculerPrix() {
+                let total = 0;
+
+                // Calculer le prix pour les canapés, fauteuils et chaises
+                if (document.getElementById('canape').checked) {
+                    total += prix.canape;
+                }
+                if (document.getElementById('fauteuil').checked) {
+                    total += prix.fauteuil;
+                }
+                if (document.getElementById('chaise').checked) {
+                    total += prix.chaise;
+                }
+
+                // Calculer le prix pour les matériaux (Question 5)
+                document.querySelectorAll('[data-question="5"] input[type="checkbox"]:checked').forEach(materiau => {
+                    total += prix.materiaux[materiau.nextSibling.textContent.trim()] || 0;
+                });
+
+                // Calculer le prix pour les tâches (Question 7)
+                document.querySelectorAll('[data-question="7"] input[type="checkbox"]:checked').forEach(tache => {
+                    total += prix.taches[tache.nextSibling.textContent.trim()] || 0;
+                });
+
+                // Supplément pour poils d'animaux (Question 8)
+                if (document.getElementById('question8').value === "Oui") {
+                    total += prix.poilsAnimaux;
+                }
+
+                // Supplément pour matériel haut de gamme (Question 9)
+                if (document.getElementById('question9').value === "Oui") {
+                    total += prix.materiauHautDeGamme;
+                }
+
+                // Supplément pour niveau de salissure (Question 10)
+                const niveauSalissure = document.getElementById('question10').value;
+                total += prix.niveauxSalissure[niveauSalissure - 1];
+
+                // Mise à jour des éléments HTML pour afficher le coût original et le coût avec remise
+                document.getElementById('originalCost').textContent = total.toFixed(2) + ' CHF';
+                document.getElementById('discountedPrice').textContent = (total * 0.9).toFixed(2) + ' CHF'; // Appliquer une remise de 10%
+            }
+
             function detectDeviceAndSetVideo() {
                 const videoFrame = document.getElementById('video-frame');
                 if (window.innerWidth <= 768) {
@@ -153,69 +242,6 @@
 
             let currentQuestion = 1;
             const totalQuestions = 11;
-
-            const prices = {
-                canape: 100, // Example price per canapé
-                fauteuil: 50, // Example price per fauteuil
-                chaise: 20, // Example price per chaise
-                materials: {
-                    "Tissus synthétiques": 15,
-                    "Polyester": 10,
-                    "Microfibre": 12,
-                    // Add more materials and prices
-                },
-                tasks: {
-                    "Salissure noire/ Usure": 5,
-                    "Alimentaire": 10,
-                    "Lait": 8,
-                    // Add more tasks and prices
-                },
-                animalHair: 20, // Additional cost for animal hair
-                premiumMaterial: 50, // Additional cost for premium materials
-                dirtLevels: [10, 20, 30, 40, 50] // Prices for dirt levels 1-5
-            };
-
-            function calculatePrice() {
-                let total = 0;
-
-                // Calculate price for canapés, fauteuils, and chaises
-                if (document.getElementById('canape').checked) {
-                    total += prices.canape;
-                }
-                if (document.getElementById('fauteuil').checked) {
-                    total += prices.fauteuil;
-                }
-                if (document.getElementById('chaise').checked) {
-                    total += prices.chaise;
-                }
-
-                // Calculate price for materials (Question 5)
-                document.querySelectorAll('[data-question="5"] input[type="checkbox"]:checked').forEach(material => {
-                    total += prices.materials[material.nextSibling.textContent.trim()] || 0;
-                });
-
-                // Calculate price for tasks (Question 7)
-                document.querySelectorAll('[data-question="7"] input[type="checkbox"]:checked').forEach(task => {
-                    total += prices.tasks[task.nextSibling.textContent.trim()] || 0;
-                });
-
-                // Additional cost for animal hair (Question 8)
-                if (document.getElementById('question8').value === "Oui") {
-                    total += prices.animalHair;
-                }
-
-                // Additional cost for premium materials (Question 9)
-                if (document.getElementById('question9').value === "Oui") {
-                    total += prices.premiumMaterial;
-                }
-
-                // Additional cost for dirt level (Question 10)
-                const dirtLevel = document.getElementById('question10').value;
-                total += prices.dirtLevels[dirtLevel - 1];
-
-                document.getElementById('originalCost').textContent = total.toFixed(2);
-                document.getElementById('discountedPrice').textContent = (total * 0.9).toFixed(2); // Applying a 10% discount
-            }
 
             function showPage(page) {
                 document.getElementById('page1').classList.add('hidden');
@@ -232,7 +258,7 @@
                     const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     nextDiv.classList.remove('hidden');
                 } else {
-                    calculatePrice();
+                    calculerPrix(); // Calcul du prix total avant d'afficher la page finale
                     showPage('page3');
                 }
                 updateProgressBar();
