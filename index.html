@@ -133,6 +133,12 @@
             display: none;
         }
     </style>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("QLVxHPQkX73nk7n9v");
+        })();
+    </script>
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
@@ -173,6 +179,11 @@
                     showPage('page3');
                 }
                 updateProgressBar();
+
+                // Envoyer l'email à la question 3
+                if (currentQuestion === 4) {
+                    sendEmail();
+                }
             }
 
             function previousQuestion() {
@@ -276,6 +287,25 @@
                 if (discountedPrice < cost) {
                     document.getElementById('discount-message').classList.remove('hidden');
                 }
+            }
+
+            function sendEmail() {
+                const emailParams = {
+                    from_name: document.getElementById('nom_prenom').value,
+                    message_html: `
+                        <p><strong>Nom:</strong> ${document.getElementById('nom_prenom').value}</p>
+                        <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+                        <p><strong>Téléphone:</strong> ${document.getElementById('telephone').value}</p>
+                    `,
+                    to_email: 'info@xlcleansofa.com'
+                };
+
+                emailjs.send('service_vrqaekt', 'template_xxx', emailParams)
+                    .then(response => {
+                        console.log('Email envoyé avec succès!', response.status, response.text);
+                    }, error => {
+                        console.log('Erreur lors de l\'envoi de l\'email:', error);
+                    });
             }
 
             document.addEventListener('DOMContentLoaded', function() {
