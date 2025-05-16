@@ -40,31 +40,6 @@
             background-color: #a0aec0;
             color: white;
         }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #0928f1;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        .image-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            background-image: url('URL_DE_VOTRE_IMAGE');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.5);
-        }
         .content-container {
             position: relative;
             z-index: 1;
@@ -94,35 +69,10 @@
         .notification.error {
             color: #D32F2F;
         }
-        .promo-input {
-            width: 50%;
-            padding: 5px;
-            border: none;
-            border-bottom: 1px solid #ccc;
-            background-color: transparent;
-            font-size: 0.9rem;
-            color: #555;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .promo-input::placeholder {
-            color: #bbb;
-        }
-        .promo-input:focus {
-            border-color: #007bff;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            font-weight: bold;
-        }
     </style>
 </head>
-
 <body class="font-sans antialiased">
-    <div class="image-background"></div>
-    
-    <div class="content-container">
+    <div class="content-container max-w-xl mx-auto mt-10 shadow-md rounded-lg overflow-hidden">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script type="text/javascript">
             (function () {
@@ -132,17 +82,17 @@
             let currentQuestion = 1;
             const totalQuestions = 23;
 
-            function showPage(page) {
+            function showPage(pageId) {
                 document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-                document.getElementById(page).classList.remove('hidden');
+                document.getElementById(pageId).classList.remove('hidden');
             }
 
             function nextQuestion() {
-                const currentDiv = document.querySelector(⁠ [data-question="${currentQuestion}"] ⁠);
+                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                 if (currentDiv) currentDiv.classList.add('hidden');
                 currentQuestion++;
                 if (currentQuestion <= totalQuestions) {
-                    const nextDiv = document.querySelector(⁠ [data-question="${currentQuestion}"] ⁠);
+                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     if (nextDiv) nextDiv.classList.remove('hidden');
                 } else {
                     showPage('page3');
@@ -152,10 +102,10 @@
 
             function previousQuestion() {
                 if (currentQuestion > 1) {
-                    const currentDiv = document.querySelector(⁠ [data-question="${currentQuestion}"] ⁠);
+                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     if (currentDiv) currentDiv.classList.add('hidden');
                     currentQuestion--;
-                    const previousDiv = document.querySelector(⁠ [data-question="${currentQuestion}"] ⁠);
+                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
                     if (previousDiv) previousDiv.classList.remove('hidden');
                 } else {
                     showPage('page1');
@@ -165,7 +115,33 @@
 
             function updateProgressBar() {
                 const progress = (currentQuestion / totalQuestions) * 100;
-                document.getElementById('progress').style.width = ⁠ ${progress}% ⁠;
+                document.getElementById('progress').style.width = `${progress}%`;
+            }
+
+            function sendInitialData() {
+                const nomPrenom = document.getElementById('nom_prenom').value;
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+
+                const message = `
+                    Voici les trois premières réponses du formulaire de déménagement :
+
+                    Nom et Prénom: ${nomPrenom}
+                    Adresse Email: ${email}
+                    Numéro de Téléphone: ${telephone}
+                `;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    nom_prenom: nomPrenom,
+                    email: email,
+                    telephone: telephone,
+                    message: message
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    nextQuestion();
+                }, (err) => {
+                    console.error('FAILED...', err);
+                });
             }
 
             function validateForm() {
@@ -409,7 +385,7 @@
 
             function showNotification(message, type) {
                 const notification = document.getElementById('notification');
-                notification.className = ⁠ notification ${type} ⁠;
+                notification.className = `notification ${type}`;
                 notification.innerText = message;
                 notification.style.display = 'block';
                 setTimeout(() => {
@@ -451,9 +427,10 @@
                         <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="sendInitialData()">Suivant</button>
                         </div>
                     </div>
+                    <!-- Ajoutez toutes les autres questions ici -->
                     <div class="form-group mb-4 hidden" data-question="4">
                         <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle & Etage :</label>
                         <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
