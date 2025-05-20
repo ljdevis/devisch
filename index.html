@@ -11,7 +11,7 @@
             background-color: #1a1a1a; /* Fond sombre */
             font-family: 'Roboto', sans-serif; /* Police moderne */
         }
-        h1 {
+        h1, h2 {
             color: #ff69b4; /* Rose */
         }
         .progress-bar {
@@ -104,7 +104,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             emailjs.init("es5i8pk88qOLfaaBj");
-
             // Add WhatsApp button
             const whatsappButton = document.createElement('a');
             whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
@@ -342,15 +341,22 @@
 
 <body>
     <div class="content-container max-w-xl mx-auto mt-10">
-        <h1 class="text-2xl font-bold mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
-        
+        <!-- Page de bienvenue -->
+        <div id="welcomePage" class="page">
+            <h1 class="text-2xl font-bold mb-6">Bienvenue chez L&J Déménagement</h1>
+            <p class="mb-4">Remplissez ce formulaire pour obtenir un devis personnalisé pour votre déménagement.</p>
+            <div class="text-center">
+                <button class="navigation-button next-button" onclick="showPage('page1'); nextGroup();">Démarrer</button>
+            </div>
+        </div>
+
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
         
         <form id="devisForm" onsubmit="return false;">
             <!-- Page 1 -->
-            <div id="page1" class="page">
+            <div id="page1" class="page hidden">
                 <div id="group1" class="question-group">
                     <div class="form-group">
                         <label for="nom_prenom">Nom et Prénom :</label>
