@@ -41,7 +41,7 @@
             font-weight: bold;
         }
         .navigation-button:hover {
-            transform: rotateY(180deg);
+            transform: scale(1.05);
         }
         .back-button {
             background-color: #a0aec0;
@@ -75,18 +75,6 @@
         }
         input:focus {
             border-color: #ff69b4;
-        }
-        .required-indicator {
-            position: absolute;
-            right: 10px;
-            top: 35px;
-            color: red;
-            font-weight: bold;
-            display: none;
-        }
-        .required-indicator.valid {
-            color: green;
-            display: inline;
         }
         .error-message {
             color: red;
@@ -124,12 +112,6 @@
         }
         .whatsapp-button:hover {
             background-color: #128C7E;
-        }
-        .confirmation-message {
-            display: none;
-            color: green;
-            text-align: center;
-            margin-top: 20px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -178,47 +160,28 @@
         }
 
         function validateForm() {
-            let isValid = true;
-            const nomPrenom = document.getElementById('nom_prenom').value;
-            const email = document.getElementById('email').value;
-            const telephone = document.getElementById('telephone').value;
-
-            const nomPrenomValid = nomPrenom.length >= 3;
-            const telephoneValid = telephone.length >= 9;
-            const emailValid = email.includes('@');
-
-            document.querySelectorAll('.required-indicator').forEach(indicator => indicator.style.display = 'none');
-
-            if (!nomPrenomValid) {
-                document.getElementById('nom-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('nom-required').classList.add('valid');
-            }
-
-            if (!telephoneValid) {
-                document.getElementById('tel-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('tel-required').classList.add('valid');
-            }
-
-            if (!emailValid) {
-                document.getElementById('email-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('email-required').classList.add('valid');
-            }
-
+            const isValid = validateFields([
+                'nom_prenom',
+                'email',
+                'telephone'
+            ]);
             if (!isValid) {
                 document.getElementById('error-message').style.display = 'block';
                 return false;
             }
-
             document.getElementById('error-message').style.display = 'none';
-            const cost = calculateCost();
-            saveForm(cost);
-            checkAdditionalCost();
+            nextGroup();
+        }
+
+        function validateFields(fields) {
+            let isValid = true;
+            fields.forEach(id => {
+                const element = document.getElementById(id);
+                if (!element.value || (id === 'email' && !element.value.includes('@'))) {
+                    isValid = false;
+                }
+            });
+            return isValid;
         }
 
         function sendPartialData() {
@@ -243,7 +206,6 @@
 
         function calculateCost() {
             let cost = 0;
-
             const pieces = document.getElementById('pieces').value;
             const nettoyage = document.getElementById('nettoyage').value;
             const distance = document.getElementById('distance').value;
@@ -253,6 +215,11 @@
             const meubles = document.getElementById('meubles').value;
             const canape = document.getElementById('canape').value;
             const frigo = document.getElementById('frigo').value;
+            const balcon = document.getElementById('balcon').value;
+            const cave = document.getElementById('cave').value;
+            const acces = document.getElementById('acces').value;
+            const ascenseur = document.getElementById('ascenseur').value;
+            const monte_charge = document.getElementById('monte_charge').value;
 
             const piecesCost = {
                 studio: 450,
@@ -368,36 +335,13 @@
             };
             cost += frigoCosts[frigo] || 0;
 
-            const additionalCosts = {
-                balcon: 0.10,
-                terrasse: 0.15,
-                cave: 0.10,
-                acces_difficile: 0.20,
-                ascenseur_non: 0.10,
-                ascenseur_une_adresse: 0.05,
-                monte_charge: 700
-            };
-
-            if (document.getElementById('balcon').value === 'balcon') {
-                cost += cost * additionalCosts.balcon;
-            }
-            if (document.getElementById('balcon').value === 'terrasse') {
-                cost += cost * additionalCosts.terrasse;
-            }
-            if (document.getElementById('cave').value === 'oui') {
-                cost += cost * additionalCosts.cave;
-            }
-            if (document.getElementById('acces').value === 'difficile') {
-                cost += cost * additionalCosts.acces_difficile;
-            }
-            if (document.getElementById('ascenseur').value === 'non') {
-                cost += cost * additionalCosts.ascenseur_non;
-            } else if (document.getElementById('ascenseur').value === 'une_adresse') {
-                cost += cost * additionalCosts.ascenseur_une_adresse;
-            }
-            if (document.getElementById('monte_charge').value === 'oui') {
-                cost += additionalCosts.monte_charge;
-            }
+            if (balcon === 'balcon') cost += cost * 0.10;
+            if (balcon === 'terrasse') cost += cost * 0.15;
+            if (cave === 'oui') cost += cost * 0.10;
+            if (acces === 'difficile') cost += cost * 0.20;
+            if (ascenseur === 'non') cost += cost * 0.10;
+            else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+            if (monte_charge === 'oui') cost += 700;
 
             const today = new Date();
             let discountedCost = cost;
@@ -409,10 +353,11 @@
             document.getElementById('originalCost').innerText = cost.toFixed(2);
             document.getElementById('discountedPrice').innerText = discountedCost.toFixed(2);
 
-            return cost;
+            return discountedCost;
         }
 
-        function saveForm(cost) {
+        function saveForm() {
+            const cost = calculateCost();
             const formDetails = {
                 Nom_prenom: document.getElementById('nom_prenom').value,
                 Email: document.getElementById('email').value,
@@ -491,22 +436,6 @@
             });
         }
 
-        function checkAdditionalCost() {
-            const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
-                'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
-                'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
-                'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
-
-            const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
-            const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
-
-            if (hasAsteriskOption) {
-                document.getElementById('additional-cost-message').classList.remove('hidden');
-            } else {
-                document.getElementById('additional-cost-message').classList.add('hidden');
-            }
-        }
-
         function showConfirmationMessage() {
             const confirmationMessage = document.getElementById('confirmation-message');
             confirmationMessage.style.display = 'block';
@@ -555,21 +484,17 @@
                     <div class="form-group">
                         <label for="nom_prenom">Nom et Prénom :</label>
                         <input type="text" id="nom_prenom" placeholder="Exemple : Alan Favre" required>
-                        <span class="required-indicator" id="nom-required">* Obligatoire</span>
                     </div>
                     <div class="form-group">
                         <label for="email">Adresse Mail :</label>
                         <input type="email" id="email" placeholder="Exemple : alan.favre@exemple.com" required>
-                        <span class="required-indicator" id="email-required">* Obligatoire</span>
                     </div>
                     <div class="form-group">
                         <label for="telephone">Numéro de Téléphone :</label>
                         <input type="tel" id="telephone" placeholder="Exemple : 077 345 34 45" required>
-                        <span class="required-indicator" id="tel-required">* Obligatoire</span>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="navigation-button next-button" onclick="validateForm(); nextGroup();">Suivant</button>
-                        <div class="error-message hidden" id="error-message">Veuillez remplir correctement tous les champs requis.</div>
+                        <button type="button" class="navigation-button next-button" onclick="validateForm()">Suivant</button>
                     </div>
                 </div>
 
@@ -842,7 +767,7 @@
                     </div>
                     <div class="text-center">
                         <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                        <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
+                        <button type="button" class="navigation-button next-button" onclick="saveForm()">Connaitre le coût de mon déménagement</button>
                     </div>
                 </div>
             </form>
