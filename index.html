@@ -24,66 +24,45 @@
         .hidden {
             display: none;
         }
-        .disabled {
-            pointer-events: none;
-            opacity: 0.5;
-        }
         .navigation-button {
             display: inline-block;
             margin: 5px;
-            padding: 8px 16px;
+            padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-        }
-        .next-button {
-            background-color: #3b82f6;
+            background-color: #ff0000;
             color: white;
+            font-weight: bold;
         }
         .back-button {
             background-color: #a0aec0;
             color: white;
-            float: right;
-        }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #0928f1;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        .video-background {
-            position: fixed;
-            top: -1.7cm;
-            left: -2.01cm;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        @media (max-width: 768px) {
-        .video-background {
-            top: calc(-1.7cm - 1cm); /* Déplace la vidéo 1 cm vers le haut */
-            }
-        }
-        .video-background iframe {
-            width: 116%;
-            height: 116%;
-            object-fit: cover;
         }
         .content-container {
             position: relative;
             z-index: 1;
-            background-color: rgba(255, 255, 255, 0.01);
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+        input:focus {
+            border-color: #3b82f6;
+        }
+        h1 {
+            color: #ff0000;
         }
         .notification {
             display: none;
@@ -217,46 +196,31 @@
                 });
             }
 
-            let currentQuestion = 1;
-            const totalQuestions = 23;
+                    let currentGroup = 1;
+        const totalGroups = 8; // Adjust this to the total number of groups you have
 
-            function showPage(page) {
-                document.getElementById('page1').classList.add('hidden');
-                document.getElementById('page2').classList.add('hidden');
-                document.getElementById('page3').classList.add('hidden');
-                document.getElementById(page).classList.remove('hidden');
+        function nextGroup() {
+            document.getElementById(⁠ group${currentGroup} ⁠).classList.add('hidden');
+            currentGroup++;
+            if (currentGroup <= totalGroups) {
+                document.getElementById(⁠ group${currentGroup} ⁠).classList.remove('hidden');
             }
+            updateProgressBar();
+        }
 
-            function nextQuestion() {
-                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                currentDiv.classList.add('hidden');
-                currentQuestion++;
-                if (currentQuestion <= totalQuestions) {
-                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    nextDiv.classList.remove('hidden');
-                } else {
-                    showPage('page3');
-                }
-                updateProgressBar();
+        function previousGroup() {
+            document.getElementById(⁠ group${currentGroup} ⁠).classList.add('hidden');
+            currentGroup--;
+            if (currentGroup > 0) {
+                document.getElementById(⁠ group${currentGroup} ⁠).classList.remove('hidden');
             }
+            updateProgressBar();
+        }
 
-            function previousQuestion() {
-                if (currentQuestion > 1) {
-                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    currentDiv.classList.add('hidden');
-                    currentQuestion--;
-                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    previousDiv.classList.remove('hidden');
-                } else {
-                    showPage('page1');
-                }
-                updateProgressBar();
-            }
-
-            function updateProgressBar() {
-                const progress = (currentQuestion / totalQuestions) * 100;
-                document.getElementById('progress').style.width = `${progress}%`;
-            }
+        function updateProgressBar() {
+            const progress = (currentGroup / totalGroups) * 100;
+            document.getElementById('progress').style.width = ⁠ ${progress}% ⁠;
+        }
 
             function validateName() {
                 const nameInput = document.getElementById('nom_prenom');
@@ -357,348 +321,304 @@
             </div>
         </div>
 
-        <div id="page2" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-80 shadow-md rounded-lg overflow-hidden hidden">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">Votre Déménagement Commence ici</h1>
-                <div class="progress-bar">
-                    <div id="progress" class="progress"></div>
+        <div id="page2" class="bg-gray-100 font-sans antialiased">
+    <div class="content-container max-w-xl mx-auto mt-10">
+        <h1 class="text-2xl font-bold text-center mb-6">Rapide, Simple et Transparent</h1>
+
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+
+        <form id="devisForm" onsubmit="return false;">
+            <!-- Grouping questions 1, 2, 3 -->
+            <div id="group1" class="question-group">
+                <div class="form-group" data-question="1">
+                    <label for="nom_prenom">Nom et Prénom :</label>
+                    <input type="text" id="nom_prenom" placeholder="Exemple : Alan Favre" required>
                 </div>
-                <form id="devisForm" onsubmit="return false;">
-                    <div class="form-group mb-4" data-question="1">
-                        <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
-                        <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Alan Favre" required oninput="validateName()">
-                        <p class="obligatory-message" id="name-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="2">
-                        <label for="email" class="block text-gray-700">2. Adresse Mail :</label>
-                        <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : alan.favre@exemple.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Veuillez entrer une adresse email valide contenant @ et un domaine." oninput="validateEmail()">
-                        <p class="obligatory-message" id="email-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="email-next-button" disabled onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="3">
-                        <label for="telephone" class="block text-gray-700">3. Numéro de Téléphone :</label>
-                        <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : 077 345 34 45" required pattern="^\d{10,15}$" title="Veuillez entrer un numéro de téléphone valide." oninput="validateTelephone()">
-                        <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="sendInitialData()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="4">
-                        <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle & Etage :</label>
-                        <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required oninput="validateAddress('adresse_actuelle', 'address1-obligatory')">
-                        <p class="obligatory-message" id="address1-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="5">
-                        <label for="adresse_future" class="block text-gray-700">5. Adresse de Destination & Etage :</label>
-                        <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required oninput="validateAddress('adresse_future', 'address2-obligatory')">
-                        <p class="obligatory-message" id="address2-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="6">
-                        <label for="statut" class="block text-gray-700">6. Votre Statut :</label>
-                        <select id="statut" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="Particulier">Particulier</option>
-                            <option value="Entreprise">Entreprise</option>
-                            <option value="Autre">Autre</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="7">
-                        <label for="formule" class="block text-gray-700">7. Sélection de la Formule :</label>
-                        <select id="formule" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleFormuleChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="economique">Économique (Chargement & Déchargement / Transport)</option>
-                            <option value="premium">Premium (Chargement & Déchargement / Transport / Démontage et Remontage des meubles)</option>
-                            <option value="prestige">Prestige (Chargement & Déchargement / Transport / Démontage et Remontage des meubles / Emballage & Déballage / Nettoyage fin de bail)</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="8">
-                        <label for="objet" class="block text-gray-700">8. Type de Logement :</label>
-                        <select id="objet" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleObjetChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="Appartement">Appartement</option>
-                            <option value="Maison">Maison</option>
-                            <option value="Locaux">Locaux</option>
-                            <option value="Autre">Autre*</option>
-                        </select>
-                        <div id="sous-options-objet" class="nested-option hidden"></div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="9">
-                        <label for="pieces" class="block text-gray-700">9. Nombre de Pièces :</label>
-                        <select id="pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handlePiecesChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="studio">Studio</option>
-                            <option value="une_piece">Une pièce</option>
-                            <option value="deux_pieces">Deux pièces</option>
-                            <option value="trois_pieces">Trois pièces</option>
-                            <option value="quatre_pieces">Quatre pièces</option>
-                            <option value="cinq_pieces">Cinq pièces</option>
-                            <option value="six_pieces">Six pièces</option>
-                            <option value="sept_pieces">Sept pièces</option>
-                            <option value="huit_pieces">Huit pièces</option>
-                            <option value="neuf_pieces">Neuf pièces</option>
-                            <option value="dix_pieces">Dix pièces</option>
-                        </select>
-                        <div id="sous-options-pieces" class="nested-option hidden"></div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="10">
-                        <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
-                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">Pas de nettoyage</option>
-                            <option value="30_49">30 m² à 49 m² (200chf)</option>
-                            <option value="50_69">50 m² à 69 m² (350chf)</option>
-                            <option value="70_89">70 m² à 89 m² (500chf)</option>
-                            <option value="90_109">90 m² à 109 m² (650chf)</option>
-                            <option value="110_129">110 m² à 129 m² (800chf)</option>
-                            <option value="130_149">130 m² à 149 m² (950chf)</option>
-                            <option value="150_169">150 m² à 169 m² (1100chf)</option>
-                            <option value="170_189">170 m² à 189 m² (1250chf)</option>
-                            <option value="190_209">190 m² à 209 m² (1400chf)</option>
-                            <option value="210_229">210 m² à 229 m² (1550chf)</option>
-                            <option value="plus_210">Plus de 230m²*</option>
-                        </select>
-                        <div id="question10-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle à la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="11">
-                        <label for="distance" class="block text-gray-700">11. Distance du Déménagement :</label>
-                        <select id="distance" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0_9">0-9 km (Gratuit)</option>
-                            <option value="10_29">10-29 km (50chf)</option>
-                            <option value="30_49">30-49 km (80chf)</option>
-                            <option value="50_69">50-69 km (120chf)</option>
-                            <option value="70_89">70-89 km (160chf)</option>
-                            <option value="90_109">90-109 km (200chf)</option>
-                            <option value="plus_110">Plus de 110km*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="12">
-                        <label for="lit_adulte" class="block text-gray-700">12. Nombre de Lits Adultes (90x200cm à 180x200cm) :</label>
-                        <select id="lit_adulte" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="13">
-                        <label for="lit_enfant" class="block text-gray-700">13. Nombre de Lits Enfants (70x140cm à 90x190cm):</label>
-                        <select id="lit_enfant" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="14">
-                        <label for="meubles" class="block text-gray-700">14. Nombre de meubles et d'armoires à habits de grande taille nécessitant démontage et remontage pour le transport (les lits ne comptent pas) :</label>
-                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0 (0chf)</option>
-                            <option value="1">1 (150chf)</option>
-                            <option value="2">2 (300chf)</option>
-                            <option value="3">3 (400chf)</option>
-                            <option value="4">4 (500chf)</option>
-                            <option value="5">5 (600chf)</option>
-                            <option value="6">6 (700chf)</option>
-                            <option value="7">7 (800chf)</option>
-                            <option value="8">8 (900chf)</option>
-                            <option value="plus_de_huit">Plus de huit* (à convenir)</option>
-                        </select>
-                        <div id="question14-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle à la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="15">
-                        <label for="canape" class="block text-gray-700">15. Type de Canapés :</label>
-                        <select id="canape" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">Pas de canapés</option>
-                            <option value="1">Canapé droit, trois places ou moins</option>
-                            <option value="2">Canapé droit, plus de trois places</option>
-                            <option value="3">Canapé d'angle</option>
-                            <option value="4">Set de canapés 3+2+1</option>
-                            <option value="autre">Autre*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="16">
-                        <label for="frigo" class="block text-gray-700">16. Nombre de réfrigérateurs, machines à laver, lave-vaisselle :</label>
-                        <select id="frigo" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="17">
-                        <label for="balcon" class="block text-gray-700">17. Présence d'un Balcon ou Terrasse :</label>
-                        <select id="balcon" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="balcon">Oui, balcon</option>
-                            <option value="terrasse">Oui, terrasse</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="18">
-                        <label for="cave" class="block text-gray-700">18. Présence d'une Cave :</label>
-                        <select id="cave" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="oui">Oui</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="19">
-                        <label for="acces" class="block text-gray-700">19. Conditions d'Accès au Bâtiment :</label>
-                        <select id="acces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="facile">Facile</option>
-                            <option value="difficile">Difficile*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="20">
-                        <label for="ascenseur" class="block text-gray-700">20. Ascenseur Disponible dans Le Bâtiment :</label>
-                        <select id="ascenseur" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="rez_de_chaussee">Rez-de-chaussée</option>
-                            <option value="deux_adresses">Oui aux deux adresses</option>
-                            <option value="une_adresse">Oui à une seule adresse</option>
-                            <option value="non">Non</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="21">
-                        <label for="monte_charge" class="block text-gray-700">21. Monte-Meuble Nécessaire :</label>
-                        <select id="monte_charge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="oui">Oui</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="22">
-                        <label for="cartons" class="block text-gray-700">22. Formule Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
-                        <select id="cartons" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="formule_m">Formule M (lot de 10 cartons) à 49.-</option>
-                            <option value="formule_l">Formule L (lot de 30 cartons) à 138.-</option>
-                            <option value="formule_xl">Formule XL (lot de 60 cartons) à 270.-</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="23">
-                        <label for="commentaires" class="block text-gray-700">23. Commentaires ou Informations Supplémentaires :</label>
-                        <input type="text" id="commentaires" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Toute information supplémentaire">
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
+                <div class="form-group" data-question="2">
+                    <label for="email">Adresse Mail :</label>
+                    <input type="email" id="email" placeholder="Exemple : alan.favre@exemple.com" required>
+                </div>
+                <div class="form-group" data-question="3">
+                    <label for="telephone">Numéro de Téléphone :</label>
+                    <input type="tel" id="telephone" placeholder="Exemple : 077 345 34 45" required>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 4, 5, 6 -->
+            <div id="group2" class="question-group hidden">
+                <div class="form-group" data-question="4">
+                    <label for="adresse_actuelle">Votre Adresse Actuelle & Etage :</label>
+                    <input type="text" id="adresse_actuelle" placeholder="Exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required>
+                </div>
+                <div class="form-group" data-question="5">
+                    <label for="adresse_future">Adresse de Destination & Etage :</label>
+                    <input type="text" id="adresse_future" placeholder="Exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required>
+                </div>
+                <div class="form-group" data-question="6">
+                    <label for="statut">Votre Statut :</label>
+                    <select id="statut" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="Particulier">Particulier</option>
+                        <option value="Entreprise">Entreprise</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 7, 8, 9 -->
+            <div id="group3" class="question-group hidden">
+                <div class="form-group" data-question="7">
+                    <label for="formule">Sélection de la Formule :</label>
+                    <select id="formule" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="economique">Économique</option>
+                        <option value="premium">Premium</option>
+                        <option value="prestige">Prestige</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="8">
+                    <label for="objet">Type de Logement :</label>
+                    <select id="objet" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="Appartement">Appartement</option>
+                        <option value="Maison">Maison</option>
+                        <option value="Locaux">Locaux</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="9">
+                    <label for="pieces">Nombre de Pièces :</label>
+                    <select id="pieces" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="studio">Studio</option>
+                        <option value="une_piece">Une pièce</option>
+                        <option value="deux_pieces">Deux pièces</option>
+                        <option value="trois_pieces">Trois pièces</option>
+                        <option value="quatre_pieces">Quatre pièces</option>
+                        <option value="cinq_pieces">Cinq pièces</option>
+                        <option value="six_pieces">Six pièces</option>
+                        <option value="sept_pieces">Sept pièces</option>
+                        <option value="huit_pieces">Huit pièces</option>
+                        <option value="neuf_pieces">Neuf pièces</option>
+                        <option value="dix_pieces">Dix pièces</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 10, 11, 12 -->
+            <div id="group4" class="question-group hidden">
+                <div class="form-group" data-question="10">
+                    <label for="nettoyage">Service de Nettoyage :</label>
+                    <select id="nettoyage" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">Pas de nettoyage</option>
+                        <option value="30_49">30 m² à 49 m²</option>
+                        <option value="50_69">50 m² à 69 m²</option>
+                        <option value="70_89">70 m² à 89 m²</option>
+                        <option value="90_109">90 m² à 109 m²</option>
+                        <option value="110_129">110 m² à 129 m²</option>
+                        <option value="130_149">130 m² à 149 m²</option>
+                        <option value="150_169">150 m² à 169 m²</option>
+                        <option value="170_189">170 m² à 189 m²</option>
+                        <option value="190_209">190 m² à 209 m²</option>
+                        <option value="210_229">210 m² à 229 m²</option>
+                        <option value="plus_210">Plus de 230m²</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="11">
+                    <label for="distance">Distance du Déménagement :</label>
+                    <select id="distance" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0_9">0-9 km</option>
+                        <option value="10_29">10-29 km</option>
+                        <option value="30_49">30-49 km</option>
+                        <option value="50_69">50-69 km</option>
+                        <option value="70_89">70-89 km</option>
+                        <option value="90_109">90-109 km</option>
+                        <option value="plus_110">Plus de 110km</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="12">
+                    <label for="lit_adulte">Nombre de Lits Adultes :</label>
+                    <select id="lit_adulte" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="plus_de_huit">Plus de huit</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 13, 14, 15 -->
+            <div id="group5" class="question-group hidden">
+                <div class="form-group" data-question="13">
+                    <label for="lit_enfant">Nombre de Lits Enfants :</label>
+                    <select id="lit_enfant" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="plus_de_huit">Plus de huit</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="14">
+                    <label for="meubles">Nombre de Meubles :</label>
+                    <select id="meubles" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="plus_de_huit">Plus de huit</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="15">
+                    <label for="canape">Type de Canapés :</label>
+                    <select id="canape" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">Pas de canapés</option>
+                        <option value="1">Canapé droit, trois places ou moins</option>
+                        <option value="2">Canapé droit, plus de trois places</option>
+                        <option value="3">Canapé d'angle</option>
+                        <option value="4">Set de canapés 3+2+1</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 16, 17, 18 -->
+            <div id="group6" class="question-group hidden">
+                <div class="form-group" data-question="16">
+                    <label for="frigo">Nombre de Réfrigérateurs :</label>
+                    <select id="frigo" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="plus_de_huit">Plus de huit</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="17">
+                    <label for="balcon">Présence d'un Balcon ou Terrasse :</label>
+                    <select id="balcon" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="non">Non</option>
+                        <option value="balcon">Oui, balcon</option>
+                        <option value="terrasse">Oui, terrasse</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="18">
+                    <label for="cave">Présence d'une Cave :</label>
+                    <select id="cave" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 19, 20, 21 -->
+            <div id="group7" class="question-group hidden">
+                <div class="form-group" data-question="19">
+                    <label for="acces">Conditions d'Accès au Bâtiment :</label>
+                    <select id="acces" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="facile">Facile</option>
+                        <option value="difficile">Difficile</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="20">
+                    <label for="ascenseur">Ascenseur Disponible :</label>
+                    <select id="ascenseur" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="rez_de_chaussee">Rez-de-chaussée</option>
+                        <option value="deux_adresses">Oui aux deux adresses</option>
+                        <option value="une_adresse">Oui à une seule adresse</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="21">
+                    <label for="monte_charge">Monte-Meuble Nécessaire :</label>
+                    <select id="monte_charge" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Grouping questions 22, 23 -->
+            <div id="group8" class="question-group hidden">
+                <div class="form-group" data-question="22">
+                    <label for="cartons">Formule Cartons :</label>
+                    <select id="cartons" required>
+                        <option value="" disabled selected>Choisissez…</option>
+                        <option value="non">Non</option>
+                        <option value="formule_m">Formule M</option>
+                        <option value="formule_l">Formule L</option>
+                        <option value="formule_xl">Formule XL</option>
+                    </select>
+                </div>
+                <div class="form-group" data-question="23">
+                    <label for="commentaires">Commentaires :</label>
+                    <input type="text" id="commentaires" placeholder="Informations supplémentaires">
+                </div>
+                <div class="text-center">
+                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                    <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
                         </div>
                     </div>
                 </form>
