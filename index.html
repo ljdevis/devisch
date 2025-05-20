@@ -7,14 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #2c2c2c;
-            font-family: 'Roboto', sans-serif;
-            color: #ffffff;
-        }
-        h1, h2 {
-            color: #ff69b4;
-        }
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -24,10 +16,13 @@
         }
         .progress {
             height: 8px;
-            background-color: #ff69b4;
+            background-color: #3b82f6;
             width: 0%;
             border-radius: 5px;
             transition: width 0.4s ease;
+        }
+        .hidden {
+            display: none;
         }
         .navigation-button {
             display: inline-block;
@@ -35,13 +30,10 @@
             padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            background-color: #ff69b4;
+            transition: background-color 0.3s;
+            background-color: #ff0000;
             color: white;
             font-weight: bold;
-        }
-        .navigation-button:hover {
-            transform: rotateY(180deg);
         }
         .back-button {
             background-color: #a0aec0;
@@ -50,18 +42,13 @@
         .content-container {
             position: relative;
             z-index: 1;
-            background-color: #1f1f1f;
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .form-group {
             margin-bottom: 20px;
-            position: relative;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
         }
         input[type="text"], input[type="email"], input[type="tel"], select {
             width: 100%;
@@ -70,28 +57,12 @@
             border-radius: 4px;
             margin-top: 8px;
             font-size: 1rem;
-            background-color: #2c2c2c;
-            color: #ffffff;
         }
         input:focus {
-            border-color: #ff69b4;
+            border-color: #3b82f6;
         }
-        .required-indicator {
-            position: absolute;
-            right: 10px;
-            top: 35px;
-            color: red;
-            font-weight: bold;
-            display: none;
-        }
-        .required-indicator.valid {
-            color: green;
-            display: inline;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            font-weight: bold;
+        h1 {
+            color: #ff0000;
         }
         .notification {
             display: none;
@@ -103,6 +74,56 @@
         }
         .notification.error {
             color: #D32F2F;
+        }
+        .discounted-price {
+            color: green;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .original-price {
+            color: red;
+            text-decoration: line-through;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .promotion-message {
+            color: green;
+            font-size: 1.0rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .social-icons i {
+            font-size: 24px;
+            color: #3b82f6;
+            cursor: pointer;
+        }
+        .promo-input {
+            width: 50%;
+            padding: 5px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: transparent;
+            font-size: 0.9rem;
+            color: #555;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .promo-input::placeholder {
+            color: #bbb;
+        }
+        .promo-input:focus {
+            border-color: #007bff;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
         }
         .whatsapp-button {
             position: fixed;
@@ -119,20 +140,11 @@
             align-items: center;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s;
         }
         .whatsapp-button:hover {
             background-color: #128C7E;
-        }
-        .confirmation-message {
-            display: none;
-            color: green;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .hidden {
-            display: none;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -181,81 +193,39 @@
         }
 
         function validateForm() {
-            let isValid = true;
-            const nomPrenom = document.getElementById('nom_prenom').value;
             const email = document.getElementById('email').value;
             const telephone = document.getElementById('telephone').value;
 
-            const nomPrenomValid = nomPrenom.length >= 3;
-            const telephoneValid = telephone.length >= 9;
-            const emailValid = email.includes('@');
-
-            document.querySelectorAll('.required-indicator').forEach(indicator => indicator.style.display = 'none');
-
-            if (!nomPrenomValid) {
-                document.getElementById('nom-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('nom-required').classList.add('valid');
-            }
-
-            if (!telephoneValid) {
-                document.getElementById('tel-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('tel-required').classList.add('valid');
-            }
-
-            if (!emailValid) {
-                document.getElementById('email-required').style.display = 'inline';
-                isValid = false;
-            } else {
-                document.getElementById('email-required').classList.add('valid');
-            }
-
-            if (!isValid) {
+            if (!email || !telephone) {
                 document.getElementById('error-message').style.display = 'block';
-                return false;
+                setTimeout(() => {
+                    document.getElementById('error-message').style.display = 'none';
+                }, 3000);
+                return;
             }
 
-            document.getElementById('error-message').style.display = 'none';
             const cost = calculateCost();
             saveForm(cost);
             checkAdditionalCost();
         }
 
-        function sendPartialData() {
-            const formDetails = {
-                Nom_prenom: document.getElementById('nom_prenom').value,
-                Email: document.getElementById('email').value,
-                Telephone: document.getElementById('telephone').value
-            };
-
-            emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                to_email: formDetails.Email,
-                from_name: "L&J Déménagement",
-                subject: "Demande de devis de L&J Déménagement",
-                message: `Données partielles :\nNom et Prénom: ${formDetails.Nom_prenom}\nEmail: ${formDetails.Email}\nTéléphone: ${formDetails.Telephone}`
-            }).then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-            }, (err) => {
-                console.error('FAILED...', err);
-                showNotification("Échec de l'envoi du formulaire.", 'error');
-            });
-        }
-
         function calculateCost() {
             let cost = 0;
-
+            const formule = document.getElementById('formule').value;
             const pieces = document.getElementById('pieces').value;
+            const cartons = document.getElementById('cartons').value;
             const nettoyage = document.getElementById('nettoyage').value;
             const distance = document.getElementById('distance').value;
-            const cartons = document.getElementById('cartons').value;
             const lit_adulte = document.getElementById('lit_adulte').value;
             const lit_enfant = document.getElementById('lit_enfant').value;
             const meubles = document.getElementById('meubles').value;
             const canape = document.getElementById('canape').value;
             const frigo = document.getElementById('frigo').value;
+            const balcon = document.getElementById('balcon').value;
+            const cave = document.getElementById('cave').value;
+            const acces = document.getElementById('acces').value;
+            const ascenseur = document.getElementById('ascenseur').value;
+            const monte_charge = document.getElementById('monte_charge').value;
 
             const piecesCost = {
                 studio: 450,
@@ -371,36 +341,13 @@
             };
             cost += frigoCosts[frigo] || 0;
 
-            const additionalCosts = {
-                balcon: 0.10,
-                terrasse: 0.15,
-                cave: 0.10,
-                acces_difficile: 0.20,
-                ascenseur_non: 0.10,
-                ascenseur_une_adresse: 0.05,
-                monte_charge: 700
-            };
-
-            if (document.getElementById('balcon').value === 'balcon') {
-                cost += cost * additionalCosts.balcon;
-            }
-            if (document.getElementById('balcon').value === 'terrasse') {
-                cost += cost * additionalCosts.terrasse;
-            }
-            if (document.getElementById('cave').value === 'oui') {
-                cost += cost * additionalCosts.cave;
-            }
-            if (document.getElementById('acces').value === 'difficile') {
-                cost += cost * additionalCosts.acces_difficile;
-            }
-            if (document.getElementById('ascenseur').value === 'non') {
-                cost += cost * additionalCosts.ascenseur_non;
-            } else if (document.getElementById('ascenseur').value === 'une_adresse') {
-                cost += cost * additionalCosts.ascenseur_une_adresse;
-            }
-            if (document.getElementById('monte_charge').value === 'oui') {
-                cost += additionalCosts.monte_charge;
-            }
+            if (balcon === 'balcon') cost += cost * 0.10;
+            if (balcon === 'terrasse') cost += cost * 0.15;
+            if (cave === 'oui') cost += cost * 0.10;
+            if (acces === 'difficile') cost += cost * 0.20;
+            if (ascenseur === 'non') cost += cost * 0.10;
+            else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+            if (monte_charge === 'oui') cost += 700;
 
             const today = new Date();
             let discountedCost = cost;
@@ -532,363 +479,366 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    <!-- Page de bienvenue -->
-    <div id="welcomePage" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-4">Bienvenue chez L&J Déménagement</h1>
-            <p class="text-gray-700 mb-4">Nous vous remercions de nous choisir pour votre projet de déménagement. Remplissez le formulaire ci-dessous pour obtenir un devis personnalisé.</p>
-            <button class="navigation-button next-button" onclick="showPage('page1'); currentGroup = 1;">Commencer</button>
-        </div>
-    </div>
-
     <!-- Page 1 -->
-    <div id="page1" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    <div id="page1" class="page max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Informations de Contact</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="nom_prenom">Nom et Prénom :</label>
-                    <input type="text" id="nom_prenom" placeholder="Exemple : Alan Favre" required>
-                    <span class="required-indicator" id="nom-required">* Obligatoire</span>
-                </div>
-                <div class="form-group">
-                    <label for="email">Adresse Mail :</label>
-                    <input type="email" id="email" placeholder="Exemple : alan.favre@exemple.com" required>
-                    <span class="required-indicator" id="email-required">* Obligatoire</span>
-                </div>
-                <div class="form-group">
-                    <label for="telephone">Numéro de Téléphone :</label>
-                    <input type="tel" id="telephone" placeholder="Exemple : 077 345 34 45" required>
-                    <span class="required-indicator" id="tel-required">* Obligatoire</span>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button next-button" onclick="validateForm(); nextGroup();">Suivant</button>
-                    <div class="error-message hidden" id="error-message">Veuillez remplir correctement tous les champs requis.</div>
-                </div>
-            </form>
+            <h1 class="text-2xl font-bold text-blue-600 mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
+            <p class="text-gray-700 mb-4 text-base font-bold">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION.</p>
+            <p class="text-gray-700 mb-6 text-base font-bold">RÉPONDEZ À 23 QUESTIONS ET DÉCOUVREZ VOTRE PRIX INSTANTANÉMENT.</p>
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="showPage('page2')">Démarrer maintenant</button>
+            <p class="text-green-500 mt-4 font-bold">95 Devis Réalisés la semaine dernière</p>
         </div>
     </div>
 
     <!-- Page 2 -->
-    <div id="page2" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Adresse de Déménagement</h1>
+    <div id="page2" class="page hidden bg-gray-100 font-sans antialiased">
+        <div class="content-container max-w-xl mx-auto mt-10">
+            <h1 class="text-2xl font-bold text-center mb-6">Rapide, Simple et Transparent</h1>
+
+            <div class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>
+
             <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="adresse_actuelle">Votre Adresse Actuelle :</label>
-                    <input type="text" id="adresse_actuelle" placeholder="Exemple : Av Louis 5, 1400 Yverdon" required>
+                <div id="group1" class="question-group">
+                    <!-- Grouping questions 1, 2, 3 -->
+                    <div class="form-group">
+                        <label for="nom_prenom">Nom et Prénom :</label>
+                        <input type="text" id="nom_prenom" placeholder="Exemple : Alan Favre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adresse Mail :</label>
+                        <input type="email" id="email" placeholder="Exemple : alan.favre@exemple.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Numéro de Téléphone :</label>
+                        <input type="tel" id="telephone" placeholder="Exemple : 077 345 34 45" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="adresse_future">Adresse de Destination :</label>
-                    <input type="text" id="adresse_future" placeholder="Exemple : Rue du Lac 8, 1003 Lausanne" required>
+
+                <div id="group2" class="question-group hidden">
+                    <!-- Grouping questions 4, 5, 6 -->
+                    <div class="form-group">
+                        <label for="adresse_actuelle">Votre Adresse Actuelle & Etage :</label>
+                        <input type="text" id="adresse_actuelle" placeholder="Exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adresse_future">Adresse de Destination & Etage :</label>
+                        <input type="text" id="adresse_future" placeholder="Exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="statut">Votre Statut :</label>
+                        <select id="statut" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Particulier">Particulier</option>
+                            <option value="Entreprise">Entreprise</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="statut">Votre Statut :</label>
-                    <select id="statut" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="Particulier">Particulier</option>
-                        <option value="Entreprise">Entreprise</option>
-                        <option value="Autre">Autre</option>
-                    </select>
+
+                <div id="group3" class="question-group hidden">
+                    <!-- Grouping questions 7, 8, 9 -->
+                    <div class="form-group">
+                        <label for="formule">Sélection de la Formule :</label>
+                        <select id="formule" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="economique">Économique</option>
+                            <option value="premium">Premium</option>
+                            <option value="prestige">Prestige</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="objet">Type de Logement :</label>
+                        <select id="objet" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Appartement">Appartement</option>
+                            <option value="Maison">Maison</option>
+                            <option value="Locaux">Locaux</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pieces">Nombre de Pièces :</label>
+                        <select id="pieces" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="studio">Studio</option>
+                            <option value="une_piece">Une pièce</option>
+                            <option value="deux_pieces">Deux pièces</option>
+                            <option value="trois_pieces">Trois pièces</option>
+                            <option value="quatre_pieces">Quatre pièces</option>
+                            <option value="cinq_pieces">Cinq pièces</option>
+                            <option value="six_pieces">Six pièces</option>
+                            <option value="sept_pieces">Sept pièces</option>
+                            <option value="huit_pieces">Huit pièces</option>
+                            <option value="neuf_pieces">Neuf pièces</option>
+                            <option value="dix_pieces">Dix pièces</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+
+                <div id="group4" class="question-group hidden">
+                    <!-- Grouping questions 10, 11, 12 -->
+                    <div class="form-group">
+                        <label for="nettoyage">Service de Nettoyage :</label>
+                        <select id="nettoyage" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">Pas de nettoyage</option>
+                            <option value="30_49">30 m² à 49 m²</option>
+                            <option value="50_69">50 m² à 69 m²</option>
+                            <option value="70_89">70 m² à 89 m²</option>
+                            <option value="90_109">90 m² à 109 m²</option>
+                            <option value="110_129">110 m² à 129 m²</option>
+                            <option value="130_149">130 m² à 149 m²</option>
+                            <option value="150_169">150 m² à 169 m²</option>
+                            <option value="170_189">170 m² à 189 m²</option>
+                            <option value="190_209">190 m² à 209 m²</option>
+                            <option value="210_229">210 m² à 229 m²</option>
+                            <option value="plus_210">Plus de 230m²</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="distance">Distance du Déménagement :</label>
+                        <select id="distance" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0_9">0-9 km</option>
+                            <option value="10_29">10-29 km</option>
+                            <option value="30_49">30-49 km</option>
+                            <option value="50_69">50-69 km</option>
+                            <option value="70_89">70-89 km</option>
+                            <option value="90_109">90-109 km</option>
+                            <option value="plus_110">Plus de 110km</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lit_adulte">Nombre de Lits Adultes :</label>
+                        <select id="lit_adulte" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
+                </div>
+
+                <div id="group5" class="question-group hidden">
+                    <!-- Grouping questions 13, 14, 15 -->
+                    <div class="form-group">
+                        <label for="lit_enfant">Nombre de Lits Enfants :</label>
+                        <select id="lit_enfant" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="meubles">Nombre de Meubles :</label>
+                        <select id="meubles" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="canape">Type de Canapés :</label>
+                        <select id="canape" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">Pas de canapés</option>
+                            <option value="1">Canapé droit, trois places ou moins</option>
+                            <option value="2">Canapé droit, plus de trois places</option>
+                            <option value="3">Canapé d'angle</option>
+                            <option value="4">Set de canapés 3+2+1</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
+                </div>
+
+                <div id="group6" class="question-group hidden">
+                    <!-- Grouping questions 16, 17, 18 -->
+                    <div class="form-group">
+                        <label for="frigo">Nombre de Réfrigérateurs :</label>
+                        <select id="frigo" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="balcon">Présence d'un Balcon ou Terrasse :</label>
+                        <select id="balcon" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="balcon">Oui, balcon</option>
+                            <option value="terrasse">Oui, terrasse</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cave">Présence d'une Cave :</label>
+                        <select id="cave" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="oui">Oui</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
+                </div>
+
+                <div id="group7" class="question-group hidden">
+                    <!-- Grouping questions 19, 20, 21 -->
+                    <div class="form-group">
+                        <label for="acces">Conditions d'Accès au Bâtiment :</label>
+                        <select id="acces" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="facile">Facile</option>
+                            <option value="difficile">Difficile</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ascenseur">Ascenseur Disponible :</label>
+                        <select id="ascenseur" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="rez_de_chaussee">Rez-de-chaussée</option>
+                            <option value="deux_adresses">Oui aux deux adresses</option>
+                            <option value="une_adresse">Oui à une seule adresse</option>
+                            <option value="non">Non</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monte_charge">Monte-Meuble Nécessaire :</label>
+                        <select id="monte_charge" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="oui">Oui</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
+                    </div>
+                </div>
+
+                <div id="group8" class="question-group hidden">
+                    <!-- Grouping questions 22, 23 -->
+                    <div class="form-group">
+                        <label for="cartons">Formule Cartons :</label>
+                        <select id="cartons" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="formule_m">Formule M</option>
+                            <option value="formule_l">Formule L</option>
+                            <option value="formule_xl">Formule XL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentaires">Commentaires :</label>
+                        <input type="text" id="commentaires" placeholder="Informations supplémentaires">
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
+                        <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
+                    </div>
                 </div>
             </form>
+            <p id="resultat" class="mt-4 text-xl text-center"></p>
+            <div class="error-message text-red-500 hidden" id="error-message">Veuillez remplir tous les champs requis.</div>
+            <div class="confirmation-message text-green-500 hidden" id="confirmation-message">Confirmation de l'envoi</div>
         </div>
     </div>
 
     <!-- Page 3 -->
-    <div id="page3" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Détails du Déménagement</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="formule">Sélection de la Formule :</label>
-                    <select id="formule" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="economique">Économique</option>
-                        <option value="premium">Premium</option>
-                        <option value="prestige">Prestige</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="objet">Type de Logement :</label>
-                    <select id="objet" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="Appartement">Appartement</option>
-                        <option value="Maison">Maison</option>
-                        <option value="Locaux">Locaux</option>
-                        <option value="Autre">Autre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="pieces">Nombre de Pièces :</label>
-                    <select id="pieces" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="studio">Studio</option>
-                        <option value="une_piece">Une pièce</option>
-                        <option value="deux_pieces">Deux pièces</option>
-                        <option value="trois_pieces">Trois pièces</option>
-                        <option value="quatre_pieces">Quatre pièces</option>
-                        <option value="cinq_pieces">Cinq pièces</option>
-                        <option value="six_pieces">Six pièces</option>
-                        <option value="sept_pieces">Sept pièces</option>
-                        <option value="huit_pieces">Huit pièces</option>
-                        <option value="neuf_pieces">Neuf pièces</option>
-                        <option value="dix_pieces">Dix pièces</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
-                </div>
-            </form>
+            <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
+            <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
+            <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
+            <p class="text-gray-700 mb-6">L&J Déménagement vous remercie pour votre fidélité</p>
+            
+            <div class="promo-code-section mb-4">
+                <input type="text" id="promo-code" placeholder="Code Promo" class="promo-input">
+                <button id="apply-promo" class="hidden bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Appliquer</button>
+            </div>
+
+            <div id="promo-notification" class="notification"></div>
+
+            <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="window.location.href='https://calendly.com/ljdemenagement'">Je souhaite organiser une visioconférence pour valider mon devis</button>
+            <div class="mb-4">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/boutique'">La Boutique L&J Déménagement</button>
+            </div>
+
+            <div class="social-icons">
+                <a href="https://www.facebook.com/share/19uEbazn1Q/" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/ljdemenagement01?igsh=ZjZtdTRqdmJsNXk=" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@lj.demenagement?_t=ZN-8tvKSX4GP4Q&_r=1" target="_blank">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://youtube.com/@ljdemenagement?si=qsAm-QkHyJLUB_fL" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+            <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-blue-500 hover:underline">Laissez un feedback sur Google.</a></p>
+            <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
         </div>
     </div>
 
-    <!-- Page 4 -->
-    <div id="page4" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Services Additionnels</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="nettoyage">Service de Nettoyage :</label>
-                    <select id="nettoyage" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">Pas de nettoyage</option>
-                        <option value="30_49">30 m² à 49 m²</option>
-                        <option value="50_69">50 m² à 69 m²</option>
-                        <option value="70_89">70 m² à 89 m²</option>
-                        <option value="90_109">90 m² à 109 m²</option>
-                        <option value="110_129">110 m² à 129 m²</option>
-                        <option value="130_149">130 m² à 149 m²</option>
-                        <option value="150_169">150 m² à 169 m²</option>
-                        <option value="170_189">170 m² à 189 m²</option>
-                        <option value="190_209">190 m² à 209 m²</option>
-                        <option value="plus_210">Plus de 230m²</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="distance">Distance du Déménagement :</label>
-                    <select id="distance" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0_9">0-9 km</option>
-                        <option value="10_29">10-29 km</option>
-                        <option value="30_49">30-49 km</option>
-                        <option value="50_69">50-69 km</option>
-                        <option value="70_89">70-89 km</option>
-                        <option value="90_109">90-109 km</option>
-                        <option value="plus_110">Plus de 110km</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="lit_adulte">Nombre de Lits Adultes :</label>
-                    <select id="lit_adulte" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="plus_de_huit">Plus de huit</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Page 5 -->
-    <div id="page5" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Détails Supplémentaires</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="lit_enfant">Nombre de Lits Enfants :</label>
-                    <select id="lit_enfant" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="plus_de_huit">Plus de huit</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="meubles">Nombre de Meubles :</label>
-                    <select id="meubles" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="plus_de_huit">Plus de huit</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="canape">Type de Canapés :</label>
-                    <select id="canape" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">Pas de canapés</option>
-                        <option value="1">Canapé droit, trois places ou moins</option>
-                        <option value="2">Canapé droit, plus de trois places</option>
-                        <option value="3">Canapé d'angle</option>
-                        <option value="4">Set de canapés 3+2+1</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Page 6 -->
-    <div id="page6" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Équipements Spécifiques</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="frigo">Nombre de Réfrigérateurs :</label>
-                    <select id="frigo" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="plus_de_huit">Plus de huit</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="balcon">Présence d'un Balcon ou Terrasse :</label>
-                    <select id="balcon" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="non">Non</option>
-                        <option value="balcon">Oui, balcon</option>
-                        <option value="terrasse">Oui, terrasse</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="cave">Présence d'une Cave :</label>
-                    <select id="cave" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="non">Non</option>
-                        <option value="oui">Oui</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Page 7 -->
-    <div id="page7" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Accès et Équipements</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="acces">Conditions d'Accès au Bâtiment :</label>
-                    <select id="acces" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="facile">Facile</option>
-                        <option value="difficile">Difficile</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ascenseur">Ascenseur Disponible :</label>
-                    <select id="ascenseur" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="rez_de_chaussee">Rez-de-chaussée</option>
-                        <option value="deux_adresses">Oui aux deux adresses</option>
-                        <option value="une_adresse">Oui à une seule adresse</option>
-                        <option value="non">Non</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="monte_charge">Monte-Meuble Nécessaire :</label>
-                    <select id="monte_charge" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="non">Non</option>
-                        <option value="oui">Oui</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button next-button" onclick="nextGroup()">Suivant</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Page 8 -->
-    <div id="page8" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold mb-6">Finalisez Votre Demande</h1>
-            <form id="devisForm" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="cartons">Formule Cartons :</label>
-                    <select id="cartons" required>
-                        <option value="" disabled selected>Choisissez…</option>
-                        <option value="non">Non</option>
-                        <option value="formule_m">Formule M</option>
-                        <option value="formule_l">Formule L</option>
-                        <option value="formule_xl">Formule XL</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="commentaires">Commentaires :</label>
-                    <input type="text" id="commentaires" placeholder="Informations supplémentaires">
-                </div>
-                <div class="text-center">
-                    <button type="button" class="navigation-button back-button" onclick="previousGroup()">Retour</button>
-                    <button type="button" class="navigation-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Affichage du coût estimé -->
-    <div id="costDisplay" class="hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-        <div class="p-6 text-center">
-            <h2 class="text-2xl font-bold">Coût Estimé :</h2>
-            <p id="originalCost" class="text-xl"></p>
-            <p id="discountedPrice" class="text-xl"></p>
-            <div id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</div>
-            <div class="notification" id="promo-notification"></div>
-        </div>
-    </div>
-
-    <div class="error-message hidden" id="error-message">Veuillez remplir tous les champs requis.</div>
-    <div class="notification hidden" id="notification"></div>
-    <div class="confirmation-message hidden" id="confirmation-message">Confirmation de l'envoi</div>
+    <div id="confirmation-message" class="notification hidden"></div>
+    <div id="notification" class="notification hidden"></div>
 </body>
 </html>
