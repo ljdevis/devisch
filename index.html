@@ -222,11 +222,11 @@
             const monte_charge = document.getElementById('monte_charge').value;
 
             const piecesCost = {
-                studio: 450,
-                une_piece: 600,
+                studio: 700,
+                une_piece: 700,
                 deux_pieces: 800,
-                trois_pieces: 1150,
-                quatre_pieces: 1450,
+                trois_pieces: 1200,
+                quatre_pieces: 1500,
                 cinq_pieces: 1800,
                 six_pieces: 2200,
                 sept_pieces: 2450,
@@ -238,27 +238,27 @@
             cost += piecesCost[pieces] || 0;
 
             const nettoyageCosts = {
-                '30_49': 200,
-                '50_69': 350,
-                '70_89': 500,
-                '90_109': 650,
-                '110_129': 800,
-                '130_149': 1000,
+                '30_49': 350,
+                '50_69': 500,
+                '70_89': 650,
+                '90_109': 800,
+                '110_129': 950,
+                '130_149': 1100,
                 '150_169': 1350,
-                '170_189': 1700,
-                '190_209': 2050,
-                'plus_210': 2400
+                '170_189': 1600,
+                '190_209': 1800,
+                'plus_210': 2000
             };
             cost += nettoyageCosts[nettoyage] || 0;
 
             const distanceCosts = {
-                '0_9': 0,
-                '10_29': 50,
-                '30_49': 80,
-                '50_69': 120,
-                '70_89': 160,
-                '90_109': 200,
-                'plus_110': 300
+                '0_9': 50,
+                '10_29': 100,
+                '30_49': 150,
+                '50_69': 200,
+                '70_89': 250,
+                '90_109': 300,
+                'plus_110': 400
             };
             cost += distanceCosts[distance] || 0;
 
@@ -271,8 +271,8 @@
 
             const litAdulteCosts = {
                 '0': 0,
-                '1': 0,
-                '2': 0,
+                '1': 30,
+                '2': 60,
                 '3': 100,
                 '4': 150,
                 '5': 200,
@@ -285,10 +285,10 @@
 
             const litEnfantCosts = {
                 '0': 0,
-                '1': 0,
-                '2': 0,
-                '3': 50,
-                '4': 75,
+                '1': 20,
+                '2': 40,
+                '3': 60,
+                '4': 80,
                 '5': 100,
                 '6': 125,
                 '7': 150,
@@ -339,8 +339,8 @@
             if (balcon === 'terrasse') cost += cost * 0.15;
             if (cave === 'oui') cost += cost * 0.10;
             if (acces === 'difficile') cost += cost * 0.20;
-            if (ascenseur === 'non') cost += cost * 0.10;
-            else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+            if (ascenseur === 'non') cost += cost * 0.20;
+            else if (ascenseur === 'une_adresse') cost += cost * 0.10;
             if (monte_charge === 'oui') cost += 700;
 
             const today = new Date();
@@ -472,7 +472,7 @@
     <!-- Page 2 -->
     <div id="page2" class="page hidden bg-gray-100 font-sans antialiased">
         <div class="content-container max-w-xl mx-auto mt-10">
-            <h1 class="text-2xl font-bold text-center mb-6">Rapide, Simple et Transparent</h1>
+            <h1 class="text-2xl font-bold text-center mb-6">MOVEXPRESS</h1>
 
             <div class="progress-bar">
                 <div id="progress" class="progress"></div>
@@ -483,15 +483,15 @@
                     <!-- Grouping questions 1, 2, 3 -->
                     <div class="form-group">
                         <label for="nom_prenom">Nom et Prénom :</label>
-                        <input type="text" id="nom_prenom" placeholder="Exemple : Alan Favre" required>
+                        <input type="text" id="nom_prenom" placeholder="Exemple : Sarah Pitet" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Adresse Mail :</label>
-                        <input type="email" id="email" placeholder="Exemple : alan.favre@exemple.com" required>
+                        <input type="email" id="email" placeholder="Exemple : sarah@pitet.ch" required>
                     </div>
                     <div class="form-group">
                         <label for="telephone">Numéro de Téléphone :</label>
-                        <input type="tel" id="telephone" placeholder="Exemple : 077 345 34 45" required>
+                        <input type="tel" id="telephone" placeholder="Exemple : 0789998877" required>
                     </div>
                     <div class="text-center">
                         <button type="button" class="navigation-button next-button" onclick="validateForm()">Suivant</button>
@@ -502,18 +502,18 @@
                     <!-- Grouping questions 4, 5, 6 -->
                     <div class="form-group">
                         <label for="adresse_actuelle">Votre Adresse Actuelle & Etage :</label>
-                        <input type="text" id="adresse_actuelle" placeholder="Exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required>
+                        <input type="text" id="adresse_actuelle" placeholder="Exemple : Rue de l'hopital 20, 2000 Neuchatel / 5ème étage" required>
                     </div>
                     <div class="form-group">
                         <label for="adresse_future">Adresse de Destination & Etage :</label>
-                        <input type="text" id="adresse_future" placeholder="Exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required>
+                        <input type="text" id="adresse_future" placeholder="Exemple : Place de la Gare 1, 2000 Neuchatel / Rez-de-chaussée" required>
                     </div>
                     <div class="form-group">
-                        <label for="statut">Votre Statut :</label>
+                        <label for="statut">Votre demande concerne :</label>
                         <select id="statut" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="Particulier">Particulier</option>
-                            <option value="Entreprise">Entreprise</option>
+                            <option value="Une habitation">Particulier</option>
+                            <option value="Un local commerciale">Entreprise</option>
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
@@ -526,21 +526,21 @@
                 <div id="group3" class="question-group hidden">
                     <!-- Grouping questions 7, 8, 9 -->
                     <div class="form-group">
-                        <label for="formule">Sélection de la Formule :</label>
+                        <label for="formule">Votre demande concerne :</label>
                         <select id="formule" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="economique">Économique</option>
-                            <option value="premium">Premium</option>
-                            <option value="prestige">Prestige</option>
+                            <option value="economique">Déménagement</option>
+                            <option value="premium">Déménagement / Nettoyage fin de bail</option>
+                            <option value="prestige">Déménagement / Mise en carton / Nettoyage fin de bail /</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="objet">Type de Logement :</label>
+                        <label for="objet">Style d'objet :</label>
                         <select id="objet" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Appartement">Appartement</option>
                             <option value="Maison">Maison</option>
-                            <option value="Locaux">Locaux</option>
+                            <option value="Locaux">Local commerciale</option>
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
@@ -588,7 +588,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="distance">Distance du Déménagement :</label>
+                        <label for="distance">Distance du entre votre adresse actuelle et votre prochaine adresse :</label>
                         <select id="distance" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0_9">0-9 km</option>
@@ -601,7 +601,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="lit_adulte">Nombre de Lits Adultes :</label>
+                        <label for="lit_adulte">Lits de taille adultes :</label>
                         <select id="lit_adulte" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -625,7 +625,7 @@
                 <div id="group5" class="question-group hidden">
                     <!-- Grouping questions 13, 14, 15 -->
                     <div class="form-group">
-                        <label for="lit_enfant">Nombre de Lits Enfants :</label>
+                        <label for="lit_enfant">Lits de taille enfants :</label>
                         <select id="lit_enfant" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -641,7 +641,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="meubles">Nombre de Meubles :</label>
+                        <label for="meubles">Nombre d'armoirs à démonter et remonter :</label>
                         <select id="meubles" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -677,7 +677,7 @@
                 <div id="group6" class="question-group hidden">
                     <!-- Grouping questions 16, 17, 18 -->
                     <div class="form-group">
-                        <label for="frigo">Nombre de Réfrigérateurs :</label>
+                        <label for="frigo">Lave linge/sèche linge et réfrigérateurs :</label>
                         <select id="frigo" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -693,7 +693,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="balcon">Présence d'un Balcon ou Terrasse :</label>
+                        <label for="balcon">Balcon/terrasse :</label>
                         <select id="balcon" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="non">Non</option>
@@ -702,7 +702,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="cave">Présence d'une Cave :</label>
+                        <label for="cave">Cave :</label>
                         <select id="cave" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="non">Non</option>
@@ -718,15 +718,15 @@
                 <div id="group7" class="question-group hidden">
                     <!-- Grouping questions 19, 20, 21 -->
                     <div class="form-group">
-                        <label for="acces">Conditions d'Accès au Bâtiment :</label>
+                        <label for="acces">Accès au Bâtiment :</label>
                         <select id="acces" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="facile">Facile</option>
-                            <option value="difficile">Difficile</option>
+                            <option value="facile">Accès facile</option>
+                            <option value="difficile">Accès difficile</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="ascenseur">Ascenseur Disponible :</label>
+                        <label for="ascenseur">Ascenseur :</label>
                         <select id="ascenseur" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="rez_de_chaussee">Rez-de-chaussée</option>
@@ -736,7 +736,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="monte_charge">Monte-Meuble Nécessaire :</label>
+                        <label for="monte_charge">Présence d'un Monte-Meuble Obligatoire :</label>
                         <select id="monte_charge" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="non">Non</option>
@@ -752,13 +752,13 @@
                 <div id="group8" class="question-group hidden">
                     <!-- Grouping questions 22, 23 -->
                     <div class="form-group">
-                        <label for="cartons">Formule Cartons :</label>
+                        <label for="cartons">Livraison Cartons :</label>
                         <select id="cartons" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="non">Non</option>
-                            <option value="formule_m">Formule M</option>
-                            <option value="formule_l">Formule L</option>
-                            <option value="formule_xl">Formule XL</option>
+                            <option value="formule_m">10 cartons</option>
+                            <option value="formule_l">30 Cartons</option>
+                            <option value="formule_xl">60 Cartons</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -780,7 +780,7 @@
     <!-- Page 3 -->
     <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
-            <h1 class="text-2xl font-bold text-pink-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
+            <h1 class="text-2xl font-bold text-pink-600 mb-6">Votre Déménagemenager pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
             <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
             <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
             <p class="text-gray-300 mb-6">L&J Déménagement vous remercie pour votre fidélité</p>
@@ -799,20 +799,20 @@
             </div>
 
             <div class="social-icons">
-                <a href="https://www.facebook.com/share/19uEbazn1Q/" target="_blank">
+                <a href="https://www.facebook.com/share/168sD246re/" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com/ljdemenagement01?igsh=ZjZtdTRqdmJsNXk=" target="_blank">
+                <a href="https://www.instagram.com/movexpress.ch?igsh=MWpxZDk1dDM5YTRkbQ==" target="_blank">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.tiktok.com/@lj.demenagement?_t=ZN-8tvKSX4GP4Q&_r=1" target="_blank">
+                <a href="https://www.tiktok.com" target="_blank">
                     <i class="fab fa-tiktok"></i>
                 </a>
-                <a href="https://youtube.com/@ljdemenagement?si=qsAm-QkHyJLUB_fL" target="_blank">
+                <a href="https://youtu.be/SquCVkqfbIs?feature=shared" target="_blank">
                     <i class="fab fa-youtube"></i>
                 </a>
             </div>
-            <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-pink-500 hover:underline">Laissez un feedback sur Google.</a></p>
+            <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-pink-500 hover:underline">Donnez-nous votre avis</a></p>
             <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
         </div>
     </div>
